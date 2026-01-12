@@ -29,8 +29,19 @@ app.use('/', (req,res) => {
     res.render('index.html')
 })
 
+let sockets = []
 io.on("connection", socket => {
+    sockets.push(socket)
     console.log("Socket connected")
+
+    socket.on("draw", (data) => {
+        console.log(data)
+        sockets.forEach(s => {
+            if (s != socket) {
+                s.emit("update",data)
+            }
+        })
+    })
 })
 
 server.listen(ip)
