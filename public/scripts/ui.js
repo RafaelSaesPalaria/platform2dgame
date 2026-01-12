@@ -1,4 +1,5 @@
-import { draw, drawRect, setCurrentlyColor } from "./canvas.js"
+import { draw, drawRect, getCurrentlyColor, setCurrentlyColor } from "./canvas.js"
+import { checkCollision } from "./utils.js"
 
 let UIs = []
 
@@ -15,17 +16,34 @@ export function updateUIs() {
 
 export function checkClickOnUIs(x,y) {
     UIs.forEach(ui => {
-        if (
-            x >= ui.x &&
-            x <= ui.x + ui.w &&
-            y >= ui.y &&
-            y <= ui.y + ui.h
-        ) {
+        if (checkCollision({x,y,w:1,h:1},ui)) {
             ui.click(x,y)
             return true
         }
     })
     return false
+}
+
+class Button {
+    constructor (x,y,w,h,action) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.action = action;
+    }
+    checkClick(x,y) {
+        if (checkCollision({x,y,w:1,h:1},this)) {
+            this.click()
+        }
+    }
+    click() {
+        console.log(this.action)
+        this.action();
+    }
+    draw() {
+
+    }
 }
 
 class UI {
@@ -46,13 +64,14 @@ class UI {
 class colorsUI extends UI{
     constructor (x,y,w,h) {
         super(x,y,w,h)
-        this.matriz = {x: 635, y:0 }
         this.size = 30
         this.colors = ["orange","green","blue","red","purple","yellow","black","white"]
+        this.buttons = []
+        this.makeButtons()
     }
     click(x,y) {
-        let xc = x - this.matriz.x
-        let yc = y - this.matriz.y
+        /*let xc = x - this.x
+        let yc = y - this.y
 
         xc = Math.floor(xc/30)
         yc = Math.floor(yc/30)
@@ -62,15 +81,47 @@ class colorsUI extends UI{
         if (i>=0 & i<this.colors.length) {
             this.colors[i]
            setCurrentlyColor(this.colors[i])
-        }
+        }*/
+       this.buttons.forEach(b => {
+            b.checkClick(x,y)
+       })
     }
-    drawColors() {
+    makeButtons() {
+        drawRect(this.x,this.y,this.w,this.h,"#dddddd")
+
         this.colors.forEach((c,i) => {
-            drawRect(this.matriz.x+((i%5)*this.size),this.matriz.y+(Math.floor(i/5)*this.size),this.size,this.size,c)
+            let b = new Button(this.x+(((i+1)%5)*this.size),this.y+(Math.floor((i+1)/5)*this.size),this.size,this.size,() => {
+                setCurrentlyColor(this.colors[i])
+                this.currentlyColorChange()
+            })
+
+            this.buttons.push(b)
+
+            drawRect(b.x,b.y,b.w,b.h,this.colors[i])
         })
     }
+    currentlyColorChange() {
+        drawRect(this.x-2,this.y-2,this.size+4,this.size+4,"black")
+        drawRect(this.x-1,this.y-1,this.size+2,this.size+2,"white")
+        drawRect(this.x,this.y,this.size,this.size,getCurrentlyColor())
+    }
     draw() {
-        drawRect(this.x,this.y,this.w,this.h,"#dddddd")
-        this.drawColors()
+        
+    }
+}
+
+class toolsUI extends UI {
+    constructor (x,y,w,h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.tools = ["paint","lapis","rect",'fill',"select","zoom","copy",".pngimport","layer"]
+    }
+    click(x,y) {
+
+    }
+    draw() {
+
     }
 }
