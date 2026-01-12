@@ -1,4 +1,8 @@
+import { resize } from "./scripts/canvas.js";
 import { startSocket } from "./scripts/client.js";
+import { addMouse } from "./scripts/inputHandler.js";
 
-console.log("a")
 startSocket()
+resize()
+addMouse()
+//let canvas = document.
