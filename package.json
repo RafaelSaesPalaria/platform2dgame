@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  },
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "type":"module"
+}
