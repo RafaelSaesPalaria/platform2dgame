@@ -1,4 +1,5 @@
 import { erase } from "./canvas.js"
+import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
 updateUIs
 
@@ -10,4 +11,7 @@ function animate() {
     requestAnimationFrame(animate)
     //erase()
     updateUIs()
+    if (mouse.isDown) {
+        right_click()
+    }
 }

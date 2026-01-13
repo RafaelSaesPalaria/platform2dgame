@@ -2,12 +2,13 @@ import { emit } from "./client.js"
 import { draw, getCurrentlyColor } from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 
-let mouse = {
+export let mouse = {
     x:0,
-    y:0
+    y:0,
+    isDown:false,
 }
 
-function right_click() {
+export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
         draw(mouse.x,mouse.y,getCurrentlyColor())
         emit("draw",{
@@ -25,6 +26,9 @@ export function addMouse() {
         mouse.y = e.offsetY
     })
     document.addEventListener("mousedown",(e) => {
-        right_click()
+        mouse.isDown= true
+    })
+    document.addEventListener("mouseup", (e) => {
+        mouse.isDown = false
     })
 }
