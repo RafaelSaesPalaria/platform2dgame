@@ -6,6 +6,10 @@ let c = canvas.getContext("2d")
 
 let colors_input = document.querySelector("#colors_input")
 
+export function setColors_input_Color(hexCode) {
+    colors_input.value = hexCode
+}
+
 colors_input.addEventListener("input",(e) => {
     setCurrentlyColor(e.target.value)
     getUI("colorsUI").currentlyColorChange()
@@ -42,6 +46,10 @@ export function drawRect(x,y,w,h,color) {
     c.fillStyle = color
     c.fillRect(x,y,w,h)
     c.closePath()
+}
+
+export function drawLine(x,y,size,color) {
+    
 }
 
 export function erase() {

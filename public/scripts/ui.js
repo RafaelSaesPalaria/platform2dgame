@@ -1,4 +1,4 @@
-import { draw, drawRect, getCurrentlyColor, setCurrentlyColor } from "./canvas.js"
+import { draw, drawRect, getCurrentlyColor, setColors_input_Color, setCurrentlyColor } from "./canvas.js"
 import { checkCollision } from "./utils.js"
 
 let UIs = []
@@ -71,7 +71,7 @@ export function addColor(hexCode) {
     getUI("colorsUI").currentlyColorChange()
 }
 
-let colors = ["red","orange","yellow","green","blue","purple","black","gray","white"]
+let colors = ["#FF0000","#FFA500","#FFFF00","#008000","#0000FF","#800080","#000000","#808080","#FFFFFF"]
 class colorsUI extends UI{
     constructor (x,y,w,h) {
         super(x,y,w,h)
@@ -99,6 +99,7 @@ class colorsUI extends UI{
         })
     }
     currentlyColorChange() {
+        setColors_input_Color(getCurrentlyColor())
         drawRect(this.x-2,this.y-2,this.size+4,this.size+4,"black")
         drawRect(this.x-1,this.y-1,this.size+2,this.size+2,"white")
         drawRect(this.x,this.y,this.size,this.size,getCurrentlyColor())
