@@ -4,20 +4,19 @@ import { checkCollision } from "./utils.js"
 let UIs = []
 
 export function initUIs() {
-    UIs.push(new colorsUI(635,0,150,300))
-    console.log(UIs)
+    UIs.push({type:"colorsUI",element:new colorsUI(635,0,150,90)})
 }
 
 export function updateUIs() {
     UIs.forEach(ui => {
-        ui.draw()
+        ui.element.draw()
     })
 }
 
 export function checkClickOnUIs(x,y) {
     UIs.forEach(ui => {
-        if (checkCollision({x,y,w:1,h:1},ui)) {
-            ui.click(x,y)
+        if (checkCollision({x,y,w:1,h:1},ui.element)) {
+            ui.element.click(x,y)
             return true
         }
     })
@@ -38,7 +37,6 @@ class Button {
         }
     }
     click() {
-        console.log(this.action)
         this.action();
     }
     draw() {
@@ -61,27 +59,27 @@ class UI {
     }
 }
 
+export function getUI(type) {
+    return UIs.filter(ui => ui.type===type)[0].element
+}
+
+export function addColor(hexCode) {
+    colors.push(hexCode)
+    getUI("colorsUI").buttons = []
+    getUI("colorsUI").makeButtons()
+    setCurrentlyColor(hexCode)
+    getUI("colorsUI").currentlyColorChange()
+}
+
+let colors = ["red","orange","yellow","green","blue","purple","black","gray","white"]
 class colorsUI extends UI{
     constructor (x,y,w,h) {
         super(x,y,w,h)
         this.size = 30
-        this.colors = ["orange","green","blue","red","purple","yellow","black","white"]
         this.buttons = []
         this.makeButtons()
     }
     click(x,y) {
-        /*let xc = x - this.x
-        let yc = y - this.y
-
-        xc = Math.floor(xc/30)
-        yc = Math.floor(yc/30)
-
-        let i = yc*5+xc
-        
-        if (i>=0 & i<this.colors.length) {
-            this.colors[i]
-           setCurrentlyColor(this.colors[i])
-        }*/
        this.buttons.forEach(b => {
             b.checkClick(x,y)
        })
@@ -89,15 +87,15 @@ class colorsUI extends UI{
     makeButtons() {
         drawRect(this.x,this.y,this.w,this.h,"#dddddd")
 
-        this.colors.forEach((c,i) => {
+        colors.forEach((c,i) => {
             let b = new Button(this.x+(((i+1)%5)*this.size),this.y+(Math.floor((i+1)/5)*this.size),this.size,this.size,() => {
-                setCurrentlyColor(this.colors[i])
+                setCurrentlyColor(colors[i])
                 this.currentlyColorChange()
             })
 
             this.buttons.push(b)
 
-            drawRect(b.x,b.y,b.w,b.h,this.colors[i])
+            drawRect(b.x,b.y,b.w,b.h,colors[i])
         })
     }
     currentlyColorChange() {
@@ -116,12 +114,14 @@ class toolsUI extends UI {
         this.y = y;
         this.w = w;
         this.h = h;
-        this.tools = ["paint","lapis","rect",'fill',"select","zoom","copy",".pngimport","layer"]
+        this.tools = ["paint","lapis","rect",'fill',"select","zoom","copy",".pngimport","layer","degrade"]
     }
     click(x,y) {
 
     }
     draw() {
-
+        this.tools.forEach((t,i) => {
+            drawRect(this.x*i,this.y,30,30,"black")
+        })
     }
 }

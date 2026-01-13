@@ -1,6 +1,19 @@
+import { addColor, getUI } from "./ui.js";
+
 let canvas = document.querySelector("canvas");
 
 let c = canvas.getContext("2d")
+
+let colors_input = document.querySelector("#colors_input")
+
+colors_input.addEventListener("input",(e) => {
+    setCurrentlyColor(e.target.value)
+    getUI("colorsUI").currentlyColorChange()
+})
+
+colors_input.addEventListener("change",(e) => {
+    addColor(e.target.value)
+})
 
 let currentlyColor = "black"
 

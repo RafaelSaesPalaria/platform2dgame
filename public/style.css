@@ -1,3 +1,11 @@
+main {
+    display: flex;
+}
 canvas {
     border: 1px solid black;
+}
+input {
+    width: 90px;
+    height: 60px;
+    margin-left: 30px;
 }
