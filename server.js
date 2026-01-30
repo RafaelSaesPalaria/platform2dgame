@@ -44,4 +44,6 @@ io.on("connection", socket => {
     })
 })
 
-server.listen(ip)
+server.listen(ip, () => {
+    console.log("Server opened at port "+ip)
+})

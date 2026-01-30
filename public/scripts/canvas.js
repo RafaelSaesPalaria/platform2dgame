@@ -48,10 +48,14 @@ export function drawRect(x,y,w,h,color) {
     c.closePath()
 }
 
-export function drawLine(x,y,size,color) {
-    
+export function drawHitbox(x,y,w,h) {
+    c.beginPath()
+    c.strokeRect(x,y,w,h)
+    c.stroke()
+    c.closePath()
 }
 
 export function erase() {
+    c.fillStyle = "white"
     c.fillRect(0,0,canvas.width,canvas.height)
 }
