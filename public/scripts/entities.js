@@ -1,4 +1,5 @@
 import { drawHitbox, drawRect } from "./canvas.js";
+import { getDir } from "./inputHandler.js";
 import { getLevelSize } from "./level.js";
 
 export class Hitbox {
@@ -29,18 +30,25 @@ export class Gravity {
 }
 
 export class Border {
+    static friction = 0.9
     static apply(obj) {
-        if (obj.dy < 0 & obj.y < 0) {
-            obj.dy*=-1
+        if (obj.dy < 0 & obj.y < 0 || 
+            obj.dy > 0 & obj.y > getLevelSize().height) {
+            obj.dy*=-Border.friction
         }
-        if (obj.dy > 0 & obj.y > getLevelSize().height) {
-            obj.dy*=-1
+        if (obj.dx < 0 & obj.x < 0 || 
+            obj.dx > 0 & obj.x > getLevelSize().width) {
+            obj.dx*=-Border.friction
         }
     }
 }
 
 export class Controller {
-    
+    static apply(obj) {
+        let d = getDir()
+        obj.dx += d.x
+        obj.dy += d.y
+    }
 }
 
 export class Player extends Hitbox {
@@ -50,6 +58,7 @@ export class Player extends Hitbox {
     update() {
         Gravity.apply(this)
         Border.apply(this)
+        Controller.apply(this)
         super.update()
     }
     draw() {

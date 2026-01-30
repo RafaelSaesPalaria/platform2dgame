@@ -4,6 +4,7 @@ import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
 updateUIs
 
+let region = []
 let entities = []
 let levelSize = {width : 785, height : 515}
 
