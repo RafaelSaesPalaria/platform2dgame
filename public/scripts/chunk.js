@@ -27,7 +27,7 @@ export class Chunk {
         for (let r = 0; r < chunkSize; r ++) {
             let row = []
             for (let l = 0; l < chunkSize; l++) {
-                let b = new Block("dirt",l,r)
+                let b = new Block("air",l,r)
                 row.push(b)
             }
             this.rows.push(row)
@@ -64,7 +64,6 @@ export class Chunk {
                     w:blockSize,
                     h:blockSize
                 })) {
-                    console.log(b)
                     return b
                 }
             }

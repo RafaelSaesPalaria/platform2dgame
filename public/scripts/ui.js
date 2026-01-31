@@ -1,4 +1,4 @@
-import { draw, drawRect, getCurrentlyColor, setColors_input_Color, setCurrentlyColor } from "./canvas.js"
+import { draw, drawRect,} from "./canvas.js"
 import { checkCollision } from "./utils.js"
 
 let UIs = []

@@ -1,6 +1,6 @@
 let blocks = []
 
-function loadBlocks() {
+export function loadBlocks() {
     fetch("./scripts/block/blocks.json")
         .then(r => r.json())
         .then(r => {
@@ -9,13 +9,9 @@ function loadBlocks() {
 }
 
 export function getBlock(id) {
-    if (blocks.length<1) {
-        loadBlocks()
-    } else {
-        for (let block of blocks) {
-            if (block.id === id) {
-                return block
-            }
+    for (let block of blocks) {
+        if (block.id === id) {
+            return block
         }
     }
 }

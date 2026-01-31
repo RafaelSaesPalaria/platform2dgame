@@ -67,18 +67,16 @@ export class CameraController {
 
 export class Collision {
     static apply(obj) {
-        getRegion().forEach(c => {
+        for(let c of getRegion()) {
             if (checkCollision(c,obj)) {
                 let block = c.collision(obj)
-                if (getBlock(block.id).collide===true) {
-                    Collision.collide(obj)
-                }
+                return getBlock(block.id).collide===true
             }
-        })
+        }
     }
     static collide(obj) {
-        obj.dx*=-1
-        obj.dy*=-1
+        obj.dx*=-Border.friction
+        obj.dy*=-Border.friction
     }
 }
 
@@ -87,11 +85,16 @@ export class Player extends Hitbox {
         super(x,y,w,h)
     }
     update() {
-        Gravity.apply(this)
+        if (Collision.apply(this)) {
+            Collision.collide(this)
+        } else {
+            Gravity.apply(this)
+        }
+        
+        
         Border.apply(this)
         Controller.apply(this)
         CameraController.apply(this)
-        Collision.apply(this)
         super.update()
     }
     draw() {

@@ -1,3 +1,4 @@
+import { loadBlocks } from "./scripts/block/blockHandler.js";
 import { draw, resize } from "./scripts/canvas.js";
 import { onMessage, startSocket } from "./scripts/client.js";
 import { addKeys, addMouse } from "./scripts/inputHandler.js";
@@ -9,6 +10,7 @@ resize()
 addKeys()
 addMouse()
 initUIs()
+loadBlocks()
 //let canvas = document.
 
 onMessage((event,data) => {

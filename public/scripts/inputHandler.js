@@ -1,5 +1,5 @@
 import { emit } from "./client.js"
-import { draw, getCameraOffset, getCurrentlyColor } from "./canvas.js"
+import { draw, getCameraOffset} from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 import { getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
@@ -30,15 +30,16 @@ export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
         getRegion().forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
-                c.collision({x:mouse.x,y:mouse.y,w:1,h:1},(ev) => {ev.id = "grass"})
+                let b = c.collision({x:mouse.x,y:mouse.y,w:1,h:1})
+                b.id = "grass"
             }
         })
-        emit("draw",{
+        /*emit("draw",{
             x: mouse.x,
             y: mouse.y,
             "color":getCurrentlyColor(),
             "size": 5
-        })
+        })*/
     }
 }
 

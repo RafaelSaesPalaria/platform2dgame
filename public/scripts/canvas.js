@@ -4,8 +4,6 @@ let canvas = document.querySelector("canvas");
 
 let c = canvas.getContext("2d")
 
-let colors_input = document.querySelector("#colors_input")
-
 let cameraOffset = {x:0, y:0, dx: 0, dy: 0}
 
 export function getCameraOffset() {
@@ -20,29 +18,6 @@ export function setCameraOffset(x,y) {
 export function updateCameraOffset() {
     cameraOffset.x+=cameraOffset.dx
     cameraOffset.y+=cameraOffset.dy
-}
-
-export function setColors_input_Color(hexCode) {
-    colors_input.value = hexCode
-}
-
-colors_input.addEventListener("input",(e) => {
-    setCurrentlyColor(e.target.value)
-    getUI("colorsUI").currentlyColorChange()
-})
-
-colors_input.addEventListener("change",(e) => {
-    addColor(e.target.value)
-})
-
-let currentlyColor = "black"
-
-export function setCurrentlyColor(c)  {
-    currentlyColor = c
-}
-
-export function getCurrentlyColor() {
-    return currentlyColor
 }
 
 export function resize() {
@@ -94,6 +69,8 @@ export function drawBlock(id,x,y,w,h) {
         color = "brown"
     } else if (id ==="stone") {
         color = "gray"
+    } else if (id ==="air") {
+        color = "white"
     }
 
 
