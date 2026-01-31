@@ -63,6 +63,15 @@ export class CameraController {
     }
 }
 
+export class Collide {
+    static detectBlocks(obj) {
+    }
+    static apply(obj) {
+        obj.dx*=-1
+        obj.dy*=-1
+    }
+}
+
 export class Player extends Hitbox {
     constructor(x,y,w,h) {
         super(x,y,w,h)

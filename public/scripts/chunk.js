@@ -23,34 +23,33 @@ export class Chunk {
         this.w = chunkSize*blockSize
         this.h = chunkSize*blockSize
         this.rows = []
+        this.count = 0
         for (let r = 0; r < chunkSize; r ++) {
             let row = []
             for (let l = 0; l < chunkSize; l++) {
-                let line = []
-                for (let b = 0; b < chunkSize; b++) {
-                    let b = new Block("dirt",l,r)
-                    line.push(b)
-                }
-                row.push(line)
+                let b = new Block("dirt",l,r)
+                row.push(b)
             }
             this.rows.push(row)
         }
+        console.log(this.count)
         console.log(this.rows)
     }
+    getBlock(x,y) {
+        console.log(this.rows[x][y])
+        return this.rows[x][y][0]
+    }
     collision(obj,func) {
+        this.getBlock(3,5)
         console.log("Chunk Collision")
         this.rows.forEach((r,ri) => {
             if (checkCollision(obj,{y:ri*blockSize+this.y,
                 w:chunkSize*blockSize,h:chunkSize*blockSize,x:this.x})) {
                     console.log("Row Collision")
-                    r.forEach((l,li) => {
-                    if (checkCollision(obj,{x:li*blockSize+this.x,y:ri*blockSize+this.y,w:chunkSize*blockSize,h:chunkSize*blockSize})) {
+                    r.forEach((b,) => {
+                    if (checkCollision(obj,{x:b.x*blockSize+this.x,y:b.y*blockSize+this.y,w:blockSize,h:blockSize})) {
                         console.log("Line Collision")
-                        l.forEach(b => {
-                            if (checkCollision(obj,{x:b.x*blockSize+this.x,y:b.y*blockSize+this.y,w:blockSize,h:blockSize})) {
-                                func(b)
-                            }
-                        })
+                        func(b)
                     }
                 })
             }
@@ -62,10 +61,8 @@ export class Chunk {
     }
     draw() {
         this.rows.forEach(r => {
-            r.forEach(l => {
-                l.forEach(b => {
-                    drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
-                })
+            r.forEach(b => {
+                drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
             })
         })
     }
