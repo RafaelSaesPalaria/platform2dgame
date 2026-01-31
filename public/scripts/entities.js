@@ -1,6 +1,8 @@
+import { getBlock } from "./block/blockHandler.js";
 import { drawHitbox, drawRect, setCameraOffset } from "./canvas.js";
 import { getDir } from "./inputHandler.js";
-import { getLevelSize } from "./level.js";
+import { getLevelSize, getRegion } from "./level.js";
+import { checkCollision } from "./utils.js";
 
 export class Hitbox {
     constructor(x,y,w,h) {
@@ -63,10 +65,18 @@ export class CameraController {
     }
 }
 
-export class Collide {
-    static detectBlocks(obj) {
-    }
+export class Collision {
     static apply(obj) {
+        getRegion().forEach(c => {
+            if (checkCollision(c,obj)) {
+                let block = c.collision(obj)
+                if (getBlock(block.id).collide===true) {
+                    Collision.collide(obj)
+                }
+            }
+        })
+    }
+    static collide(obj) {
         obj.dx*=-1
         obj.dy*=-1
     }
@@ -81,6 +91,7 @@ export class Player extends Hitbox {
         Border.apply(this)
         Controller.apply(this)
         CameraController.apply(this)
+        Collision.apply(this)
         super.update()
     }
     draw() {

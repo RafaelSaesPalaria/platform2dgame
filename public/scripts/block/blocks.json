@@ -2,24 +2,24 @@
     {
         "id":"air",
         "src":"",
-        "collide":"false"
+        "collide":false
     },
     {
         "id":"dirt",
         "src":"",
         "drops":null,
-        "collide":"true"
+        "collide":true
     },
     {
         "id":"grass",
         "src":"",
         "drops":null,
-        "collide":"true"
+        "collide":true
     },
     {
         "id":"stone",
         "src":"",
         "drops":null,
-        "collide":"true"
+        "collide":true
     }
 ]

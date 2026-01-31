@@ -48,11 +48,6 @@ function animate() {
 
     region.forEach(c => {
         c.update()
-        entities.forEach(e => {
-            if (checkCollision(c,e)) {
-                c.collision(e,(ev) => {ev.id = "stone"})
-            }
-        })
     })
 
     entities.forEach(e => {
