@@ -64,7 +64,11 @@ export function drawBlock(id,x,y,w,h) {
     let color = "green"
     if (id ==="dirt") {
         color = "brown"
+    } else if (id ==="stone") {
+        color = "gray"
     }
+
+
     c.fillStyle = color
     let border = 1
     c.fillRect(x+border,y+border,w-border,h-border)

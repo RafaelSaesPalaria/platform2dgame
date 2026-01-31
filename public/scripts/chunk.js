@@ -37,7 +37,7 @@ export class Chunk {
         }
         console.log(this.rows)
     }
-    collision(obj) {
+    collision(obj,func) {
         console.log("Chunk Collision")
         this.rows.forEach((r,ri) => {
             if (checkCollision(obj,{y:ri*blockSize+this.y,
@@ -48,7 +48,7 @@ export class Chunk {
                         console.log("Line Collision")
                         l.forEach(b => {
                             if (checkCollision(obj,{x:b.x*blockSize+this.x,y:b.y*blockSize+this.y,w:blockSize,h:blockSize})) {
-                                b.id = "grass"
+                                func(b)
                             }
                         })
                     }

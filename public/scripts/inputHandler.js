@@ -30,7 +30,7 @@ export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
         getRegion().forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
-                c.collision({x:mouse.x,y:mouse.y,w:1,h:1})
+                c.collision({x:mouse.x,y:mouse.y,w:1,h:1},(ev) => {ev.id = "grass"})
             }
         })
         emit("draw",{

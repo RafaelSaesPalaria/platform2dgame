@@ -50,7 +50,7 @@ function animate() {
         c.update()
         entities.forEach(e => {
             if (checkCollision(c,e)) {
-                c.collision(e)
+                c.collision(e,(ev) => {ev.id = "stone"})
             }
         })
     })
