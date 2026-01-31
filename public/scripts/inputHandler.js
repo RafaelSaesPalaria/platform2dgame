@@ -1,6 +1,8 @@
 import { emit } from "./client.js"
 import { draw, getCurrentlyColor } from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
+import { getRegion } from "./level.js"
+import { checkCollision } from "./utils.js"
 
 export let mouse = {
     x:0,
@@ -24,8 +26,13 @@ export function getDir() {
 }
 
 export function right_click() {
+    console.log("Righ Clicjk")
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
-        draw(mouse.x,mouse.y,getCurrentlyColor())
+        getRegion().forEach(c => {
+            if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
+                c.collision({x:mouse.x,y:mouse.y,w:1,h:1})
+            }
+        })
         emit("draw",{
             x: mouse.x,
             y: mouse.y,

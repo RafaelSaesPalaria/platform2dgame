@@ -55,6 +55,23 @@ export function drawHitbox(x,y,w,h) {
     c.closePath()
 }
 
+export function drawBlock(id,x,y,w,h) {
+    c.beginPath()
+
+    c.fillStyle = "black"
+    c.fillRect(x,y,w,h)
+
+    let color = "green"
+    if (id ==="dirt") {
+        color = "brown"
+    }
+    c.fillStyle = color
+    let border = 1
+    c.fillRect(x+border,y+border,w-border,h-border)
+
+    c.closePath()
+}
+
 export function erase() {
     c.fillStyle = "white"
     c.fillRect(0,0,canvas.width,canvas.height)

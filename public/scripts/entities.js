@@ -12,12 +12,18 @@ export class Hitbox {
         this.dy = 0;
     }
     update() {
-        this.x += this.dx;
-        this.y += this.dy;
+        Velocity.apply(this)
         this.draw()
     }
     draw() {
         drawHitbox(this.x,this.y,this.w,this.h)
+    }
+}
+
+export class Velocity {
+    static apply(obj) {
+        obj.x += obj.dx
+        obj.y += obj.dy
     }
 }
 
