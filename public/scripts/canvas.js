@@ -6,6 +6,22 @@ let c = canvas.getContext("2d")
 
 let colors_input = document.querySelector("#colors_input")
 
+let cameraOffset = {x:0, y:0, dx: 0, dy: 0}
+
+export function getCameraOffset() {
+    return cameraOffset
+}
+
+export function setCameraOffset(x,y) {
+    cameraOffset.x=x
+    cameraOffset.y=y
+}
+
+export function updateCameraOffset() {
+    cameraOffset.x+=cameraOffset.dx
+    cameraOffset.y+=cameraOffset.dy
+}
+
 export function setColors_input_Color(hexCode) {
     colors_input.value = hexCode
 }
@@ -35,6 +51,9 @@ export function resize() {
 }
 
 export function draw(x,y,color) {
+    x+= cameraOffset.x
+    y+= cameraOffset.y
+
     c.beginPath()
     c.fillStyle = color
     c.fillRect(x,y,5,5)
@@ -42,6 +61,9 @@ export function draw(x,y,color) {
 }
 
 export function drawRect(x,y,w,h,color) {
+    x+= cameraOffset.x
+    y+= cameraOffset.y
+
     c.beginPath()
     c.fillStyle = color
     c.fillRect(x,y,w,h)
@@ -49,6 +71,9 @@ export function drawRect(x,y,w,h,color) {
 }
 
 export function drawHitbox(x,y,w,h) {
+    x+= cameraOffset.x
+    y+= cameraOffset.y
+
     c.beginPath()
     c.strokeRect(x,y,w,h)
     c.stroke()
@@ -56,6 +81,9 @@ export function drawHitbox(x,y,w,h) {
 }
 
 export function drawBlock(id,x,y,w,h) {
+    x+= cameraOffset.x
+    y+= cameraOffset.y
+
     c.beginPath()
 
     c.fillStyle = "black"

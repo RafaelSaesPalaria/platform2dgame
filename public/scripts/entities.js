@@ -1,4 +1,4 @@
-import { drawHitbox, drawRect } from "./canvas.js";
+import { drawHitbox, drawRect, setCameraOffset } from "./canvas.js";
 import { getDir } from "./inputHandler.js";
 import { getLevelSize } from "./level.js";
 
@@ -57,6 +57,12 @@ export class Controller {
     }
 }
 
+export class CameraController {
+    static apply(obj) {
+        setCameraOffset(-obj.x+392,-obj.y+259)
+    }
+}
+
 export class Player extends Hitbox {
     constructor(x,y,w,h) {
         super(x,y,w,h)
@@ -65,6 +71,7 @@ export class Player extends Hitbox {
         Gravity.apply(this)
         Border.apply(this)
         Controller.apply(this)
+        CameraController.apply(this)
         super.update()
     }
     draw() {

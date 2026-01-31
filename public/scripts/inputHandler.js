@@ -1,5 +1,5 @@
 import { emit } from "./client.js"
-import { draw, getCurrentlyColor } from "./canvas.js"
+import { draw, getCameraOffset, getCurrentlyColor } from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 import { getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
@@ -44,8 +44,9 @@ export function right_click() {
 
 export function addMouse() {
     document.addEventListener("mousemove", (e) => {
-        mouse.x = e.offsetX
-        mouse.y = e.offsetY
+        let cam = getCameraOffset()
+        mouse.x = e.offsetX - cam.x
+        mouse.y = e.offsetY - cam.y
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true

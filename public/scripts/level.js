@@ -1,4 +1,4 @@
-import { erase } from "./canvas.js"
+import { erase, updateCameraOffset } from "./canvas.js"
 import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
@@ -37,7 +37,7 @@ function initRegion() {
 }
 
 export function init() {
-    addEntity(new Player(5,5,20,20))
+    addEntity(new Player(392,259,20,20))
     initRegion()
     animate()
 }
@@ -58,6 +58,8 @@ function animate() {
     entities.forEach(e => {
         e.update()
     })
+
+    updateCameraOffset()
 
     if (mouse.isDown) {
         right_click()
