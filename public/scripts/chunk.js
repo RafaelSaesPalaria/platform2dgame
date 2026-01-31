@@ -3,7 +3,15 @@ import { Velocity } from "./entities.js"
 import { checkCollision } from "./utils.js"
 
 const blockSize = 16
-let chunkSize = 10
+const chunkSize = 10
+
+export function getBlockSize() {
+    return blockSize
+}
+
+export function getChunkSize() {
+    return chunkSize
+}
 
 export class Chunk {
     constructor() {
@@ -30,13 +38,14 @@ export class Chunk {
         console.log(this.rows)
     }
     collision(obj) {
-        console.log(obj)
+        console.log("Chunk Collision")
         this.rows.forEach((r,ri) => {
             if (checkCollision(obj,{y:ri*blockSize+this.y,
                 w:chunkSize*blockSize,h:chunkSize*blockSize,x:this.x})) {
-                r.forEach((l,li) => {
-
-                    if (checkCollision(obj,{x:li*blockSize*this.x,y:ri*blockSize+this.y,w:chunkSize*blockSize,h:chunkSize*blockSize})) {
+                    console.log("Row Collision")
+                    r.forEach((l,li) => {
+                    if (checkCollision(obj,{x:li*blockSize+this.x,y:ri*blockSize+this.y,w:chunkSize*blockSize,h:chunkSize*blockSize})) {
+                        console.log("Line Collision")
                         l.forEach(b => {
                             if (checkCollision(obj,{x:b.x*blockSize+this.x,y:b.y*blockSize+this.y,w:blockSize,h:blockSize})) {
                                 b.id = "grass"
@@ -55,7 +64,7 @@ export class Chunk {
         this.rows.forEach(r => {
             r.forEach(l => {
                 l.forEach(b => {
-                    drawBlock(b.id,b.x*blockSize,b.y*blockSize,blockSize,blockSize)
+                    drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
                 })
             })
         })

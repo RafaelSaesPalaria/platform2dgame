@@ -1,5 +1,5 @@
 import { erase } from "./canvas.js"
-import { Chunk } from "./chunk.js"
+import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
@@ -28,7 +28,12 @@ export function removeEntity(e) {
 
 function initRegion() {
     let c = new Chunk()
-    region.push(c)
+    for (let i = 0; i < 9 ; i ++) {
+        let c = new Chunk()
+        c.x = Math.floor(i%3)*getBlockSize()*getChunkSize()
+        c.y = Math.floor(i/3)*getBlockSize()*getChunkSize()
+        region.push(c)
+    }
 }
 
 export function init() {
