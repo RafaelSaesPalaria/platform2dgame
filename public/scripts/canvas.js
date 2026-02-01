@@ -6,6 +6,23 @@ let c = canvas.getContext("2d")
 
 let cameraOffset = {x:0, y:0, dx: 0, dy: 0}
 
+let zoom = 1
+
+export function addZoom(z) {
+    zoom+=z
+}
+
+export function getZoom() {
+    return zoom
+}
+
+// Right click
+canvas.addEventListener("contextmenu", (e) => {
+    console.log(e)
+    e.preventDefault()
+})
+
+
 export function getCameraOffset() {
     return cameraOffset
 }
@@ -29,6 +46,9 @@ export function draw(x,y,color) {
     x+= cameraOffset.x
     y+= cameraOffset.y
 
+    x*=zoom
+    y*=zoom
+
     c.beginPath()
     c.fillStyle = color
     c.fillRect(x,y,5,5)
@@ -38,6 +58,11 @@ export function draw(x,y,color) {
 export function drawRect(x,y,w,h,color) {
     x+= cameraOffset.x
     y+= cameraOffset.y
+
+    x*=zoom
+    y*=zoom
+    w*= zoom
+    h*= zoom
 
     c.beginPath()
     c.fillStyle = color
@@ -49,6 +74,11 @@ export function drawHitbox(x,y,w,h) {
     x+= cameraOffset.x
     y+= cameraOffset.y
 
+    x*=zoom
+    y*=zoom
+    w*= zoom
+    h*= zoom
+
     c.beginPath()
     c.strokeRect(x,y,w,h)
     c.stroke()
@@ -58,6 +88,11 @@ export function drawHitbox(x,y,w,h) {
 export function drawBlock(id,x,y,w,h) {
     x+= cameraOffset.x
     y+= cameraOffset.y
+
+    x*=zoom
+    y*=zoom
+    w*= zoom
+    h*= zoom
 
     c.beginPath()
 

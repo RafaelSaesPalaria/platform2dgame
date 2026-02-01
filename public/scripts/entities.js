@@ -1,5 +1,5 @@
 import { getBlock } from "./block/blockHandler.js";
-import { drawHitbox, drawRect, setCameraOffset } from "./canvas.js";
+import { drawHitbox, drawRect, getCameraOffset, setCameraOffset } from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getLevelSize, getRegion } from "./level.js";
@@ -49,6 +49,11 @@ export class Border {
             obj.dx > 0 & obj.x > getLevelSize().width) {
             obj.dx*=-Border.friction
         }
+        Border.draw()
+    }
+    static draw() {
+        let l = getLevelSize()
+        drawHitbox(0,0,l.width,l.height)
     }
 }
 
