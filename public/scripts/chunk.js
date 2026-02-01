@@ -34,10 +34,17 @@ export class Chunk {
         }
     }
     setBlock(block,x,y) {
-        this.rows[x][y] = block
+        this.rows[y][x] = block
     }
     getBlock(x,y) {
-        return this.rows[x][y]
+        console.log(y)
+        console.log(this.rows.length)
+        console.log(this.rows[y])
+        if (this.rows.length>y & y>=0) {
+            if (this.rows[y].length>x & x>=0) {
+                return this.rows[y][x]
+            }
+        }
     }
     forEachBlock(func) {
         this.rows.forEach(r => {
@@ -47,15 +54,15 @@ export class Chunk {
         })
     }
     collision(obj) {
-    for (let ri = 0; ri < this.rows.length; ri++) {
-        const r = this.rows[ri]
+        for (let ri = 0; ri < this.rows.length; ri++) {
+            const r = this.rows[ri]
 
-        if (checkCollision(obj,{
-            y:ri*blockSize+this.y,
-            w:chunkSize*blockSize,
-            h:chunkSize*blockSize,
-            x:this.x
-        })) {
+            if (checkCollision(obj,{
+                y:ri*blockSize+this.y,
+                w:chunkSize*blockSize,
+                h:chunkSize*blockSize,
+                x:this.x
+            })) {
 
             for (const b of r) {
                 if (checkCollision(obj,{

@@ -1,5 +1,6 @@
 import { getBlock } from "./block/blockHandler.js";
 import { drawHitbox, drawRect, setCameraOffset } from "./canvas.js";
+import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getLevelSize, getRegion } from "./level.js";
 import { checkCollision } from "./utils.js";
@@ -69,25 +70,33 @@ export class Collision {
     static apply(obj) {
         for(let c of getRegion()) {
             if (checkCollision(c,obj)) {
-                let block = c.collision(obj)
-                return getBlock(block.id).collide===true
+                let x = Math.floor((obj.x+obj.w - c.x)/getBlockSize())
+                let y = Math.floor((obj.y+obj.h - c.y)/getBlockSize())
+
+                if (c.getBlock(x,y)) {
+                    return (getBlock(c.getBlock(x,y).id).collide===true)
+                }
+                
             }
         }
     }
     static collide(obj) {
-        obj.dx*=-Border.friction
-        obj.dy*=-Border.friction
+        obj.dx*=0
+        obj.dy*=0
+        obj.color = "blue"
     }
 }
 
 export class Player extends Hitbox {
     constructor(x,y,w,h) {
         super(x,y,w,h)
+        this.color = "red"
     }
     update() {
         if (Collision.apply(this)) {
             Collision.collide(this)
         } else {
+            this.color = "red"
             Gravity.apply(this)
         }
         
@@ -98,6 +107,6 @@ export class Player extends Hitbox {
         super.update()
     }
     draw() {
-        drawRect(this.x,this.y,this.w,this.h,"red")
+        drawRect(this.x,this.y,this.w,this.h,this.color)
     }
 }
