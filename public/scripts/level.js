@@ -1,9 +1,8 @@
-import { erase, updateCameraOffset } from "./canvas.js"
+import { Camera, erase } from "./canvas.js"
 import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
-import { checkCollision } from "./utils.js"
 updateUIs
 
 let region = []
@@ -54,7 +53,7 @@ function animate() {
         e.update()
     })
 
-    updateCameraOffset()
+    Camera.updateOffset()
 
     if (mouse.isDown) {
         right_click()

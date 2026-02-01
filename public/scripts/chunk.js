@@ -33,17 +33,17 @@ export class Chunk {
             this.rows.push(row)
         }
     }
+    hasBlock(x,y) {
+        if (this.rows.length>y & y>=0) {
+            return (this.rows[y].length>x & x>=0)
+        }
+    }
     setBlock(block,x,y) {
         this.rows[y][x] = block
     }
     getBlock(x,y) {
-        console.log(y)
-        console.log(this.rows.length)
-        console.log(this.rows[y])
-        if (this.rows.length>y & y>=0) {
-            if (this.rows[y].length>x & x>=0) {
-                return this.rows[y][x]
-            }
+        if (this.hasBlock(x,y)) {
+            return this.rows[y][x]
         }
     }
     forEachBlock(func) {

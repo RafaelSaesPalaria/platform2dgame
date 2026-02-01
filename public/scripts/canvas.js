@@ -4,16 +4,29 @@ let canvas = document.querySelector("canvas");
 
 let c = canvas.getContext("2d")
 
-let cameraOffset = {x:0, y:0, dx: 0, dy: 0}
-
-let zoom = 1
-
-export function addZoom(z) {
-    zoom+=z
-}
-
-export function getZoom() {
-    return zoom
+export class Camera {
+    static zoom = 1
+    static offset = {x:0,y:0,dx:0,dy:0}
+    static focus(obj) {
+        Camera.setOffset(-obj.x+canvas.width/2,-obj.y+canvas.height/2)
+    }
+    static addZoom(value) {
+        Camera.zoom+=value
+    }
+    static setOffset(x,y) {
+        Camera.offset.x = x * Camera.getZoom()
+        Camera.offset.y = y * Camera.getZoom()
+    }
+    static updateOffset() {
+        Camera.offset.x+=Camera.offset.dx
+        Camera.offset.y+=Camera.offset.dy
+    }
+    static getZoom() {
+        return Camera.zoom
+    }
+    static getOffset() {
+        return Camera.offset
+    }
 }
 
 // Right click
@@ -22,32 +35,17 @@ canvas.addEventListener("contextmenu", (e) => {
     e.preventDefault()
 })
 
-
-export function getCameraOffset() {
-    return cameraOffset
-}
-
-export function setCameraOffset(x,y) {
-    cameraOffset.x=x
-    cameraOffset.y=y
-}
-
-export function updateCameraOffset() {
-    cameraOffset.x+=cameraOffset.dx
-    cameraOffset.y+=cameraOffset.dy
-}
-
 export function resize() {
     canvas.width = 785;
     canvas.height = 515;
 }
 
 export function draw(x,y,color) {
-    x+= cameraOffset.x
-    y+= cameraOffset.y
+    x+= Camera.getOffset().x
+    y+= Camera.getOffset().y
 
-    x*=zoom
-    y*=zoom
+    x*=Camera.getZoom()
+    y*=Camera.getZoom()
 
     c.beginPath()
     c.fillStyle = color
@@ -56,13 +54,13 @@ export function draw(x,y,color) {
 }
 
 export function drawRect(x,y,w,h,color) {
-    x+= cameraOffset.x
-    y+= cameraOffset.y
+    x+= Camera.getOffset().x
+    y+= Camera.getOffset().y
 
-    x*=zoom
-    y*=zoom
-    w*= zoom
-    h*= zoom
+    x*=Camera.getZoom()
+    y*=Camera.getZoom()
+    w*=Camera.getZoom()
+    h*=Camera.getZoom()
 
     c.beginPath()
     c.fillStyle = color
@@ -71,13 +69,13 @@ export function drawRect(x,y,w,h,color) {
 }
 
 export function drawHitbox(x,y,w,h) {
-    x+= cameraOffset.x
-    y+= cameraOffset.y
+    x+= Camera.getOffset().x
+    y+= Camera.getOffset().y
 
-    x*=zoom
-    y*=zoom
-    w*= zoom
-    h*= zoom
+    x*=Camera.getZoom()
+    y*=Camera.getZoom()
+    w*=Camera.getZoom()
+    h*=Camera.getZoom()
 
     c.beginPath()
     c.strokeRect(x,y,w,h)
@@ -86,13 +84,13 @@ export function drawHitbox(x,y,w,h) {
 }
 
 export function drawBlock(id,x,y,w,h) {
-    x+= cameraOffset.x
-    y+= cameraOffset.y
+    x+= Camera.getOffset().x
+    y+= Camera.getOffset().y
 
-    x*=zoom
-    y*=zoom
-    w*= zoom
-    h*= zoom
+    x*=Camera.getZoom()
+    y*=Camera.getZoom()
+    w*=Camera.getZoom()
+    h*=Camera.getZoom()
 
     c.beginPath()
 

@@ -1,5 +1,5 @@
 import { getBlock } from "./block/blockHandler.js";
-import { drawHitbox, drawRect, getCameraOffset, setCameraOffset } from "./canvas.js";
+import { Camera, drawHitbox, drawRect,} from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getLevelSize, getRegion } from "./level.js";
@@ -65,12 +65,6 @@ export class Controller {
     }
 }
 
-export class CameraController {
-    static apply(obj) {
-        setCameraOffset(-obj.x+392,-obj.y+259)
-    }
-}
-
 export class Collision {
     static apply(obj) {
         for(let c of getRegion()) {
@@ -108,7 +102,7 @@ export class Player extends Hitbox {
         
         Border.apply(this)
         Controller.apply(this)
-        CameraController.apply(this)
+        Camera.focus(this)
         super.update()
     }
     draw() {

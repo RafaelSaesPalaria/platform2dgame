@@ -1,5 +1,5 @@
 import { emit } from "./client.js"
-import { addZoom, draw, getCameraOffset, getZoom} from "./canvas.js"
+import {Camera} from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 import { getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
@@ -47,12 +47,15 @@ export function right_click() {
 
 export function addMouse() {
     document.addEventListener("mousemove", (e) => {
-        let cam = getCameraOffset()
-        let z = getZoom()
+        let cam = Camera.getOffset()
+        let z = Camera.getZoom()
         mouse.x = (e.offsetX - cam.x)
         mouse.y = (e.offsetY - cam.y)
-        mouse.x=Math.floor(mouse.x/z)
-        mouse.y=Math.floor(mouse.y/z)
+
+        mouse.x/=z
+        mouse.y/=z
+
+        console.log(mouse.x)
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true
@@ -80,7 +83,7 @@ function keyHandler(e) {
 
 function updateZoom() {
     let z = keys.NumpadAdd - keys.NumpadSubtract
-    addZoom(z*0.01)
+    Camera.addZoom(z*0.01)
 }
 
 function updateDir() {
