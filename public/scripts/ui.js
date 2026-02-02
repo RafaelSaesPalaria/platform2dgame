@@ -1,5 +1,5 @@
-import { draw, drawRect,} from "./canvas.js"
 import { checkCollision } from "./utils.js"
+import { Screen } from "./canvas.js"
 
 let UIs = []
 
@@ -85,7 +85,7 @@ class colorsUI extends UI{
        })
     }
     makeButtons() {
-        drawRect(this.x,this.y,this.w,this.h,"#dddddd")
+        Screen.drawRect(this.x,this.y,this.w,this.h,"#dddddd")
 
         colors.forEach((c,i) => {
             let b = new Button(this.x+(((i+1)%5)*this.size),this.y+(Math.floor((i+1)/5)*this.size),this.size,this.size,() => {
@@ -95,14 +95,14 @@ class colorsUI extends UI{
 
             this.buttons.push(b)
 
-            drawRect(b.x,b.y,b.w,b.h,colors[i])
+            Screen.drawRect(b.x,b.y,b.w,b.h,colors[i])
         })
     }
     currentlyColorChange() {
         setColors_input_Color(getCurrentlyColor())
-        drawRect(this.x-2,this.y-2,this.size+4,this.size+4,"black")
-        drawRect(this.x-1,this.y-1,this.size+2,this.size+2,"white")
-        drawRect(this.x,this.y,this.size,this.size,getCurrentlyColor())
+        Screen.drawRect(this.x-2,this.y-2,this.size+4,this.size+4,"black")
+        Screen.drawRect(this.x-1,this.y-1,this.size+2,this.size+2,"white")
+        Screen.drawRect(this.x,this.y,this.size,this.size,getCurrentlyColor())
     }
     draw() {
         
@@ -122,7 +122,7 @@ class toolsUI extends UI {
     }
     draw() {
         this.tools.forEach((t,i) => {
-            drawRect(this.x*i,this.y,30,30,"black")
+            Screen.drawRect(this.x*i,this.y,30,30,"black")
         })
     }
 }

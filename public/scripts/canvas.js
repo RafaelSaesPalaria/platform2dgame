@@ -1,9 +1,5 @@
 import { addColor, getUI } from "./ui.js";
 
-let canvas = document.querySelector("canvas");
-
-let c = canvas.getContext("2d")
-
 export class Camera {
     static zoom = 1
     static offset = {x:0,y:0,dx:0,dy:0}
@@ -12,7 +8,7 @@ export class Camera {
         this.focusObject = obj
     }
     static updateFocus() {
-        Camera.setOffset(-this.focusObject.x+canvas.width/2,-this.focusObject.y+canvas.height/2)
+        Camera.setOffset(-this.focusObject.x+Screen.canvas.width/2,-this.focusObject.y+Screen.canvas.height/2)
     }
     static addZoom(value) {
         Camera.zoom+=value
@@ -33,17 +29,87 @@ export class Camera {
     }
 }
 
-// Right click
-canvas.addEventListener("contextmenu", (e) => {
+export class Screen {
+    static canvas = document.querySelector("canvas");
+    static c = Screen.canvas.getContext("2d")
+    static resize() {
+        Screen.canvas.width = 785
+        Screen.canvas.height = 515
+    }
+    static drawRect(x,y,w,h,color) {
+        x+= Camera.getOffset().x
+        y+= Camera.getOffset().y
+
+        x*=Camera.getZoom()
+        y*=Camera.getZoom()
+        w*=Camera.getZoom()
+        h*=Camera.getZoom()
+
+        Screen.c.beginPath()
+        Screen.c.fillStyle = color
+        Screen.c.fillRect(x,y,w,h)
+        Screen.c.closePath()
+    }
+    static drawHitbox(x,y,w,h) {
+        x+= Camera.getOffset().x
+        y+= Camera.getOffset().y
+
+        x*=Camera.getZoom()
+        y*=Camera.getZoom()
+        w*=Camera.getZoom()
+        h*=Camera.getZoom()
+
+        Screen.c.beginPath()
+        Screen.c.strokeRect(x,y,w,h)
+        Screen.c.stroke()
+        Screen.c.closePath()
+    }
+    static drawBlock(id,x,y,w,h) {
+        x+= Camera.getOffset().x
+        y+= Camera.getOffset().y
+
+        x*=Camera.getZoom()
+        y*=Camera.getZoom()
+        w*=Camera.getZoom()
+        h*=Camera.getZoom()
+
+        Screen.c.beginPath()
+
+        Screen.c.fillStyle = "black"
+        Screen.c.fillRect(x,y,w,h)
+
+        let color = "green"
+        if (id ==="dirt") {
+            color = "brown"
+        } else if (id ==="stone") {
+            color = "gray"
+        } else if (id ==="air") {
+            color = "white"
+        }
+
+
+        Screen.c.fillStyle = color
+        let border = 1
+        Screen.c.fillRect(x+border,y+border,w-border,h-border)
+
+        Screen.c.closePath()
+    }
+    static erase() {
+        Screen.c.fillStyle = "white"
+        Screen.c.fillRect(0,0,Screen.canvas.width,Screen.canvas.height)
+    }
+}
+
+Screen.canvas.addEventListener("contextmenu", (e) => {
     console.log(e)
     e.preventDefault()
 })
-
+/*
 export function resize() {
     canvas.width = 785;
     canvas.height = 515;
 }
-
+/*
 export function draw(x,y,color) {
     x+= Camera.getOffset().x
     y+= Camera.getOffset().y
@@ -55,8 +121,8 @@ export function draw(x,y,color) {
     c.fillStyle = color
     c.fillRect(x,y,5,5)
     c.closePath()
-}
-
+}*/
+/*
 export function drawRect(x,y,w,h,color) {
     x+= Camera.getOffset().x
     y+= Camera.getOffset().y
@@ -121,4 +187,4 @@ export function drawBlock(id,x,y,w,h) {
 export function erase() {
     c.fillStyle = "white"
     c.fillRect(0,0,canvas.width,canvas.height)
-}
+}*/

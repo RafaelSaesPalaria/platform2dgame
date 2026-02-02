@@ -1,5 +1,5 @@
 import { getBlock } from "./block/blockHandler.js";
-import { Camera, drawHitbox, drawRect,} from "./canvas.js";
+import { Camera, Screen} from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getLevelSize, getRegion } from "./level.js";
@@ -19,7 +19,7 @@ export class Hitbox {
         this.draw()
     }
     draw() {
-        drawHitbox(this.x,this.y,this.w,this.h)
+        Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }
 }
 
@@ -53,7 +53,7 @@ export class Border {
     }
     static draw() {
         let l = getLevelSize()
-        drawHitbox(0,0,l.width,l.height)
+        Screen.drawHitbox(0,0,l.width,l.height)
     }
 }
 
@@ -106,6 +106,6 @@ export class Player extends Hitbox {
         super.update()
     }
     draw() {
-        drawRect(this.x,this.y,this.w,this.h,this.color)
+        Screen.drawRect(this.x,this.y,this.w,this.h,this.color)
     }
 }

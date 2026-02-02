@@ -1,4 +1,4 @@
-import { Camera, erase } from "./canvas.js"
+import { Camera, Screen } from "./canvas.js"
 import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
@@ -43,7 +43,7 @@ export function init() {
 
 function animate() {
     requestAnimationFrame(animate)
-    erase()
+    Screen.erase()
 
     region.forEach(c => {
         c.update()

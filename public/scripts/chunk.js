@@ -1,5 +1,5 @@
 import { getBlock } from "./block/blockHandler.js"
-import { drawBlock, drawRect } from "./canvas.js"
+import { Screen } from "./canvas.js"
 import { Velocity } from "./entities.js"
 import { checkCollision, getDistance } from "./utils.js"
 
@@ -120,7 +120,7 @@ export class Chunk {
     }
     draw() {
         this.forEachBlock((b) => {
-            drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
+            Screen.drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
         })
     }
 }
