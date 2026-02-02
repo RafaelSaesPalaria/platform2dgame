@@ -1,6 +1,7 @@
+import { getBlock } from "./block/blockHandler.js"
 import { drawBlock, drawRect } from "./canvas.js"
 import { Velocity } from "./entities.js"
-import { checkCollision } from "./utils.js"
+import { checkCollision, getDistance } from "./utils.js"
 
 const blockSize = 16
 const chunkSize = 10
@@ -13,9 +14,22 @@ export function getChunkSize() {
     return chunkSize
 }
 
+export class GenerateChunk {
+    static seed = 0
+    static normal (chunk) {
+
+    }
+    static flatLand(chunk) {
+
+    }
+    static custom(chunk, ...settings) {
+
+    }
+}
+
 export class Chunk {
     constructor() {
-        this.chunkId = 0
+        this.chunkId = 0 // NOT USED YET
         this.dx = 0
         this.dy = 0
         this.x = 0
@@ -41,6 +55,7 @@ export class Chunk {
     setBlock(block,x,y) {
         this.rows[y][x] = block
     }
+    // ChunkRelative Coords
     getBlock(x,y) {
         if (this.hasBlock(x,y)) {
             return this.rows[y][x]
@@ -53,7 +68,29 @@ export class Chunk {
             })
         })
     }
+    // WorldCoords
+    getBlockOnCoords(x,y) {
+        let pos = getDistance({x:x,y:y},this)
+        pos.x = Math.floor(pos.x/blockSize)
+        pos.y = Math.floor(pos.y/blockSize)
+        return this.getBlock(pos.x,pos.y)
+    }
+    getCollidedBlocks(obj) {
+        let pos1 = getDistance(obj,this)
+
+        pos1 = Math.floor(pos1.x/blockSize)
+
+        let collidedBlocks = []
+        let b = //this.getBlock(pos1.x,pos1.y)
+        console.log(this.getBlock(pos1.x,pos1.y))
+        if (getBlock(b.id).collide===true) {
+            collidedBlocks.push(b)  
+        }
+        console.log(this.getBlock(pos1.x,pos1.y))
+        return b
+    }
     collision(obj) {
+        return this.getCollidedBlocks(obj)
         for (let ri = 0; ri < this.rows.length; ri++) {
             const r = this.rows[ri]
 

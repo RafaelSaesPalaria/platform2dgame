@@ -28,7 +28,6 @@ export function getDir() {
 }
 
 export function right_click() {
-    console.log("Righ Clicjk")
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
         getRegion().forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
@@ -54,8 +53,6 @@ export function addMouse() {
 
         mouse.x/=z
         mouse.y/=z
-
-        console.log(mouse.x)
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true

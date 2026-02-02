@@ -102,7 +102,7 @@ export class Player extends Hitbox {
         
         Border.apply(this)
         Controller.apply(this)
-        Camera.focus(this)
+        Camera.setFocus(this)
         super.update()
     }
     draw() {

@@ -7,8 +7,12 @@ let c = canvas.getContext("2d")
 export class Camera {
     static zoom = 1
     static offset = {x:0,y:0,dx:0,dy:0}
-    static focus(obj) {
-        Camera.setOffset(-obj.x+canvas.width/2,-obj.y+canvas.height/2)
+    static focusObject = {x:0,y:0}
+    static setFocus(obj) {
+        this.focusObject = obj
+    }
+    static updateFocus() {
+        Camera.setOffset(-this.focusObject.x+canvas.width/2,-this.focusObject.y+canvas.height/2)
     }
     static addZoom(value) {
         Camera.zoom+=value
