@@ -52,6 +52,8 @@ function animate() {
         e.update()
     })
 
+    Screen.drawRect(mouse.x,mouse.y,4,4,"purple")
+
     Camera.updateOffset()
     Camera.updateFocus()
 

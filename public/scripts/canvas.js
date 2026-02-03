@@ -8,14 +8,16 @@ export class Camera {
         this.focusObject = obj
     }
     static updateFocus() {
-        Camera.setOffset(-this.focusObject.x+Screen.canvas.width/2,-this.focusObject.y+Screen.canvas.height/2)
+        Camera.setOffset(
+            -this.focusObject.x+(Screen.canvas.width/2)/Camera.zoom,
+            -this.focusObject.y+(Screen.canvas.height/2)/Camera.zoom)
     }
     static addZoom(value) {
         Camera.zoom+=value
     }
     static setOffset(x,y) {
-        Camera.offset.x = x * Camera.getZoom()
-        Camera.offset.y = y * Camera.getZoom()
+        Camera.offset.x = x
+        Camera.offset.y = y
     }
     static updateOffset() {
         Camera.offset.x+=Camera.offset.dx
