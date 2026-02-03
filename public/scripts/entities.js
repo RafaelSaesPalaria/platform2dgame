@@ -15,7 +15,6 @@ export class Hitbox {
         this.dy = 0;
     }
     update() {
-        Velocity.apply(this)
         this.draw()
     }
     draw() {
@@ -24,9 +23,24 @@ export class Hitbox {
 }
 
 export class Velocity {
+    static maxSpeed = 10
+    static minSpeed = 0
     static apply(obj) {
         obj.x += obj.dx
         obj.y += obj.dy
+    }
+    static fixSpeed(value) {
+        let v = Math.abs(value)
+        if (v>Velocity.maxSpeed) {
+            return Velocity.maxSpeed*(value/v)
+        } else if (v < Velocity.minSpeed) {
+            return Velocity.minSpeed*(value/v)
+        }
+        return value
+    }
+    static validateSpeed(obj) {
+        obj.dx = Velocity.fixSpeed(obj.dx)
+        obj.dy = Velocity.fixSpeed(obj.dy)
     }
 }
 
@@ -81,6 +95,12 @@ export class Collision {
             }
         }
     }
+    static willCollide(obj,x,y) {
+        let future_obj = {...obj}
+        future_obj.x+=x
+        future_obj.y+=y
+        return Collision.apply(future_obj)
+    }
     static collide(obj) {
         obj.dx*=0
         obj.dy*=0
@@ -95,16 +115,25 @@ export class Player extends Hitbox {
         Camera.setFocus(this)
     }
     update() {
-        if (Collision.apply(this)) {
-            Collision.collide(this)
-        } else {
-            Gravity.apply(this)
-        }
+        Velocity.validateSpeed(this)
+        console.log(this.dx,this.dy)
+
+       if (Collision.willCollide(this,this.dx,0)) {
+        this.dx*=-0.5
+       }
+       if (Collision.willCollide(this,0,this.dy)) {
+        this.dy*=-0.5
+       }
         
-        
-        Border.apply(this)
+        Velocity.apply(this)
+        Gravity.apply(this)
         Controller.apply(this)
-        super.update()
+        Border.apply(this)
+        
+        /*if (!Collision.willCollideX()) {
+            Velocity.apply(this)
+        }*/
+        this.draw()
     }
     draw() {
         Screen.drawRect(this.x,this.y,this.w,this.h,this.color)

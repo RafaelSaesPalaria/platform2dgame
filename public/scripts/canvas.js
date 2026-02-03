@@ -75,7 +75,7 @@ export class Screen {
 
         Screen.c.beginPath()
 
-        Screen.c.fillStyle = "black"
+        Screen.c.fillStyle = "#dAdAdA"
         Screen.c.fillRect(x,y,w,h)
 
         let color = "green"
