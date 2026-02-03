@@ -53,6 +53,7 @@ function animate() {
     })
 
     Screen.drawRect(mouse.x,mouse.y,4,4,"purple")
+    Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
 
     Camera.updateOffset()
     Camera.updateFocus()
