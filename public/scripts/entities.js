@@ -69,11 +69,11 @@ export class Collision {
     static apply(obj) {
         for(let c of getRegion()) {
             if (checkCollision(c,obj)) {
-                let x = Math.floor((obj.x+obj.w - c.x)/getBlockSize())
-                let y = Math.floor((obj.y+obj.h - c.y)/getBlockSize())
-
-                if (c.getBlock(x,y)) {
-                    return (getBlock(c.getBlock(x,y).id).collide===true)
+                let collidedBlocks = c.getCollidedBlocks(obj)
+                if (collidedBlocks.length>0){
+                    if (collidedBlocks.filter(b => getBlock(b.id).collide).length>0) {
+                        Collision.collide(obj)
+                    }
                 }
                 
             }

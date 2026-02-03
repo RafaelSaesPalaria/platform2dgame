@@ -76,21 +76,36 @@ export class Chunk {
         return this.getBlock(pos.x,pos.y)
     }
     getCollidedBlocks(obj) {
-        let pos1 = getDistance(obj,this)
-
-        pos1 = Math.floor(pos1.x/blockSize)
-
+        let b = this.getBlockOnCoords(obj.x,obj.y)
         let collidedBlocks = []
-        let b = //this.getBlock(pos1.x,pos1.y)
-        console.log(this.getBlock(pos1.x,pos1.y))
-        if (getBlock(b.id).collide===true) {
-            collidedBlocks.push(b)  
+        
+        console.log("----------------------")
+        //Math.floor(getDistance(obj,this).x/blockSize)
+        for (let blockWidth = obj.x - this.x ;
+                blockWidth < obj.x + obj.w ;
+                blockWidth+=blockSize) {
+            for (let blockHeight = obj.y - this.y;
+                blockHeight < obj.y + obj.h ;
+                blockHeight+=blockSize) {
+                    let block = this.getBlockOnCoords(blockWidth,blockHeight)
+
+                    //console.log(obj.x,obj.y)
+                    //console.log(b)
+                    //console.log(blockWidth,blockHeight)
+                    //console.log(block)
+                    if (block!==undefined) {
+                        /*console.log(checkCollision(obj,{x:blockWidth,y:blockHeight}))
+                        if (checkCollision(obj,{x:blockWidth,y:blockHeight}) & getBlock(block.id).collide) {*/
+                        collidedBlocks.push(block)
+                        //}
+                    }
+            }
         }
-        console.log(this.getBlock(pos1.x,pos1.y))
-        return b
+
+        return collidedBlocks
     }
-    collision(obj) {
-        return this.getCollidedBlocks(obj)
+    //collision(obj) {
+        /*return this.getCollidedBlocks(obj)
         for (let ri = 0; ri < this.rows.length; ri++) {
             const r = this.rows[ri]
 
@@ -113,7 +128,7 @@ export class Chunk {
             }
         }
     }
-}
+}*/
     update() {
         Velocity.apply(this)
         this.draw()
