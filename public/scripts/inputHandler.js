@@ -55,8 +55,8 @@ export function addMouse() {
     document.addEventListener("mousemove", (e) => {
         let cam = Camera.getOffset()
         let z = Camera.getZoom()
-        mouse.x = (e.offsetX - cam.x)
-        mouse.y = (e.offsetY - cam.y)
+        mouse.x = (e.offsetX/z - (cam.x))
+        mouse.y = (e.offsetY/z - (cam.y))
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true

@@ -35,7 +35,7 @@ function initRegion() {
 }
 
 export function init() {
-    addEntity(new Player(392,259,20,20))
+    addEntity(new Player(392,1259,20,20))
     initRegion()
     animate()
 }
