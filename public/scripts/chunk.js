@@ -4,7 +4,7 @@ import { Velocity } from "./entities.js"
 import { checkCollision, getDistance } from "./utils.js"
 
 const blockSize = 16
-const chunkSize = 10
+const chunkSize = {w: 16,h: 250}
 
 export function getBlockSize() {
     return blockSize
@@ -16,22 +16,28 @@ export function getChunkSize() {
 
 export class GenerateChunk {
     static seed = 0
-    static normal (chunk) {
-
-    }
-    static flatLand() {
+    static createSpace() {
         this.rows = []
-        for (let r = 0; r < chunkSize; r ++) {
+        for (let r = 0; r < chunkSize.h; r ++) {
             let row = []
-            for (let l = 0; l < chunkSize; l++) {
+            for (let l = 0; l < chunkSize.w; l++) {
                 let b = new Block("air",l,r)
-                if (r === chunkSize-1) {
-                    b.id = "grass"
-                }
                 row.push(b)
             }
             this.rows.push(row)
         }
+        return this.rows
+    }
+    static normal (chunk) {
+
+    }
+    static flatLand() {
+        this.rows = this.createSpace()
+        Chunk.forEachBlock(this,(b) => {
+            if (b.y>100) {
+                b.id = "grass"
+            }
+        })
         return this.rows
     }
     static custom(chunk, ...settings) {
@@ -46,8 +52,8 @@ export class Chunk {
         this.dy = 0
         this.x = 0
         this.y = 0
-        this.w = chunkSize*blockSize
-        this.h = chunkSize*blockSize
+        this.w = chunkSize.w*blockSize
+        this.h = chunkSize.h*blockSize
         this.count = 0
         this.rows = GenerateChunk.flatLand()
     }
@@ -65,8 +71,8 @@ export class Chunk {
             return this.rows[y][x]
         }
     }
-    forEachBlock(func) {
-        this.rows.forEach(r => {
+    static forEachBlock(c, func) {
+        c.rows.forEach(r => {
             r.forEach(b => {
                 func(b)
             })
@@ -92,13 +98,8 @@ export class Chunk {
                 blockHeight+=blockSize) {
                     let block = this.getBlockOnCoords(blockWidth,blockHeight)
 
-                    //console.log(obj.x,obj.y)
-                    //console.log(b)
-                    //console.log(blockWidth,blockHeight)
-                    //console.log(block)
+                    Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
                     if (block!==undefined) {
-                        /*console.log(checkCollision(obj,{x:blockWidth,y:blockHeight}))
-                        if (checkCollision(obj,{x:blockWidth,y:blockHeight}) & getBlock(block.id).collide) {*/
                         collidedBlocks.push(block)
                         //}
                     }
@@ -107,39 +108,15 @@ export class Chunk {
 
         return collidedBlocks
     }
-    //collision(obj) {
-        /*return this.getCollidedBlocks(obj)
-        for (let ri = 0; ri < this.rows.length; ri++) {
-            const r = this.rows[ri]
-
-            if (checkCollision(obj,{
-                y:ri*blockSize+this.y,
-                w:chunkSize*blockSize,
-                h:chunkSize*blockSize,
-                x:this.x
-            })) {
-
-            for (const b of r) {
-                if (checkCollision(obj,{
-                    x:b.x*blockSize+this.x,
-                    y:b.y*blockSize+this.y,
-                    w:blockSize,
-                    h:blockSize
-                })) {
-                    return b
-                }
-            }
-        }
-    }
-}*/
     update() {
         Velocity.apply(this)
         this.draw()
     }
     draw() {
-        this.forEachBlock((b) => {
+        Chunk.forEachBlock(this,(b) => {
             Screen.drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
         })
+        //Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }
 }
 

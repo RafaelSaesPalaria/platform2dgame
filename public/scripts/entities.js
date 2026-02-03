@@ -116,7 +116,6 @@ export class Player extends Hitbox {
     }
     update() {
         Velocity.validateSpeed(this)
-        console.log(this.dx,this.dy)
 
        if (Collision.willCollide(this,this.dx,0)) {
         this.dx*=-0.5
@@ -128,7 +127,7 @@ export class Player extends Hitbox {
         Velocity.apply(this)
         Gravity.apply(this)
         Controller.apply(this)
-        Border.apply(this)
+        //Border.apply(this)
         
         /*if (!Collision.willCollideX()) {
             Velocity.apply(this)

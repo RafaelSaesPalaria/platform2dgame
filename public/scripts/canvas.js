@@ -75,8 +75,8 @@ export class Screen {
 
         Screen.c.beginPath()
 
-        Screen.c.fillStyle = "#dAdAdA"
-        Screen.c.fillRect(x,y,w,h)
+        //Screen.c.fillStyle = "#dAdAdA"
+        //Screen.c.fillRect(x,y,w,h)
 
         let color = "green"
         if (id ==="dirt") {
@@ -89,7 +89,7 @@ export class Screen {
 
 
         Screen.c.fillStyle = color
-        let border = 1
+        let border = 0
         Screen.c.fillRect(x+border,y+border,w-border,h-border)
 
         Screen.c.closePath()

@@ -29,8 +29,7 @@ function initRegion() {
     let c = new Chunk()
     for (let i = 0; i < 9 ; i ++) {
         let c = new Chunk()
-        c.x = Math.floor(i%3)*getBlockSize()*getChunkSize()
-        c.y = Math.floor(i/3)*getBlockSize()*getChunkSize()
+        c.x = i*getBlockSize()*getChunkSize().w
         region.push(c)
     }
 }
