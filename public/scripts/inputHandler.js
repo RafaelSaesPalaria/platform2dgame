@@ -8,6 +8,7 @@ export let mouse = {
     x:0,
     y:0,
     isDown:false,
+    isLeftKey: false
 }
 
 export let keys = {
@@ -31,9 +32,13 @@ export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
         getRegion().forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
+                let i = "grass"
+                if (mouse.isLeftKey) {
+                    i = "air"
+                }
                 let blocks = c.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
                 blocks.forEach(b => {
-                    b.id= "grass"
+                    b.id= i
                 })
             }
         })
@@ -58,6 +63,7 @@ export function addMouse() {
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true
+        mouse.isLeftKey = e.button === 0
     })
     document.addEventListener("mouseup", (e) => {
         mouse.isDown = false
