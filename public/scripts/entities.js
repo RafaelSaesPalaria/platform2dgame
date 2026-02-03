@@ -74,6 +74,8 @@ export class Collision {
                     if (collidedBlocks.filter(b => getBlock(b.id).collide).length>0) {
                         Collision.collide(obj)
                     }
+                } else {
+                    console.log(collidedBlocks)
                 }
                 
             }
@@ -90,10 +92,12 @@ export class Player extends Hitbox {
     constructor(x,y,w,h) {
         super(x,y,w,h)
         this.color = "red"
+        Camera.setFocus(this)
     }
     update() {
         if (Collision.apply(this)) {
             Collision.collide(this)
+            this.color = "blue"
         } else {
             this.color = "red"
             Gravity.apply(this)
@@ -102,7 +106,6 @@ export class Player extends Hitbox {
         
         Border.apply(this)
         Controller.apply(this)
-        Camera.setFocus(this)
         super.update()
     }
     draw() {

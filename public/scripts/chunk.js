@@ -79,12 +79,11 @@ export class Chunk {
         let b = this.getBlockOnCoords(obj.x,obj.y)
         let collidedBlocks = []
         
-        console.log("----------------------")
         //Math.floor(getDistance(obj,this).x/blockSize)
-        for (let blockWidth = obj.x - this.x ;
+        for (let blockWidth = obj.x ;
                 blockWidth < obj.x + obj.w ;
                 blockWidth+=blockSize) {
-            for (let blockHeight = obj.y - this.y;
+            for (let blockHeight = obj.y;
                 blockHeight < obj.y + obj.h ;
                 blockHeight+=blockSize) {
                     let block = this.getBlockOnCoords(blockWidth,blockHeight)
