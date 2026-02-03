@@ -1,3 +1,4 @@
+import { getBlock } from "./block/blockHandler.js";
 import { addColor, getUI } from "./ui.js";
 import { checkCollision } from "./utils.js";
 
@@ -44,6 +45,29 @@ export class Camera {
     }
 }
 
+export class Images {
+    static imgs = []
+    static use(id) {
+        if (!this.has(id)) {
+            this.create(id)
+        }
+        return this.get(id)
+    }
+    static get(id) {
+        return this.imgs.find(i => i.id === id)?.img
+    }
+    static has(id) {
+        return this.imgs.some(i => i.id === id)
+    }
+    static create(id) {
+        if (!this.has(id)) {
+            let img = new Image(16,16)
+            img.src = getBlock(id).src
+            this.imgs.push({id,img})
+        }
+    }
+}
+
 export class Screen {
     static canvas = document.querySelector("canvas");
     static c = Screen.canvas.getContext("2d")
@@ -68,6 +92,11 @@ export class Screen {
             Screen.c.fillRect(x,y,w,h)
             Screen.c.closePath()
         }
+    }
+    static drawUI(id,x,y,w,h) {
+        Screen.c.beginPath()
+        Screen.c.drawImage(Images.use(id),x,y)
+        Screen.c.closePath()
     }
     static drawHitbox(x,y,w,h) {
         if (Camera.isOnCamera({x,y,w,h})) {
@@ -132,87 +161,3 @@ Screen.canvas.addEventListener("contextmenu", (e) => {
     console.log(e)
     e.preventDefault()
 })
-/*
-export function resize() {
-    canvas.width = 785;
-    canvas.height = 515;
-}
-/*
-export function draw(x,y,color) {
-    x+= Camera.getOffset().x
-    y+= Camera.getOffset().y
-
-    x*=Camera.getZoom()
-    y*=Camera.getZoom()
-
-    c.beginPath()
-    c.fillStyle = color
-    c.fillRect(x,y,5,5)
-    c.closePath()
-}*/
-/*
-export function drawRect(x,y,w,h,color) {
-    x+= Camera.getOffset().x
-    y+= Camera.getOffset().y
-
-    x*=Camera.getZoom()
-    y*=Camera.getZoom()
-    w*=Camera.getZoom()
-    h*=Camera.getZoom()
-
-    c.beginPath()
-    c.fillStyle = color
-    c.fillRect(x,y,w,h)
-    c.closePath()
-}
-
-export function drawHitbox(x,y,w,h) {
-    x+= Camera.getOffset().x
-    y+= Camera.getOffset().y
-
-    x*=Camera.getZoom()
-    y*=Camera.getZoom()
-    w*=Camera.getZoom()
-    h*=Camera.getZoom()
-
-    c.beginPath()
-    c.strokeRect(x,y,w,h)
-    c.stroke()
-    c.closePath()
-}
-
-export function drawBlock(id,x,y,w,h) {
-    x+= Camera.getOffset().x
-    y+= Camera.getOffset().y
-
-    x*=Camera.getZoom()
-    y*=Camera.getZoom()
-    w*=Camera.getZoom()
-    h*=Camera.getZoom()
-
-    c.beginPath()
-
-    c.fillStyle = "black"
-    c.fillRect(x,y,w,h)
-
-    let color = "green"
-    if (id ==="dirt") {
-        color = "brown"
-    } else if (id ==="stone") {
-        color = "gray"
-    } else if (id ==="air") {
-        color = "white"
-    }
-
-
-    c.fillStyle = color
-    let border = 1
-    c.fillRect(x+border,y+border,w-border,h-border)
-
-    c.closePath()
-}
-
-export function erase() {
-    c.fillStyle = "white"
-    c.fillRect(0,0,canvas.width,canvas.height)
-}*/

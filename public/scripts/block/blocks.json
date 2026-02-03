@@ -6,13 +6,13 @@
     },
     {
         "id":"dirt",
-        "src":"",
+        "src":"../../res/blocks/dirt.png",
         "drops":null,
         "collide":true
     },
     {
         "id":"grass",
-        "src":"",
+        "src":"../../res/blocks/grass.png",
         "drops":null,
         "collide":true
     },

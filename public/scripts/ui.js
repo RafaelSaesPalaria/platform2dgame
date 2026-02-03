@@ -4,7 +4,8 @@ import { Screen } from "./canvas.js"
 let UIs = []
 
 export function initUIs() {
-    UIs.push({type:"colorsUI",element:new colorsUI(635,0,150,90)})
+    UIs.push({type:"hotbarUI",element:new hotbarUI(25,25,200,50)})
+    UIs.push({type:"healthUI",element:new healthUI(25,85,200,30)})
 }
 
 export function updateUIs() {
@@ -105,24 +106,36 @@ class colorsUI extends UI{
         Screen.drawRect(this.x,this.y,this.size,this.size,getCurrentlyColor())
     }
     draw() {
-        
+        this.currentlyColorChange()
     }
 }
 
-class toolsUI extends UI {
+class hotbarUI extends UI {
     constructor (x,y,w,h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.tools = ["paint","lapis","rect",'fill',"select","zoom","copy",".pngimport","layer","degrade"]
+        super(x,y,w,h)
+        this.tools = [null,null,null,null,null,null,null,null,null]
+
+        this.w = this.tools*50
+        this.h = 50
     }
     click(x,y) {
 
     }
     draw() {
         this.tools.forEach((t,i) => {
-            Screen.drawRect(this.x*i,this.y,30,30,"black")
+            Screen.drawUI("dirt",this.x+(i*50),this.y,50,50)
         })
+    }
+}
+
+class healthUI extends UI {
+    constructor(x,y,w,h) {
+        super(x,y,w,h)
+        this.health = 100
+    }
+    draw() {
+        for(let h = 0; h < this.health; h+=10) {
+            Screen.drawUI("grass",this.x+(h*3),this.y,30,30)
+        }
     }
 }

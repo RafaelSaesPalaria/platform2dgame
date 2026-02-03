@@ -57,6 +57,7 @@ function animate() {
 
     Camera.updateOffset()
     Camera.updateFocus()
+    updateUIs()
 
     if (mouse.isDown) {
         right_click()
