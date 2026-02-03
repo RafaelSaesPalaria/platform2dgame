@@ -72,7 +72,7 @@ export class Collision {
                 let collidedBlocks = c.getCollidedBlocks(obj)
                 if (collidedBlocks.length>0){
                     if (collidedBlocks.filter(b => getBlock(b.id).collide).length>0) {
-                        Collision.collide(obj)
+                        return true
                     }
                 } else {
                     console.log(collidedBlocks)
@@ -97,9 +97,7 @@ export class Player extends Hitbox {
     update() {
         if (Collision.apply(this)) {
             Collision.collide(this)
-            this.color = "blue"
         } else {
-            this.color = "red"
             Gravity.apply(this)
         }
         

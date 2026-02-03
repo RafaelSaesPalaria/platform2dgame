@@ -19,8 +19,20 @@ export class GenerateChunk {
     static normal (chunk) {
 
     }
-    static flatLand(chunk) {
-
+    static flatLand() {
+        this.rows = []
+        for (let r = 0; r < chunkSize; r ++) {
+            let row = []
+            for (let l = 0; l < chunkSize; l++) {
+                let b = new Block("air",l,r)
+                if (r === chunkSize-1) {
+                    b.id = "grass"
+                }
+                row.push(b)
+            }
+            this.rows.push(row)
+        }
+        return this.rows
     }
     static custom(chunk, ...settings) {
 
@@ -36,16 +48,8 @@ export class Chunk {
         this.y = 0
         this.w = chunkSize*blockSize
         this.h = chunkSize*blockSize
-        this.rows = []
         this.count = 0
-        for (let r = 0; r < chunkSize; r ++) {
-            let row = []
-            for (let l = 0; l < chunkSize; l++) {
-                let b = new Block("air",l,r)
-                row.push(b)
-            }
-            this.rows.push(row)
-        }
+        this.rows = GenerateChunk.flatLand()
     }
     hasBlock(x,y) {
         if (this.rows.length>y & y>=0) {
