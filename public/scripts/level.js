@@ -1,6 +1,6 @@
 import { Camera, Screen } from "./canvas.js"
 import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
-import { Player } from "./entities.js"
+import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
 updateUIs
@@ -19,6 +19,11 @@ export function getLevelSize() {
 
 export function addEntity(e) {
     entities.push(e)
+    console.log(entities)
+}
+
+export function getEntities(type) {
+    return entities.filter(e => e.constructor.name==type)
 }
 
 export function removeEntity(e) {

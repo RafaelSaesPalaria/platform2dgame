@@ -131,19 +131,7 @@ export class Screen {
             //Screen.c.fillStyle = "#dAdAdA"
             //Screen.c.fillRect(x,y,w,h)
 
-            let color = "green"
-            if (id ==="dirt") {
-                color = "brown"
-            } else if (id ==="stone") {
-                color = "gray"
-            } else if (id ==="air") {
-                color = "white"
-            }
-
-
-            Screen.c.fillStyle = color
-            let border = 0
-            Screen.c.fillRect(x+border,y+border,w-border,h-border)
+            Screen.c.drawImage(Images.use(id),x,y,w,h)
 
             Screen.c.closePath()
         }

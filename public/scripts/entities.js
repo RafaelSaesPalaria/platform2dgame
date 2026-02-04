@@ -2,7 +2,7 @@ import { getBlock } from "./block/blockHandler.js";
 import { Camera, Screen} from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
-import { getLevelSize, getRegion } from "./level.js";
+import { getEntities, getLevelSize, getRegion, removeEntity } from "./level.js";
 import { checkCollision } from "./utils.js";
 
 export class Hitbox {
@@ -88,10 +88,7 @@ export class Collision {
                     if (collidedBlocks.filter(b => getBlock(b.id).collide).length>0) {
                         return true
                     }
-                } else {
-                    console.log(collidedBlocks)
                 }
-                
             }
         }
     }
@@ -108,6 +105,61 @@ export class Collision {
     }
 }
 
+export class Item extends Hitbox {
+    constructor(id,qnt,x,y) {
+        super(x,y,16,16)
+        this.qnt = qnt
+        this.id = id
+        Item.clusterItems()
+    }
+    static itemPickupRange = 20
+    static clusterItems() {
+        let items = getEntities("Item")
+        for (let itemi = 0; itemi<items.length-1;itemi++) {
+            for (let item2i = itemi+1 ; item2i<items.length;item2i++) {
+                let item = items[itemi]
+                let item2 = items[item2i]
+                let itemPickup = {...item}
+
+                itemPickup.x -=this.itemPickupRange/2
+                itemPickup.y -=this.itemPickupRange/2
+                itemPickup.w +=this.itemPickupRange*2
+                itemPickup.h +=this.itemPickupRange*2
+
+                
+
+                Screen.drawHitbox(itemPickup.x,itemPickup.y,itemPickup.w,itemPickup.h)
+
+                console.log(checkCollision(itemPickup,item2))
+                if (item.id == item2.id &&checkCollision(item,item2)) {
+                    item.qnt+=item2.qnt
+                    removeEntity(item2)
+                }
+            }
+        }
+    }
+    update() {
+        if (Collision.willCollide(this,this.dx,0)) {
+        this.dx*=0
+       }
+       if (Collision.willCollide(this,0,this.dy)) {
+        this.dy*=0
+       }
+        
+       if (this.dx!==0 || this.dy!==0) {
+            Item.clusterItems()
+       }
+
+        Velocity.apply(this)
+        Gravity.apply(this)
+        this.draw()
+    }
+    draw() {
+        Screen.drawBlock(this.id,this.x,this.y,16,16)
+        Screen.drawHitbox(this.x,this.y,16,16)
+    }
+}
+
 export class Player extends Hitbox {
     constructor(x,y,w,h) {
         super(x,y,w,h)
@@ -118,10 +170,10 @@ export class Player extends Hitbox {
         Velocity.validateSpeed(this)
 
        if (Collision.willCollide(this,this.dx,0)) {
-        this.dx*=-0.5
+        this.dx*=0
        }
        if (Collision.willCollide(this,0,this.dy)) {
-        this.dy*=-0.5
+        this.dy*=0
        }
         
         Velocity.apply(this)

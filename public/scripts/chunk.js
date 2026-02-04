@@ -34,8 +34,12 @@ export class GenerateChunk {
     static flatLand() {
         this.rows = this.createSpace()
         Chunk.forEachBlock(this,(b) => {
-            if (b.y>100) {
+            if (b.y===100) {
                 b.id = "grass"
+            } else if (b.y>100 & b.y<=130) {
+                b.id = "dirt"
+            } else if (b.y>130) {
+                b.id = "stone"
             }
         })
         return this.rows

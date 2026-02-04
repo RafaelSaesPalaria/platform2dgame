@@ -1,9 +1,11 @@
 import { emit } from "./client.js"
 import {Camera} from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
-import { getRegion } from "./level.js"
+import { addEntity, getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
+import { Item } from "./entities.js"
+import { getBlockSize } from "./chunk.js"
 
 export let mouse = {
     x:0,
@@ -35,12 +37,11 @@ export function right_click() {
         getRegion().forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
                 let i = "grass"
-                if (mouse.isLeftKey) {
-                    i = "air"
-                }
                 let blocks = c.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
                 blocks.forEach(b => {
-                    b.id= i
+                    if (mouse.isLeftKey) {
+                        break_block(b)
+                    }
                 })
             }
         })
@@ -50,6 +51,15 @@ export function right_click() {
             "color":getCurrentlyColor(),
             "size": 5
         })*/
+    }
+}
+
+export function break_block(b) {
+    if (b.id !== "air") {
+        console.log(b)
+        let id = b.id
+        b.id = "air"
+        addEntity(new Item(id,1,mouse.x-getBlockSize()/2,mouse.y-getBlockSize()/2))
     }
 }
 

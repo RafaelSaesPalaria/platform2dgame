@@ -20,13 +20,11 @@ export function loadBlocks() {
 export function getObj(id) {
     let ui = getUI(id)
     let block = getBlock(id)
-    console.log(ui)
     if (ui!==undefined) {
         console.log(ui)
         
         return ui
     } else if (block!==undefined    ) {
-        console.log(block)
         return block
     }
 }
