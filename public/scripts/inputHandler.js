@@ -41,6 +41,8 @@ export function right_click() {
                 blocks.forEach(b => {
                     if (mouse.isLeftKey) {
                         break_block(b)
+                    } else {
+                        place_block(b)
                     }
                 })
             }
@@ -62,6 +64,13 @@ export function break_block(b) {
     }
 }
 
+export function place_block(b) {
+    if (b.id === "air") {
+        b.id = User.getSelectedItem().id
+        User.removeItem(User.getSelectedItem().id,1)
+    }
+}
+
 export function addMouse() {
     document.addEventListener("mousemove", (e) => {
         let cam = Camera.getOffset()
@@ -72,6 +81,10 @@ export function addMouse() {
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true
         mouse.isLeftKey = e.button === 0
+    })
+    document.addEventListener("drag", (e) => {})
+    document.addEventListener("wheel",(e) => {
+        mouseWheelHandler(e.wheelDeltaY)
     })
     document.addEventListener("mouseup", (e) => {
         mouse.isDown = false
@@ -85,6 +98,10 @@ export function addKeys() {
     document.addEventListener("keydown",(e) => {
         keyHandler(e)
     })
+}
+
+function mouseWheelHandler(delta) {
+    User.moveSelectedIndex(delta)
 }
 
 function keyHandler(e) {

@@ -9,6 +9,22 @@ export class User {
     static getHotbar() {
         return User.Inventory.slice(0,9)
     }
+    static getSelectedItem() {
+        return this.Inventory[this.selectedItemIndex]
+    }
+    static moveSelectedIndex(delta) {
+        if(delta>=0) {
+            User.selectedItemIndex+=1
+            if (User.selectedItemIndex>=9) {
+                User.selectedItemIndex=0
+            }
+        } else {
+            User.selectedItemIndex-=1
+            if (User.selectedItemIndex<0) {
+                User.selectedItemIndex=8
+            }
+        }
+    }
 
     static addItem(id,qnt) {
         let item = (this.Inventory.find(i => i.id === id))
@@ -19,6 +35,11 @@ export class User {
         }
     }
     static removeItem(id,qnt) {
-
+        let item = (this.Inventory.find(i => i.id === id))
+        item.qnt-=qnt
+        if (item.qnt<=0) {
+            this.Inventory = this.Inventory.filter(s => {return s.qnt>0
+            })
+        }
     }
 }

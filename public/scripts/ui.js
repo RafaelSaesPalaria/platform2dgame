@@ -119,6 +119,7 @@ class hotbarUI extends UI {
     constructor (x,y,w,h) {
         super(x,y,w,h)
         this.slots = [null,null,null,null,null,null,null,null,null]
+        this.selectedIndex = 0
 
         this.w = this.slots*50
         this.h = 50
@@ -128,6 +129,7 @@ class hotbarUI extends UI {
     }
     update() {
         this.slots = User.getHotbar()
+        this.selectedIndex = User.selectedItemIndex
         this.draw()
     }
     draw() {
@@ -136,8 +138,13 @@ class hotbarUI extends UI {
                 Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
             }
         }
+
+        Screen.drawUI("ui-slot",this.x-5+(this.selectedIndex*50),this.y-5,60,60)
+
         this.slots.forEach((s,i) => {
-            Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+            if (i !== this.selectedIndex) { 
+                Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+            }
             if (s !== null) {
                 Screen.drawUI(s.id,this.x+(10)+(i*50),this.y+10,30,30)
                 Screen.writeUI(s.qnt,"white",this.x+(10)+(i*50),this.y+40)

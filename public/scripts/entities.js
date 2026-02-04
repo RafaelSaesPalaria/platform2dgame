@@ -147,7 +147,6 @@ export class Item extends Hitbox {
 
                 //Screen.drawHitbox(itemPickup.x,itemPickup.y,itemPickup.w,itemPickup.h)
 
-                console.log(checkCollision(itemPickup,item2))
                 if (item.id == item2.id &&checkCollision(item,item2)) {
                     item.qnt+=item2.qnt
                     removeEntity(item2)
