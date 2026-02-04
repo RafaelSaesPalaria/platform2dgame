@@ -3,6 +3,7 @@ import { Camera, Screen} from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getEntities, getLevelSize, getRegion, removeEntity } from "./level.js";
+import { User } from "./user.js";
 import { checkCollision } from "./utils.js";
 
 export class Hitbox {
@@ -113,6 +114,21 @@ export class Item extends Hitbox {
         Item.clusterItems()
     }
     static itemPickupRange = 20
+    static pickUp(entity) {
+        let items = getEntities("Item")
+        items.forEach(i => {
+            let itemPickup = {...i}
+
+            itemPickup.x -=this.itemPickupRange/2
+            itemPickup.y -=this.itemPickupRange/2
+            itemPickup.w +=this.itemPickupRange*2
+            itemPickup.h +=this.itemPickupRange*2
+            if (checkCollision(itemPickup,entity)) {
+                User.addItem(this.id,this.qnt)
+                removeEntity(i)
+            }
+        })
+    }
     static clusterItems() {
         let items = getEntities("Item")
         for (let itemi = 0; itemi<items.length-1;itemi++) {
@@ -178,6 +194,7 @@ export class Player extends Hitbox {
         
         Velocity.apply(this)
         Gravity.apply(this)
+        Item.pickUp(this)
         Controller.apply(this)
         //Border.apply(this)
         
