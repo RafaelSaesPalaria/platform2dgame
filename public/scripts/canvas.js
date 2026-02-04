@@ -1,4 +1,4 @@
-import { getBlock } from "./block/blockHandler.js";
+import { getBlock, getObj } from "./block/blockHandler.js";
 import { addColor, getUI } from "./ui.js";
 import { checkCollision } from "./utils.js";
 
@@ -62,7 +62,7 @@ export class Images {
     static create(id) {
         if (!this.has(id)) {
             let img = new Image(16,16)
-            img.src = getBlock(id).src
+            img.src = getObj(id).src
             this.imgs.push({id,img})
         }
     }
@@ -95,7 +95,7 @@ export class Screen {
     }
     static drawUI(id,x,y,w,h) {
         Screen.c.beginPath()
-        Screen.c.drawImage(Images.use(id),x,y)
+        Screen.c.drawImage(Images.use(id),x,y,w,h)
         Screen.c.closePath()
     }
     static drawHitbox(x,y,w,h) {

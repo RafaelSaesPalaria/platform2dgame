@@ -3,6 +3,7 @@ import {Camera} from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 import { getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
+import { User } from "./user.js"
 
 export let mouse = {
     x:0,
@@ -17,7 +18,8 @@ export let keys = {
     KeyD:false,
     KeyA:false,
     NumpadAdd: false,
-    NumpadSubtract: false
+    NumpadSubtract: false,
+    KeyE: false
 }
 
 let dir = {
@@ -79,8 +81,10 @@ export function addKeys() {
 function keyHandler(e) {
     keys[e.code] = e.type !== "keyup"
     updateDir()
-
     updateZoom()
+    if (keys["KeyE"]) {
+        User.inventoryOpen=!User.inventoryOpen  
+    }
 }
 
 function updateZoom() {

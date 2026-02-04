@@ -1,0 +1,22 @@
+[
+    {
+        "id":"heart-empty",
+        "src":"../../res/uis/heart-empty.png"
+    },
+    {
+        "id":"heart-filled",
+        "src":"../../res/uis/heart-filled.png"
+    },
+    {
+        "id":"heart-half",
+        "src":"../../res/uis/heart-half.png"
+    },
+    {
+        "id":"ui-background",
+        "src":"../../res/uis/ui-background.png"
+    },
+    {
+        "id":"ui-slot",
+        "src":"../../res/uis/ui-slot.png"
+    }
+]

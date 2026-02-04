@@ -1,11 +1,13 @@
 import { checkCollision } from "./utils.js"
 import { Screen } from "./canvas.js"
+import { User } from "./user.js"
 
 let UIs = []
 
 export function initUIs() {
     UIs.push({type:"hotbarUI",element:new hotbarUI(25,25,200,50)})
     UIs.push({type:"healthUI",element:new healthUI(25,85,200,30)})
+    UIs.push({type:"inventoryUI",element:new inventoryUI(150,150,450,300)})
 }
 
 export function updateUIs() {
@@ -123,8 +125,19 @@ class hotbarUI extends UI {
     }
     draw() {
         this.tools.forEach((t,i) => {
-            Screen.drawUI("dirt",this.x+(i*50),this.y,50,50)
+            Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
         })
+    }
+}
+
+class inventoryUI extends UI {
+    constructor(x,y,w,h) {
+        super(x,y,w,h)
+    }
+    draw() {
+        if (User.inventoryOpen) {
+            Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+        }
     }
 }
 
@@ -135,7 +148,7 @@ class healthUI extends UI {
     }
     draw() {
         for(let h = 0; h < this.health; h+=10) {
-            Screen.drawUI("grass",this.x+(h*3),this.y,30,30)
+            Screen.drawUI("heart-filled",this.x+(h*3),this.y,30,30)
         }
     }
 }
