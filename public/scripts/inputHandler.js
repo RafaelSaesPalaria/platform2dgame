@@ -56,7 +56,6 @@ export function right_click() {
 
 export function break_block(b) {
     if (b.id !== "air") {
-        console.log(b)
         let id = b.id
         b.id = "air"
         addEntity(new Item(id,1,mouse.x-getBlockSize()/2,mouse.y-getBlockSize()/2))

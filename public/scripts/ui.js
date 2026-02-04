@@ -12,7 +12,7 @@ export function initUIs() {
 
 export function updateUIs() {
     UIs.forEach(ui => {
-        ui.element.draw()
+        ui.element.update()
     })
 }
 
@@ -56,6 +56,9 @@ class UI {
     }
     click(x,y) {
 
+    }
+    update() {
+        this.draw()
     }
     draw() {
 
@@ -115,17 +118,30 @@ class colorsUI extends UI{
 class hotbarUI extends UI {
     constructor (x,y,w,h) {
         super(x,y,w,h)
-        this.tools = [null,null,null,null,null,null,null,null,null]
+        this.slots = [null,null,null,null,null,null,null,null,null]
 
-        this.w = this.tools*50
+        this.w = this.slots*50
         this.h = 50
     }
     click(x,y) {
 
     }
+    update() {
+        this.slots = User.getHotbar()
+        this.draw()
+    }
     draw() {
-        this.tools.forEach((t,i) => {
+        if (this.slots.length<9) {
+            for (let i = this.slots.length; i < 9 ; i++) {
+                Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+            }
+        }
+        this.slots.forEach((s,i) => {
             Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+            if (s !== null) {
+                Screen.drawUI(s.id,this.x+(10)+(i*50),this.y+10,30,30)
+                Screen.writeUI(s.qnt,"white",this.x+(10)+(i*50),this.y+40)
+            }
         })
     }
 }

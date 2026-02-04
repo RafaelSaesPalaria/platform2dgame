@@ -98,6 +98,13 @@ export class Screen {
         Screen.c.drawImage(Images.use(id),x,y,w,h)
         Screen.c.closePath()
     }
+    static writeUI(text,color,x,y) {
+        Screen.c.beginPath()
+        Screen.c.fillStyle = color
+        Screen.c.font = "20px Arial"
+        Screen.c.fillText(text,x,y)
+        Screen.c.closePath()
+    }
     static drawHitbox(x,y,w,h) {
         if (Camera.isOnCamera({x,y,w,h})) {
             this.frameCountDraw+=1

@@ -19,7 +19,6 @@ export function getLevelSize() {
 
 export function addEntity(e) {
     entities.push(e)
-    console.log(entities)
 }
 
 export function getEntities(type) {

@@ -121,10 +121,11 @@ export class Item extends Hitbox {
 
             itemPickup.x -=this.itemPickupRange/2
             itemPickup.y -=this.itemPickupRange/2
-            itemPickup.w +=this.itemPickupRange*2
-            itemPickup.h +=this.itemPickupRange*2
+            itemPickup.w +=this.itemPickupRange
+            itemPickup.h +=this.itemPickupRange
+        
             if (checkCollision(itemPickup,entity)) {
-                User.addItem(this.id,this.qnt)
+                User.addItem(i.id,i.qnt)
                 removeEntity(i)
             }
         })
@@ -139,12 +140,12 @@ export class Item extends Hitbox {
 
                 itemPickup.x -=this.itemPickupRange/2
                 itemPickup.y -=this.itemPickupRange/2
-                itemPickup.w +=this.itemPickupRange*2
-                itemPickup.h +=this.itemPickupRange*2
+                itemPickup.w +=this.itemPickupRange
+                itemPickup.h +=this.itemPickupRange
 
                 
 
-                Screen.drawHitbox(itemPickup.x,itemPickup.y,itemPickup.w,itemPickup.h)
+                //Screen.drawHitbox(itemPickup.x,itemPickup.y,itemPickup.w,itemPickup.h)
 
                 console.log(checkCollision(itemPickup,item2))
                 if (item.id == item2.id &&checkCollision(item,item2)) {
