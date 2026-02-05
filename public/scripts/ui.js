@@ -7,7 +7,7 @@ let UIs = []
 export function initUIs() {
     UIs.push({type:"hotbarUI",element:new hotbarUI(25,25,200,50)})
     UIs.push({type:"healthUI",element:new healthUI(25,85,200,30)})
-    UIs.push({type:"inventoryUI",element:new inventoryUI(150,150,450,300)})
+    UIs.push({type:"inventoryUI",element:new inventoryUI(150,150,500,222)})
 }
 
 export function updateUIs() {
@@ -118,7 +118,7 @@ class colorsUI extends UI{
 class hotbarUI extends UI {
     constructor (x,y,w,h) {
         super(x,y,w,h)
-        this.slots = [null,null,null,null,null,null,null,null,null]
+        this.slots = []
         this.selectedIndex = 0
 
         this.w = this.slots*50
@@ -156,10 +156,25 @@ class hotbarUI extends UI {
 class inventoryUI extends UI {
     constructor(x,y,w,h) {
         super(x,y,w,h)
+        this.slots = []
+    }
+    update() {
+        if (User.inventoryOpen) {
+            this.slots = User.Inventory
+            this.draw()
+        }
     }
     draw() {
-        if (User.inventoryOpen) {
-            Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+        Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+        let slotSize = {w:this.w/9,h:this.h/4}
+        for (let i = 0; i < 36; i++) {
+            let x = this.x+((i%9)*slotSize.w)
+            let y = this.y+(Math.floor(i/9))*slotSize.h
+            Screen.drawUI("ui-slot",x,y,slotSize.w,slotSize.h)
+            if (this.slots[i]) {
+                Screen.drawUI(this.slots[i].id,x+12,y+12,30,30)
+                Screen.writeUI(1,"white",x+12,y+42)
+            }
         }
     }
 }
