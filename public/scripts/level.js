@@ -62,7 +62,6 @@ function animate() {
 
     let b = User.selectedBlock
     if (b) {
-        console.log(b)
         Screen.drawHitbox(b.x,b.y,b.w,b.h)
     }
     

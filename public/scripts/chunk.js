@@ -1,6 +1,7 @@
 import { getBlock } from "./block/blockHandler.js"
 import { Screen } from "./canvas.js"
 import { Velocity } from "./entities.js"
+import { Sapling } from "./EntityBlock/sapling.js"
 import { checkCollision, getDistance } from "./utils.js"
 
 const blockSize = 16
@@ -49,6 +50,14 @@ export class GenerateChunk {
     }
 }
 
+export class Block {    
+    constructor(id,x,y) {
+        this.id = id;
+        this.x = x
+        this.y = y
+    }
+}
+
 export class Chunk {
     constructor() {
         this.chunkId = 0 // NOT USED YET
@@ -60,14 +69,23 @@ export class Chunk {
         this.h = chunkSize.h*blockSize
         this.count = 0
         this.rows = GenerateChunk.flatLand()
+        this.entityBlocks = []
+    }
+    removeEntity(e) {
+        this.entityBlocks = this.entityBlocks.filter(i => i!==e)
     }
     hasBlock(x,y) {
         if (this.rows.length>y & y>=0) {
             return (this.rows[y].length>x & x>=0)
         }
     }
-    setBlock(block,x,y) {
+    setBlock(id,x,y) {
+        let block = new Block(id,x,y)
         this.rows[y][x] = block
+        if (block.id === "sapling") {
+            block = new Sapling(this,id,x,y)
+            this.entityBlocks.push(block)
+        }
     }
     // ChunkRelative Coords
     getBlock(x,y) {
@@ -116,6 +134,9 @@ export class Chunk {
         return collidedBlocks
     }
     update() {
+        this.entityBlocks.forEach(e => {
+            e.update()
+        })
         Velocity.apply(this)
         this.draw()
     }
@@ -124,13 +145,5 @@ export class Chunk {
             Screen.drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
         })
         //Screen.drawHitbox(this.x,this.y,this.w,this.h)
-    }
-}
-
-export class Block {
-    constructor(id,x,y) {
-        this.id = id;
-        this.x = x
-        this.y = y
     }
 }

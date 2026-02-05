@@ -13,7 +13,7 @@
     {
         "id":"grass",
         "src":"../../res/blocks/grass.png",
-        "drops":null,
+        "drops":"dirt",
         "collide":true
     },
     {
@@ -28,10 +28,16 @@
     },
     {
         "id":"log",
-        "src":"../../res/blocks/oak_log.png"
+        "src":"../../res/blocks/oak_log.png",
+        "collide":true
     },
     {
         "id":"plank",
-        "src":"../../res/blocks/oak_plank.png"
+        "src":"../../res/blocks/oak_plank.png",
+        "collide":true
+    },
+    {
+        "id":"leaves",
+        "src":"../../res/blocks/oak_leaves.png"
     }
 ]

@@ -6,6 +6,8 @@ import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
 import { Item } from "./entities.js"
 import { Chunk, getBlockSize } from "./chunk.js"
+import { Sapling } from "./EntityBlock/sapling.js"
+
 
 export let mouse = {
     x:0,
@@ -41,9 +43,9 @@ export function right_click() {
                 let blocks = c.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
                 blocks.forEach(b => {
                     if (mouse.isLeftKey) {
-                        break_block(b)
+                        break_block(c,b)
                     } else {
-                        place_block(b)
+                        place_block(c,b)
                     }
                 })
             }
@@ -57,7 +59,7 @@ export function right_click() {
     }
 }
 
-export function break_block(b) {
+export function break_block(c,b) {
     if (b.id !== "air") {
         let id = b.id
         b.id = "air"
@@ -65,9 +67,12 @@ export function break_block(b) {
     }
 }
 
-export function place_block(b) {
+export function place_block(c,b) {
     if (b.id === "air") {
         b.id = User.getSelectedItem().id
+        if (b.id === "sapling") {
+            c.setBlock(b.id,b.x,b.y)
+        }
         User.removeItem(User.getSelectedItem().id,1)
     }
 }
@@ -188,8 +193,6 @@ export class Message {
 export class Command {
     static give(player,id,amount) {
         User.addItem(id,Number.parseInt(amount))
-        console.log(id,Number.parseInt(amount))
-        console.log(User.Inventory)
     }
     static searchCommand(cmd) {
         let command = cmd.split(" ")
