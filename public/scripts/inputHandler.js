@@ -121,7 +121,9 @@ function keyHandler(e) {
             Message.send()
         }
     } else {
-        Message.type(e)
+        if (e.type !== "keyup") {
+            Message.type(e)
+        }
     }
 }
 
@@ -129,8 +131,13 @@ export class Message {
     static messages = []
     static currentlyMessage = ""
     static send() {
-        this.messages.push(this.currentlyMessage)
-        this.currentlyMessage = ""
+        if (this.currentlyMessage[0]==="/") {
+            Command.apply(this.currentlyMessage)
+            this.currentlyMessage = ""
+        } else {
+            this.messages.push(this.currentlyMessage)
+            this.currentlyMessage = ""
+        }
     }
     static backspace() {
         this.currentlyMessage = this.currentlyMessage.slice(0,this.currentlyMessage.length-1)
@@ -149,6 +156,24 @@ export class Message {
             this.currentlyMessage+=e.key
         }
     }
+}
+
+export class Command {
+    static give(player,id,amount) {
+        User.addItem(id,Number.parseInt(amount))
+        console.log(id,Number.parseInt(amount))
+        console.log(User.Inventory)
+    }
+    static searchCommand(cmd) {
+        let command = cmd.split(" ")
+        if (command[0]==="/give") {
+            Command.give(command[1],command[2],command[3])
+        }
+    }
+    static apply(cmd) {
+        this.searchCommand(cmd)
+    }
+
 }
 
 function updateZoom() {
