@@ -1,43 +1,43 @@
 [
     {
         "id":"air",
-        "src":"../../res/blocks/air.png",
+        "src":"blocks/air.png",
         "collide":false
     },
     {
         "id":"dirt",
-        "src":"../../res/blocks/dirt.png",
+        "src":"blocks/dirt.png",
         "drops":null,
         "collide":true
     },
     {
         "id":"grass",
-        "src":"../../res/blocks/grass.png",
+        "src":"blocks/grass.png",
         "drops":"dirt",
         "collide":true
     },
     {
         "id":"stone",
-        "src":"../../res/blocks/stone.png",
+        "src":"blocks/stone.png",
         "drops":null,
         "collide":true
     },
     {
         "id":"sappling",
-        "src":"../../res/blocks/sappling.png"
+        "src":"blocks/sappling.png"
     },
     {
         "id":"log",
-        "src":"../../res/blocks/oak_log.png",
+        "src":"blocks/oak_log.png",
         "collide":true
     },
     {
         "id":"plank",
-        "src":"../../res/blocks/oak_plank.png",
+        "src":"blocks/oak_plank.png",
         "collide":true
     },
     {
         "id":"leaves",
-        "src":"../../res/blocks/oak_leaves.png"
+        "src":"blocks/oak_leaves.png"
     }
 ]

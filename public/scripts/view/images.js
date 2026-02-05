@@ -1,6 +1,7 @@
 import { getObj } from "../block/blockHandler.js"
 
 export class Images {
+    static defaultRepository = '../../res/'
     static imgs = []
     static use(id) {
         if (!this.has(id)) {
@@ -17,7 +18,7 @@ export class Images {
     static create(id) {
         if (!this.has(id)) {
             let img = new Image(16,16)
-            img.src = getObj(id).src
+            img.src = Images.defaultRepository + getObj(id).src
             this.imgs.push({id,img})
         }
     }
