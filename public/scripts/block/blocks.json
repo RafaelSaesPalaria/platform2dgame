@@ -21,5 +21,17 @@
         "src":"../../res/blocks/stone.png",
         "drops":null,
         "collide":true
+    },
+    {
+        "id":"sapling",
+        "src":"../../res/blocks/sapling.png"
+    },
+    {
+        "id":"log",
+        "src":"../../res/blocks/oak_log.png"
+    },
+    {
+        "id":"plank",
+        "src":"../../res/blocks/oak_plank.png"
     }
 ]

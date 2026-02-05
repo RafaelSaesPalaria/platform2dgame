@@ -3,6 +3,7 @@ import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./ui.js"
+import { User } from "./user.js"
 updateUIs
 
 let region = []
@@ -59,6 +60,12 @@ function animate() {
     Screen.drawRect(mouse.x,mouse.y,4,4,"purple")
     Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
 
+    let b = User.selectedBlock
+    if (b) {
+        console.log(b)
+        Screen.drawHitbox(b.x,b.y,b.w,b.h)
+    }
+    
     Camera.updateOffset()
     Camera.updateFocus()
     updateUIs()

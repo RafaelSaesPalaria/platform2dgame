@@ -1,5 +1,5 @@
 class Tree {
-    static create() {
+    static create(x,y) {
 
     }
 }

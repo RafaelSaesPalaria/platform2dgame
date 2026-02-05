@@ -75,6 +75,9 @@ export class Chunk {
             return this.rows[y][x]
         }
     }
+    static getWorldRelativeCoords(c,chunkX,chunkY) {
+        return {x:chunkX*blockSize+c.x,y:chunkY*blockSize+c.y}
+    }
     static forEachBlock(c, func) {
         c.rows.forEach(r => {
             r.forEach(b => {

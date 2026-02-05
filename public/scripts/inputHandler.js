@@ -1,11 +1,11 @@
 import { emit } from "./client.js"
-import {Camera} from "./canvas.js"
+import {Camera, Screen} from "./canvas.js"
 import { checkClickOnUIs } from "./ui.js"
 import { addEntity, getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
 import { Item } from "./entities.js"
-import { getBlockSize } from "./chunk.js"
+import { Chunk, getBlockSize } from "./chunk.js"
 
 export let mouse = {
     x:0,
@@ -72,12 +72,39 @@ export function place_block(b) {
     }
 }
 
+export function highlight_block(b) {
+    if (b.id!=="air" || User.getSelectedItem()) {
+        User.selectedBlock = b
+    } else {
+        User.selectedBlock = null
+    }
+}
+
+export function mouseMove() {
+    getRegion().forEach(c => {
+        if (checkCollision(c,{...mouse,w:1,h:1})) {
+            let bs= c.getCollidedBlocks({...mouse,w:1,h:1})
+            bs.forEach(b => {
+                let fb = {...b}
+                fb.w=getBlockSize()
+                fb.h=getBlockSize()
+                let wc = Chunk.getWorldRelativeCoords(c,b.x,b.y)
+                fb.x=wc.x
+                fb.y=wc.y
+                highlight_block(fb)
+            })
+        }
+    })
+}
+
 export function addMouse() {
     document.addEventListener("mousemove", (e) => {
         let cam = Camera.getOffset()
         let z = Camera.getZoom()
         mouse.x = (e.offsetX/z - (cam.x))
         mouse.y = (e.offsetY/z - (cam.y))
+
+        mouseMove()
     })
     document.addEventListener("mousedown",(e) => {
         mouse.isDown= true
