@@ -3,6 +3,9 @@ export class User {
     static inventoryOpen = false
     static selectedItemIndex = 0
 
+    static isChatOpen = false
+    static isWriting = false
+
     static getInventory() {
         return User.Inventory
     }

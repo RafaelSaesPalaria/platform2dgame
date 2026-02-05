@@ -1,6 +1,7 @@
 import { checkCollision } from "./utils.js"
 import { Screen } from "./canvas.js"
 import { User } from "./user.js"
+import { Message } from "./inputHandler.js"
 
 let UIs = []
 
@@ -8,6 +9,7 @@ export function initUIs() {
     UIs.push({type:"hotbarUI",element:new hotbarUI(25,25,200,50)})
     UIs.push({type:"healthUI",element:new healthUI(25,85,200,30)})
     UIs.push({type:"inventoryUI",element:new inventoryUI(150,150,500,222)})
+    UIs.push({type:"chatUI",element:new chatUI(0,300,350,220)})
 }
 
 export function updateUIs() {
@@ -169,11 +171,13 @@ class inventoryUI extends UI {
         let slotSize = {w:this.w/9,h:this.h/4}
         for (let i = 0; i < 36; i++) {
             let x = this.x+((i%9)*slotSize.w)
-            let y = this.y+(Math.floor(i/9))*slotSize.h
+            let y = this.y+(Math.floor(i/9))
+            *slotSize.h
+            let item = this.slots[i]
             Screen.drawUI("ui-slot",x,y,slotSize.w,slotSize.h)
-            if (this.slots[i]) {
-                Screen.drawUI(this.slots[i].id,x+12,y+12,30,30)
-                Screen.writeUI(1,"white",x+12,y+42)
+            if (item) {
+                Screen.drawUI(item.id,x+12,y+12,30,30)
+                Screen.writeUI(item.qnt,"white",x+12,y+42)
             }
         }
     }
@@ -187,6 +191,34 @@ class healthUI extends UI {
     draw() {
         for(let h = 0; h < this.health; h+=10) {
             Screen.drawUI("heart-filled",this.x+(h*3),this.y,30,30)
+        }
+    }
+}
+
+class chatUI extends UI {
+    constructor(x,y,w,h) {
+        super(x,y,w,h)
+        this.open = true
+        this.currentlyMessage = ""
+        this.messaging = true
+        this.messages = []
+    }
+    update() {
+        this.open = User.isChatOpen
+        if (this.open) {
+            this.draw()
+        }
+    }
+    draw() {
+        Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+
+        Message.messages.forEach((m,i) => {
+            Screen.writeUI(m,"white",this.x+5,this.y+190-((Message.messages.length-i)*4.5))
+        })
+
+        if (User.isWriting) {
+            Screen.drawUI("ui-background",this.x,this.y+190,this.w,30)
+            Screen.writeUI(Message.currentlyMessage,"white",this.x+5,this.y+210)
         }
     }
 }

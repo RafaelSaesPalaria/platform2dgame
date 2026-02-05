@@ -19,6 +19,7 @@ export let keys = {
     KeyS: false,
     KeyD:false,
     KeyA:false,
+    Enter: false,
     NumpadAdd: false,
     NumpadSubtract: false,
     KeyE: false
@@ -105,11 +106,48 @@ function mouseWheelHandler(delta) {
 }
 
 function keyHandler(e) {
-    keys[e.code] = e.type !== "keyup"
-    updateDir()
-    updateZoom()
-    if (keys["KeyE"]) {
-        User.inventoryOpen=!User.inventoryOpen  
+    if (e.code==="Enter" || !User.isWriting) {
+        keys[e.code] = e.type !== "keyup"
+        updateDir()
+        updateZoom()
+        if (keys["KeyE"]) {
+            User.inventoryOpen=!User.inventoryOpen  
+        }
+        if (keys["Enter"]) {
+            User.isChatOpen = !User.isChatOpen
+            User.isWriting = User.isChatOpen
+        }
+        if (e.code === "Enter") {
+            Message.send()
+        }
+    } else {
+        Message.type(e)
+    }
+}
+
+export class Message {
+    static messages = []
+    static currentlyMessage = ""
+    static send() {
+        this.messages.push(this.currentlyMessage)
+        this.currentlyMessage = ""
+    }
+    static backspace() {
+        this.currentlyMessage = this.currentlyMessage.slice(0,this.currentlyMessage.length-1)
+    }
+    static checkCaracter(e) {
+        if (e.code === "Backspace") {
+            this.backspace()
+        } else if (e.code === "CapsLock" || e.code === "Tab") {
+
+        } else {
+            return true
+        }
+    }
+    static type(e) {
+        if (this.checkCaracter(e)) {
+            this.currentlyMessage+=e.key
+        }
     }
 }
 
