@@ -87,6 +87,8 @@ export class Screen {
             w*=Camera.getZoom()
             h*=Camera.getZoom()
 
+            x = Math.floor(x)
+            y = Math.floor(y)
             Screen.c.beginPath()
             Screen.c.fillStyle = color
             Screen.c.fillRect(x,y,w,h)
@@ -95,6 +97,9 @@ export class Screen {
     }
     static drawUI(id,x,y,w,h) {
         Screen.c.beginPath()
+
+        x = Math.floor(x)
+        y = Math.floor(y)
         Screen.c.drawImage(Images.use(id),x,y,w,h)
         Screen.c.closePath()
     }
@@ -116,6 +121,8 @@ export class Screen {
             w*=Camera.getZoom()
             h*=Camera.getZoom()
 
+            x = Math.floor(x)
+            y = Math.floor(y)
             Screen.c.beginPath()
             Screen.c.strokeRect(x,y,w,h)
             Screen.c.stroke()
@@ -135,9 +142,12 @@ export class Screen {
 
             Screen.c.beginPath()
 
+
             //Screen.c.fillStyle = "#dAdAdA"
             //Screen.c.fillRect(x,y,w,h)
 
+            x = Math.floor(x)
+            y = Math.floor(y)
             Screen.c.drawImage(Images.use(id),x,y,w,h)
 
             Screen.c.closePath()
