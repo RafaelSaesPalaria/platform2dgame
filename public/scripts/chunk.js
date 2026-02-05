@@ -1,6 +1,6 @@
 import { getBlock } from "./block/blockHandler.js"
 import { Velocity } from "./entities.js"
-import { Sapling } from "./EntityBlock/sapling.js"
+import { Sappling } from "./EntityBlock/sappling.js"
 import { checkCollision, getDistance } from "./utils.js"
 import { Screen } from "./view/screen.js"
 import { Camera } from "./view/camera.js"
@@ -83,8 +83,8 @@ export class Chunk {
     setBlock(id,x,y) {
         let block = new Block(id,x,y)
         this.rows[y][x] = block
-        if (block.id === "sapling") {
-            block = new Sapling(this,id,x,y)
+        if (block.id === "sappling") {
+            block = new Sappling(this,id,x,y)
             this.entityBlocks.push(block)
         }
     }

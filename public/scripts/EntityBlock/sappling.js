@@ -1,6 +1,6 @@
 import { EntityBlock } from "./components.js"
 
-export class Sapling extends EntityBlock {
+export class Sappling extends EntityBlock {
     constructor(c,id,x,y) {
         super(id,x,y)
         this.c = c

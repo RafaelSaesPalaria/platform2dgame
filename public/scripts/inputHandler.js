@@ -5,7 +5,6 @@ import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
 import { Item } from "./entities.js"
 import { Chunk, getBlockSize } from "./chunk.js"
-import { Sapling } from "./EntityBlock/sapling.js"
 import { Camera } from "./view/camera.js"
 
 
@@ -69,11 +68,13 @@ export function break_block(c,b) {
 
 export function place_block(c,b) {
     if (b.id === "air") {
-        b.id = User.getSelectedItem().id
-        if (b.id === "sapling") {
-            c.setBlock(b.id,b.x,b.y)
+        if (User.getSelectedItem()) {
+            b.id = User.getSelectedItem().id
+            if (b.id === "sappling") {
+                c.setBlock(b.id,b.x,b.y)
+            }
+            User.removeItem(User.getSelectedItem().id,1)
         }
-        User.removeItem(User.getSelectedItem().id,1)
     }
 }
 

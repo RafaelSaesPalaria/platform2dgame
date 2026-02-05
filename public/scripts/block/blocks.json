@@ -23,8 +23,8 @@
         "collide":true
     },
     {
-        "id":"sapling",
-        "src":"../../res/blocks/sapling.png"
+        "id":"sappling",
+        "src":"../../res/blocks/sappling.png"
     },
     {
         "id":"log",
