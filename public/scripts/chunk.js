@@ -4,25 +4,15 @@ import { Sappling } from "./EntityBlock/sappling.js"
 import { checkCollision, getDistance } from "./utils.js"
 import { Screen } from "./view/screen.js"
 import { Camera } from "./view/camera.js"
-
-const blockSize = 16
-const chunkSize = {w: 16,h: 250}
-
-export function getBlockSize() {
-    return blockSize
-}
-
-export function getChunkSize() {
-    return chunkSize
-}
+import { Level } from "./level.js"
 
 export class GenerateChunk {
     static seed = 0
     static createSpace() {
         this.rows = []
-        for (let r = 0; r < chunkSize.h; r ++) {
+        for (let r = 0; r < Level.chunkSize.h; r ++) {
             let row = []
-            for (let l = 0; l < chunkSize.w; l++) {
+            for (let l = 0; l < Level.chunkSize.w; l++) {
                 let b = new Block("air",l,r)
                 row.push(b)
             }
@@ -66,8 +56,8 @@ export class Chunk {
         this.dy = 0
         this.x = 0
         this.y = 0
-        this.w = chunkSize.w*blockSize
-        this.h = chunkSize.h*blockSize
+        this.w = Level.chunkSize.w*Level.blockSize
+        this.h = Level.chunkSize.h*Level.blockSize
         this.count = 0
         this.rows = GenerateChunk.flatLand()
         this.entityBlocks = []
@@ -95,7 +85,7 @@ export class Chunk {
         }
     }
     static getWorldRelativeCoords(c,chunkX,chunkY) {
-        return {x:chunkX*blockSize+c.x,y:chunkY*blockSize+c.y}
+        return {x:chunkX*Level.blockSize+c.x,y:chunkY*Level.blockSize+c.y}
     }
     static forEachBlock(c, func) {
         c.rows.forEach(r => {
@@ -107,8 +97,8 @@ export class Chunk {
     // WorldCoords
     getBlockOnCoords(x,y) {
         let pos = getDistance({x:x,y:y},this)
-        pos.x = Math.floor(pos.x/blockSize)
-        pos.y = Math.floor(pos.y/blockSize)
+        pos.x = Math.floor(pos.x/Level.blockSize)
+        pos.y = Math.floor(pos.y/Level.blockSize)
         return this.getBlock(pos.x,pos.y)
     }
     getCollidedBlocks(obj) {
@@ -118,10 +108,10 @@ export class Chunk {
         //Math.floor(getDistance(obj,this).x/blockSize)
         for (let blockWidth = obj.x ;
                 blockWidth < obj.x + obj.w ;
-                blockWidth+=blockSize) {
+                blockWidth+=Level.blockSize) {
             for (let blockHeight = obj.y;
                 blockHeight < obj.y + obj.h ;
-                blockHeight+=blockSize) {
+                blockHeight+=Level.blockSize) {
                     let block = this.getBlockOnCoords(blockWidth,blockHeight)
 
                     Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
@@ -143,7 +133,7 @@ export class Chunk {
     }
     draw() {
         Chunk.forEachBlock(this,(b) => {
-            Screen.drawBlock(b.id,b.x*blockSize+this.x,b.y*blockSize+this.y,blockSize,blockSize)
+            Screen.drawBlock(b.id,b.x*Level.blockSize+this.x,b.y*Level.blockSize+this.y,Level.blockSize,Level.blockSize)
         })
         //Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }

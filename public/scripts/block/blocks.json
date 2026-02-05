@@ -1,7 +1,7 @@
 [
     {
         "id":"air",
-        "src":"",
+        "src":"../../res/blocks/air.png",
         "collide":false
     },
     {

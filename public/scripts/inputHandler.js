@@ -1,10 +1,10 @@
 import { emit } from "./client.js"
 import { checkClickOnUIs } from "./view/ui.js"
-import { addEntity, getRegion } from "./level.js"
+import { Level } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
 import { Item } from "./entities.js"
-import { Chunk, getBlockSize } from "./chunk.js"
+import { Chunk } from "./chunk.js"
 import { Camera } from "./view/camera.js"
 
 
@@ -36,7 +36,7 @@ export function getDir() {
 
 export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
-        getRegion().forEach(c => {
+        Level.chunks.forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
                 let i = "grass"
                 let blocks = c.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
@@ -62,7 +62,7 @@ export function break_block(c,b) {
     if (b.id !== "air") {
         let id = b.id
         b.id = "air"
-        addEntity(new Item(id,1,mouse.x-getBlockSize()/2,mouse.y-getBlockSize()/2))
+        Level.addEntity(new Item(id,1,mouse.x-Level.blockSize/2,mouse.y-Level.blockSize/2))
     }
 }
 
@@ -87,13 +87,13 @@ export function highlight_block(b) {
 }
 
 export function mouseMove() {
-    getRegion().forEach(c => {
+    Level.chunks.forEach(c => {
         if (checkCollision(c,{...mouse,w:1,h:1})) {
             let bs= c.getCollidedBlocks({...mouse,w:1,h:1})
             bs.forEach(b => {
                 let fb = {...b}
-                fb.w=getBlockSize()
-                fb.h=getBlockSize()
+                fb.w=Level.blockSize
+                fb.h=Level.blockSize
                 let wc = Chunk.getWorldRelativeCoords(c,b.x,b.y)
                 fb.x=wc.x
                 fb.y=wc.y

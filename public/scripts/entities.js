@@ -1,7 +1,6 @@
 import { getBlock } from "./block/blockHandler.js";
-import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
-import { getEntities, getLevelSize, getRegion, removeEntity } from "./level.js";
+import { getLevelSize, Level } from "./level.js";
 import { User } from "./user.js";
 import { checkCollision } from "./utils.js";
 import { Camera } from "./view/camera.js";
@@ -83,7 +82,7 @@ export class Controller {
 
 export class Collision {
     static apply(obj) {
-        for(let c of getRegion()) {
+        for(let c of Level.chunks) {
             if (checkCollision(c,obj)) {
                 let collidedBlocks = c.getCollidedBlocks(obj)
                 if (collidedBlocks.length>0){
@@ -116,7 +115,7 @@ export class Item extends Hitbox {
     }
     static itemPickupRange = 20
     static pickUp(entity) {
-        let items = getEntities("Item")
+        let items = Level.getEntities("Item")
         items.forEach(i => {
             let itemPickup = {...i}
 
@@ -127,12 +126,12 @@ export class Item extends Hitbox {
         
             if (checkCollision(itemPickup,entity)) {
                 User.addItem(i.id,i.qnt)
-                removeEntity(i)
+                Level.removeEntity(i)
             }
         })
     }
     static clusterItems() {
-        let items = getEntities("Item")
+        let items = Level.getEntities("Item")
         for (let itemi = 0; itemi<items.length-1;itemi++) {
             for (let item2i = itemi+1 ; item2i<items.length;item2i++) {
                 let item = items[itemi]
@@ -150,7 +149,7 @@ export class Item extends Hitbox {
 
                 if (item.id == item2.id &&checkCollision(item,item2)) {
                     item.qnt+=item2.qnt
-                    removeEntity(item2)
+                    Level.removeEntity(item2)
                 }
             }
         }

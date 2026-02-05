@@ -1,4 +1,4 @@
-import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
+import { Chunk } from "./chunk.js"
 import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./view/ui.js"
@@ -7,41 +7,70 @@ import {Screen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
 updateUIs
 
-let region = []
-let entities = []
 let levelSize = {width : 785, height : 515}
 
-export function getRegion() {
-    return region
+export class Level {
+    static entities = []
+    static chunks = []
+    static blockSize = 16
+    static chunkSize = {w: 16,h: 250}
+    static addEntity(e) {
+        this.entities.push(e)
+    }
+    static getEntities(type) {
+        return this.entities.filter(e => e.constructor.name==type)
+    }
+    static removeEntity(entity) {
+        this.entities = this.entities.filter(e => e!=entity)
+    }
+    static setBlock(x,y) {
+
+    }
+    static getBlock(x,y) {
+
+    }
+    static create() {
+
+    }
+    static getCollidedBlocks(obj) {
+        let b = this.getBlockOnCoords(obj.x,obj.y)
+        let collidedBlocks = []
+            
+        //Math.floor(getDistance(obj,this).x/blockSize)
+        for (let blockWidth = obj.x ;
+            blockWidth < obj.x + obj.w ;
+            blockWidth+=blockSize) {
+            for (let blockHeight = obj.y;
+                blockHeight < obj.y + obj.h ;
+                blockHeight+=blockSize) {
+                let block = this.getBlockOnCoords(blockWidth,blockHeight)
+    
+                Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
+                if (block!==undefined) {
+                    collidedBlocks.push(block)
+                            //}
+                }
+            }
+        }
+        return collidedBlocks
+    }
 }
 
 export function getLevelSize() {
     return levelSize
 }
 
-export function addEntity(e) {
-    entities.push(e)
-}
-
-export function getEntities(type) {
-    return entities.filter(e => e.constructor.name==type)
-}
-
-export function removeEntity(e) {
-    entities = entities.filter(i => i!=e)
-}
-
 function initRegion() {
     let c = new Chunk()
     for (let i = 0; i < 9 ; i ++) {
         let c = new Chunk()
-        c.x = i*getBlockSize()*getChunkSize().w
-        region.push(c)
+        c.x = i*Level.blockSize*Level.chunkSize.w
+        Level.chunks.push(c)
     }
 }
 
 export function init() {
-    addEntity(new Player(392,1259,20,20))
+    Level.addEntity(new Player(392,1259,20,20))
     initRegion()
     animate()
 }
@@ -50,14 +79,15 @@ function animate() {
     requestAnimationFrame(animate)
     Screen.erase()
 
-    region.forEach(c => {
+    Level.chunks.forEach(c => {
         c.update()
     })
 
-    entities.forEach(e => {
+    Level.entities.forEach(e => {
         e.update()
     })
 
+    // UIs
     Screen.drawRect(mouse.x,mouse.y,4,4,"purple")
     Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
 
