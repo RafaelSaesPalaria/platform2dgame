@@ -202,9 +202,11 @@ class chatUI extends UI {
         this.currentlyMessage = ""
         this.messaging = true
         this.messages = []
+        this.hints = []
     }
     update() {
         this.open = User.isChatOpen
+        this.hints = Message.hints
         if (this.open) {
             this.draw()
         }
@@ -219,6 +221,14 @@ class chatUI extends UI {
         if (User.isWriting) {
             Screen.drawUI("ui-background",this.x,this.y+190,this.w,30)
             Screen.writeUI(Message.currentlyMessage,"white",this.x+5,this.y+210)
+            if (this.hints) {
+                console.log(this.hints === true)
+                this.hints.forEach((h,i) => {
+                    Screen.writeUI(h,"white",this.x,this.y+190-(i*30))
+                })
+                let msg = this.hints[Message.selectedHint]
+                Screen.writeUI(msg,"yellow",this.x+5,this.y+210)
+            }
         }
     }
 }

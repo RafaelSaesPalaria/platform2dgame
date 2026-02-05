@@ -138,6 +138,9 @@ function mouseWheelHandler(delta) {
 }
 
 function keyHandler(e) {
+    if (e.code === "Tab") {
+        e.preventDefault()
+    }
     if (e.code==="Enter" || !User.isWriting) {
         keys[e.code] = e.type !== "keyup"
         updateDir()
@@ -161,9 +164,11 @@ function keyHandler(e) {
 
 export class Message {
     static messages = []
+    static hints = []
+    static selectedHint = 0
     static currentlyMessage = ""
     static send() {
-        if (this.currentlyMessage[0]==="/") {
+        if (this.isCommand(this.currentlyMessage)) {
             Command.apply(this.currentlyMessage)
             this.currentlyMessage = ""
         } else {
@@ -174,34 +179,67 @@ export class Message {
     static backspace() {
         this.currentlyMessage = this.currentlyMessage.slice(0,this.currentlyMessage.length-1)
     }
-    static checkCaracter(e) {
+    static isCommand(msg) {
+        return msg[0]==="/"
+    }
+    static isValidCaracter(e) {
         if (e.code === "Backspace") {
             this.backspace()
-        } else if (e.code === "CapsLock" || e.code === "Tab") {
+        } else if (e.code === "CapsLock" || e.code === "Tab" || e.code === "ArrowUp" || e.code === "ArrowDown") {
 
         } else {
             return true
         }
     }
     static type(e) {
-        if (this.checkCaracter(e)) {
+        if (this.isValidCaracter(e)) {
             this.currentlyMessage+=e.key
+        }
+        if (e.code === "ArrowUp") {
+            this.selectedHint+=1
+            if (this.selectedHint>this.hints.length) {
+                this.selectedHint=0
+            }
+        } else if (e.code === "ArrowDown") {
+            this.selectedHint-=1
+            if (this.selectedHint<0) {
+                this.selectedHint=this.hints.length
+            }
+        }
+        if (e.code === "Tab") {
+            let h = this.hints[this.selectedHint]
+            h= h.slice(1,this.hints[this.selectedHint].length)
+            this.currentlyMessage+=h
+        }
+        if (this.isCommand(this.currentlyMessage)) {
+            Message.hints = (Command.hint(this.currentlyMessage))
+            
         }
     }
 }
 
 export class Command {
+    static commandsList = [
+        "/give","/atest","/ztest"
+    ]
     static give(player,id,amount) {
         User.addItem(id,Number.parseInt(amount))
     }
     static searchCommand(cmd) {
         let command = cmd.split(" ")
+
         if (command[0]==="/give") {
             Command.give(command[1],command[2],command[3])
         }
     }
     static apply(cmd) {
         this.searchCommand(cmd)
+    }
+    static hint(cmd) {
+        let command = cmd.split(" ")
+        if (command.length<=1) {
+            return this.commandsList.filter(c => c.includes(command[0]))
+        }
     }
 
 }
