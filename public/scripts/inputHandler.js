@@ -1,12 +1,12 @@
 import { emit } from "./client.js"
-import {Camera, Screen} from "./canvas.js"
-import { checkClickOnUIs } from "./ui.js"
+import { checkClickOnUIs } from "./view/ui.js"
 import { addEntity, getRegion } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
 import { Item } from "./entities.js"
 import { Chunk, getBlockSize } from "./chunk.js"
 import { Sapling } from "./EntityBlock/sapling.js"
+import { Camera } from "./view/camera.js"
 
 
 export let mouse = {

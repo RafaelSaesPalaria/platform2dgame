@@ -1,10 +1,11 @@
 import { getBlock } from "./block/blockHandler.js";
-import { Camera, Screen} from "./canvas.js";
 import { getBlockSize } from "./chunk.js";
 import { getDir } from "./inputHandler.js";
 import { getEntities, getLevelSize, getRegion, removeEntity } from "./level.js";
 import { User } from "./user.js";
 import { checkCollision } from "./utils.js";
+import { Camera } from "./view/camera.js";
+import { Screen } from "./view/screen.js";
 
 export class Hitbox {
     constructor(x,y,w,h) {

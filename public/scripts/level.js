@@ -1,9 +1,10 @@
-import { Camera, Screen } from "./canvas.js"
 import { Chunk, getBlockSize, getChunkSize } from "./chunk.js"
 import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
-import { updateUIs } from "./ui.js"
+import { updateUIs } from "./view/ui.js"
 import { User } from "./user.js"
+import {Screen } from './view/screen.js'
+import { Camera } from "./view/camera.js"
 updateUIs
 
 let region = []

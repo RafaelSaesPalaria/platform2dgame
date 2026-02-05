@@ -1,8 +1,9 @@
 import { getBlock } from "./block/blockHandler.js"
-import { Screen } from "./canvas.js"
 import { Velocity } from "./entities.js"
 import { Sapling } from "./EntityBlock/sapling.js"
 import { checkCollision, getDistance } from "./utils.js"
+import { Screen } from "./view/screen.js"
+import { Camera } from "./view/camera.js"
 
 const blockSize = 16
 const chunkSize = {w: 16,h: 250}

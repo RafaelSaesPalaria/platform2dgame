@@ -1,7 +1,7 @@
-import { checkCollision } from "./utils.js"
-import { Screen } from "./canvas.js"
-import { User } from "./user.js"
-import { Message } from "./inputHandler.js"
+import { checkCollision } from "../utils.js"
+import { Screen } from "./screen.js"
+import { User } from "../user.js"
+import { Message } from "../inputHandler.js"
 
 let UIs = []
 
