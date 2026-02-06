@@ -36,17 +36,12 @@ export function getDir() {
 
 export function right_click() {
     if (!checkClickOnUIs(mouse.x,mouse.y)) {
-        Level.chunks.forEach(c => {
-            if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
-                let i = "grass"
-                let blocks = Level.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
-                blocks.forEach(b => {
-                    if (mouse.isLeftKey) {
-                        break_block(c,b)
-                    } else {
-                        place_block(c,b)
-                    }
-                })
+        let blocks = Level.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
+        blocks.forEach(b => {
+            if (mouse.isLeftKey) {
+                break_block(b)
+            } else {
+                place_block(b)
             }
         })
         /*emit("draw",{
@@ -58,7 +53,7 @@ export function right_click() {
     }
 }
 
-export function break_block(c,b) {
+export function break_block(b) {
     if (b.id !== "air") {
         let id = b.id
         b.id = "air"
@@ -66,13 +61,13 @@ export function break_block(c,b) {
     }
 }
 
-export function place_block(c,b) {
+export function place_block(b) {
     if (b.id === "air") {
         if (User.getSelectedItem()) {
             b.id = User.getSelectedItem().id
             if (b.id === "sappling") {
                 console.log(b.worldX)
-                Level.set.LevelBlock(b.id,b.worldX,b.worldY)
+                Level.setBlock(b.id,b.worldX,b.worldY)
             }
             User.removeItem(User.getSelectedItem().id,1)
         }
