@@ -222,12 +222,14 @@ class chatUI extends UI {
             Screen.drawUI("ui-background",this.x,this.y+190,this.w,30)
             Screen.writeUI(Message.currentlyMessage,"white",this.x+5,this.y+210)
             if (this.hints) {
-                console.log(this.hints === true)
-                this.hints.forEach((h,i) => {
-                    Screen.writeUI(h,"white",this.x,this.y+190-(i*30))
-                })
-                let msg = this.hints[Message.selectedHint]
-                Screen.writeUI(msg,"yellow",this.x+5,this.y+210)
+                if (this.hints.length>0) {
+                    console.log(this.hints === true)
+                    this.hints.forEach((h,i) => {
+                        Screen.writeUI(h,"white",this.x,this.y+190-(i*30))
+                    })
+                    let msg = this.hints[Message.selectedHint]
+                    Screen.writeUI(msg,"yellow",this.x+5,this.y+210)
+                }
             }
         }
     }

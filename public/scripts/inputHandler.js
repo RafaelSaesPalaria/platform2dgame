@@ -168,6 +168,7 @@ export class Message {
     }
     static backspace() {
         this.currentlyMessage = this.currentlyMessage.slice(0,this.currentlyMessage.length-1)
+        this.updateHint()
     }
     static isCommand(msg) {
         return msg[0]==="/"
@@ -179,6 +180,13 @@ export class Message {
 
         } else {
             return true
+        }
+    }
+    static updateHint() {
+        if (this.isCommand(this.currentlyMessage)) {
+            Message.hints = (Command.hint(this.currentlyMessage))
+        } else {
+            Message.hints = []
         }
     }
     static type(e) {
@@ -198,19 +206,19 @@ export class Message {
         }
         if (e.code === "Tab") {
             let h = this.hints[this.selectedHint]
-            h= h.slice(1,this.hints[this.selectedHint].length)
-            this.currentlyMessage+=h
+            //h= h.slice(1,this.hints[this.selectedHint].length)
+            let msg = this.currentlyMessage.split(" ")[0]
+            let lmsg = msg[msg.length-1]
+            msg = msg[msg.length-1].replace(lmsg,h)
+            this.currentlyMessage=msg
         }
-        if (this.isCommand(this.currentlyMessage)) {
-            Message.hints = (Command.hint(this.currentlyMessage))
-            
-        }
+        this.updateHint()
     }
 }
 
 export class Command {
     static commandsList = [
-        "/give","/atest","/ztest,/setblock,/teleport,/fill"
+        "/give","/atest","/ztest","/setblock","/teleport","/fill"
     ]
     static give(player,id,amount) {
         User.addItem(id,Number.parseInt(amount))

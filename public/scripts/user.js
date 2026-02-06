@@ -1,3 +1,5 @@
+import { getObj } from "./block/blockHandler.js"
+
 export class User {
     static Inventory = []
     static inventoryOpen = false
@@ -30,12 +32,20 @@ export class User {
         }
     }
 
+    static validAmount(a) {
+        return (a>=0)
+    }
+    static validID(id) {
+        return getObj(id) !== undefined
+    }
     static addItem(id,qnt) {
-        let item = (this.Inventory.find(i => i.id === id))
-        if (item && item!==null) {
-            item.qnt+=qnt
-        } else {
-            this.Inventory.push({id,qnt})
+        if (this.validID(id) && this.validAmount(qnt)) {
+            let item = (this.Inventory.find(i => i.id === id))
+            if (item && item!==null) {
+                item.qnt+=qnt
+            } else {
+                this.Inventory.push({id,qnt})
+            }
         }
     }
     static removeItem(id,qnt) {
