@@ -24,8 +24,24 @@ export class Level {
     static removeEntity(entity) {
         this.entities = this.entities.filter(e => e!=entity)
     }
-    static setBlock(x,y) {
+    static setBlock(block,blockX,blockY) {
+        let chunkIndex = Math.floor(blockX/this.chunkSize.w)
+        let chunkX = (blockX%this.chunkSize.w)
+        let chunkY = blockY
 
+        console.log(block,blockX,blockY)
+        console.log(chunkIndex,chunkX,chunkY)
+
+        Level.chunks[chunkIndex].setBlock(block,chunkX,chunkY)
+    }
+    static getChunkRelativeCoords(worldX,worldY) {
+        let pos = getDistance({x:worldX,y:worldY},{x:0,y:0})
+        pos.x = Math.floor(pos.x/Level.blockSize)
+        pos.y = Math.floor(pos.y/Level.blockSize)
+        //return this.getBlock(pos.x,pos.y)
+        let chunkIndex = Math.floor(pos.x/Level.chunkSize.w)
+        pos.x = pos.x%this.chunkSize.w
+        return {chunkIndex,chunkX:pos.x,chunkY:pos.y}
     }
     static getBlock(x,y) {
 
@@ -34,13 +50,8 @@ export class Level {
 
     }
     static getBlockOnCoords(worldX,worldY) {
-        let pos = getDistance({x:worldX,y:worldY},{x:0,y:0})
-        pos.x = Math.floor(pos.x/Level.blockSize)
-        pos.y = Math.floor(pos.y/Level.blockSize)
-        //return this.getBlock(pos.x,pos.y)
-        let chunkIndex = Math.floor(pos.x/Level.chunkSize.w)
-        pos.x = pos.x%this.chunkSize.w
-        return Level.chunks[chunkIndex].getBlock(pos.x,pos.y)
+        let pos = this.getChunkRelativeCoords(worldX,worldY)
+        return Level.chunks[pos.chunkIndex].getBlock(pos.chunkX,pos.chunkY)
         //chunks[]
     }
     static getCollidedBlocks(obj) {
@@ -72,7 +83,6 @@ export function getLevelSize() {
 }
 
 function initRegion() {
-    let c = new Chunk()
     for (let i = 0; i < 9 ; i ++) {
         let c = new Chunk()
         c.x = i*Level.blockSize*Level.chunkSize.w
@@ -104,7 +114,8 @@ function animate() {
 
     let b = User.selectedBlock
     if (b) {
-        Screen.drawHitbox(b.x,b.y,b.w,b.h)
+        console.log(b)
+        Screen.drawHitbox((b.x*Level.blockSize),(b.y*Level.blockSize),b.w,b.h)
     }
     
     Camera.updateOffset()

@@ -87,19 +87,12 @@ export function highlight_block(b) {
 }
 
 export function mouseMove() {
-    Level.chunks.forEach(c => {
-        if (checkCollision(c,{...mouse,w:1,h:1})) {
-            let bs= Level.getCollidedBlocks({...mouse,w:1,h:1})
-            bs.forEach(b => {
-                let fb = {...b}
-                fb.w=Level.blockSize
-                fb.h=Level.blockSize
-                let wc = Chunk.getWorldRelativeCoords(c,b.x,b.y)
-                fb.x=wc.x
-                fb.y=wc.y
-                highlight_block(fb)
-            })
-        }
+    let bs= Level.getCollidedBlocks({...mouse,w:1,h:1})
+    bs.forEach(b => {
+        let fb = {...b}
+        fb.w=Level.blockSize
+        fb.h=Level.blockSize
+        highlight_block(fb)
     })
 }
 
