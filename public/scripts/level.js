@@ -1,4 +1,4 @@
-import { Chunk } from "./chunk.js"
+import { Block, Chunk } from "./chunk.js"
 import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./view/ui.js"
@@ -24,12 +24,18 @@ export class Level {
     static removeEntity(entity) {
         this.entities = this.entities.filter(e => e!=entity)
     }
-    static setBlock(block,blockX,blockY) {
-        let chunkIndex = Math.floor(blockX/this.chunkSize.w)
-        let chunkX = (blockX%this.chunkSize.w)
-        let chunkY = blockY
+    static hasBlock(blockX,blockY) {
+        return ((blockX>=0 & blockY>=0) &
+        (blockX<=this.chunkSize.w*9 & blockY<=this.chunkSize.h))
+    }
+    static setBlock(id,blockX,blockY) {
+        if (this.hasBlock(blockX,blockY)) {
+            let chunkIndex = Math.floor(blockX/this.chunkSize.w)
+            let chunkX = (blockX%this.chunkSize.w)
+            let chunkY = blockY
 
-        Level.chunks[chunkIndex].setBlock(block,chunkX,chunkY)
+            Level.chunks[chunkIndex].setBlock(id,chunkX,chunkY)
+        }
     }
     static getWorldRelativeCoords(worldX,worldY) {
         let pos = getDistance({x:worldX,y:worldY},{x:0,y:0})
@@ -89,7 +95,9 @@ function initRegion() {
 
 export function init() {
     Level.addEntity(new Player(392,1259,20,20))
+    
     initRegion()
+    Level.setBlock("stone",30,94)
     animate()
 }
 

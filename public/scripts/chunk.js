@@ -70,11 +70,15 @@ export class Chunk {
         }
     }
     setBlock(id,chunkX,chunkY) {
-        let chunkIndex = Math.floor(this.x/Level.chunkSize.w)
-        let block = new Block(id,chunkX+chunkIndex,chunkY)
+        console.log(chunkX)
+        let chunkIndex = Math.floor(this.x/(Level.chunkSize.w*Level.blockSize))
+        let blockX = (chunkX%Level.chunkSize.w)
+
+        let block = new Block(id,chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
+
         this.rows[chunkY][chunkX] = block
         if (block.id === "sappling") {
-            block = new Sappling(this,id,chunkX,chunkY)
+            block = new Sappling(this,id,chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
             this.entityBlocks.push(block)
         }
     }
@@ -109,6 +113,6 @@ export class Chunk {
         Chunk.forEachBlock(this,(b,i) => {
             Screen.drawBlock(b.id,b.worldX*Level.blockSize,b.worldY*Level.blockSize,Level.blockSize,Level.blockSize)
         })
-        //Screen.drawHitbox(this.x,this.y,this.w,this.h)
+        Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }
 }

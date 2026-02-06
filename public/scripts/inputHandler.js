@@ -71,7 +71,8 @@ export function place_block(c,b) {
         if (User.getSelectedItem()) {
             b.id = User.getSelectedItem().id
             if (b.id === "sappling") {
-                c.setBlock(b.id,b.worldX,b.worldY)
+                console.log(b.worldX)
+                Level.setBlock(b.id,b.worldX,b.worldY)
             }
             User.removeItem(User.getSelectedItem().id,1)
         }
