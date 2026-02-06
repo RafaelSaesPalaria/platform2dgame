@@ -39,7 +39,7 @@ export function right_click() {
         Level.chunks.forEach(c => {
             if (checkCollision(c,{x:mouse.x,y:mouse.y,w:1,h:1})) {
                 let i = "grass"
-                let blocks = c.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
+                let blocks = Level.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
                 blocks.forEach(b => {
                     if (mouse.isLeftKey) {
                         break_block(c,b)
@@ -89,7 +89,7 @@ export function highlight_block(b) {
 export function mouseMove() {
     Level.chunks.forEach(c => {
         if (checkCollision(c,{...mouse,w:1,h:1})) {
-            let bs= c.getCollidedBlocks({...mouse,w:1,h:1})
+            let bs= Level.getCollidedBlocks({...mouse,w:1,h:1})
             bs.forEach(b => {
                 let fb = {...b}
                 fb.w=Level.blockSize

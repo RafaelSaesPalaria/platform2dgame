@@ -84,7 +84,7 @@ export class Collision {
     static apply(obj) {
         for(let c of Level.chunks) {
             if (checkCollision(c,obj)) {
-                let collidedBlocks = c.getCollidedBlocks(obj)
+                let collidedBlocks = Level.getCollidedBlocks(obj)
                 if (collidedBlocks.length>0){
                     if (collidedBlocks.filter(b => getBlock(b.id).collide).length>0) {
                         return true

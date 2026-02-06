@@ -5,6 +5,7 @@ import { updateUIs } from "./view/ui.js"
 import { User } from "./user.js"
 import {Screen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
+import { getDistance } from "./utils.js"
 updateUIs
 
 let levelSize = {width : 785, height : 515}
@@ -32,6 +33,16 @@ export class Level {
     static create() {
 
     }
+    static getBlockOnCoords(worldX,worldY) {
+        let pos = getDistance({x:worldX,y:worldY},{x:0,y:0})
+        pos.x = Math.floor(pos.x/Level.blockSize)
+        pos.y = Math.floor(pos.y/Level.blockSize)
+        //return this.getBlock(pos.x,pos.y)
+        let chunkIndex = Math.floor(pos.x/Level.chunkSize.w)
+        pos.x = pos.x%this.chunkSize.w
+        return Level.chunks[chunkIndex].getBlock(pos.x,pos.y)
+        //chunks[]
+    }
     static getCollidedBlocks(obj) {
         let b = this.getBlockOnCoords(obj.x,obj.y)
         let collidedBlocks = []
@@ -39,12 +50,12 @@ export class Level {
         //Math.floor(getDistance(obj,this).x/blockSize)
         for (let blockWidth = obj.x ;
             blockWidth < obj.x + obj.w ;
-            blockWidth+=blockSize) {
+            blockWidth+=Level.blockSize) {
             for (let blockHeight = obj.y;
                 blockHeight < obj.y + obj.h ;
-                blockHeight+=blockSize) {
+                blockHeight+=Level.blockSize) {
                 let block = this.getBlockOnCoords(blockWidth,blockHeight)
-    
+
                 Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
                 if (block!==undefined) {
                     collidedBlocks.push(block)

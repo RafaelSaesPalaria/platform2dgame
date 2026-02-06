@@ -95,34 +95,11 @@ export class Chunk {
         })
     }
     // WorldCoords
-    getBlockOnCoords(x,y) {
-        let pos = getDistance({x:x,y:y},this)
+    getBlockOnCoords(worldX,worldY) {
+        let pos = getDistance({x:worldX,y:worldY},this)
         pos.x = Math.floor(pos.x/Level.blockSize)
         pos.y = Math.floor(pos.y/Level.blockSize)
         return this.getBlock(pos.x,pos.y)
-    }
-    getCollidedBlocks(obj) {
-        let b = this.getBlockOnCoords(obj.x,obj.y)
-        let collidedBlocks = []
-        
-        //Math.floor(getDistance(obj,this).x/blockSize)
-        for (let blockWidth = obj.x ;
-                blockWidth < obj.x + obj.w ;
-                blockWidth+=Level.blockSize) {
-            for (let blockHeight = obj.y;
-                blockHeight < obj.y + obj.h ;
-                blockHeight+=Level.blockSize) {
-                    let block = this.getBlockOnCoords(blockWidth,blockHeight)
-
-                    Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
-                    if (block!==undefined) {
-                        collidedBlocks.push(block)
-                        //}
-                    }
-            }
-        }
-
-        return collidedBlocks
     }
     update() {
         this.entityBlocks.forEach(e => {
