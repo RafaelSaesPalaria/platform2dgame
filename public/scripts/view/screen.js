@@ -43,6 +43,22 @@ export class Screen {
         Screen.c.fillText(text,x,y)
         Screen.c.closePath()
     }
+    static write(text,color,size,x,y) {
+        if (Camera.isOnCamera({x,y,w:10,h:10})) {
+            this.frameCountDraw+=1
+            x+= Camera.getOffset().x
+            y+= Camera.getOffset().y
+
+            x*=Camera.getZoom()
+            y*=Camera.getZoom()
+
+            Screen.c.beginPath()
+            Screen.c.fillStyle = color
+            Screen.c.font = `${size}px Arial`
+            Screen.c.fillText(text,x,y)
+            Screen.c.closePath()
+        }
+    }
     static drawHitbox(x,y,w,h) {
         if (Camera.isOnCamera({x,y,w,h})) {
             this.frameCountDraw+=1

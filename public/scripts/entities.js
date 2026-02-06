@@ -107,8 +107,8 @@ export class Collision {
 }
 
 export class Item extends Hitbox {
-    constructor(id,qnt,x,y) {
-        super(x,y,16,16)
+    constructor(id,qnt,worldX,worldY) {
+        super(worldX*Level.blockSize,worldY*Level.blockSize,16,16)
         this.qnt = qnt
         this.id = id
         Item.clusterItems()
@@ -171,8 +171,11 @@ export class Item extends Hitbox {
         this.draw()
     }
     draw() {
-        Screen.drawBlock(this.id,this.x,this.y,16,16)
-        Screen.drawHitbox(this.x,this.y,16,16)
+        Screen.drawBlock(this.id,this.x,this.y,this.w,this.h)
+        Screen.drawHitbox(this.x,this.y,this.w,this.h)
+        if (this.qnt>1) {
+            Screen.write(this.qnt,"white",15,this.x,this.y+this.h)
+        }
     }
 }
 

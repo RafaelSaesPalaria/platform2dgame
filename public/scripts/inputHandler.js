@@ -62,7 +62,7 @@ export function break_block(c,b) {
     if (b.id !== "air") {
         let id = b.id
         b.id = "air"
-        Level.addEntity(new Item(id,1,mouse.x-Level.blockSize/2,mouse.y-Level.blockSize/2))
+        Level.addEntity(new Item(id,1,b.worldX,b.worldY))
     }
 }
 
@@ -72,7 +72,7 @@ export function place_block(c,b) {
             b.id = User.getSelectedItem().id
             if (b.id === "sappling") {
                 console.log(b.worldX)
-                Level.setBlock(b.id,b.worldX,b.worldY)
+                Level.set.LevelBlock(b.id,b.worldX,b.worldY)
             }
             User.removeItem(User.getSelectedItem().id,1)
         }

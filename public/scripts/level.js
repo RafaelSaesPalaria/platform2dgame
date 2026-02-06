@@ -97,7 +97,6 @@ export function init() {
     Level.addEntity(new Player(392,1259,20,20))
     
     initRegion()
-    Level.setBlock("stone",30,94)
     animate()
 }
 
