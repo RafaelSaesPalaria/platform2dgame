@@ -63,7 +63,7 @@ export class Screen {
         }
     }
     static drawBlock(id,x,y,w,h) {
-        if (Camera.isOnCamera({x,y,w,h})) {
+        if (Camera.isOnCamera({x,y,w,h}) & id!=="air") {
             this.frameCountDraw+=1
             x+= Camera.getOffset().x
             y+= Camera.getOffset().y

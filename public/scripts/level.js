@@ -29,29 +29,27 @@ export class Level {
         let chunkX = (blockX%this.chunkSize.w)
         let chunkY = blockY
 
-        console.log(block,blockX,blockY)
-        console.log(chunkIndex,chunkX,chunkY)
-
         Level.chunks[chunkIndex].setBlock(block,chunkX,chunkY)
     }
-    static getChunkRelativeCoords(worldX,worldY) {
+    static getWorldRelativeCoords(worldX,worldY) {
         let pos = getDistance({x:worldX,y:worldY},{x:0,y:0})
+        //return this.getBlock(pos.x,pos.y)
         pos.x = Math.floor(pos.x/Level.blockSize)
         pos.y = Math.floor(pos.y/Level.blockSize)
-        //return this.getBlock(pos.x,pos.y)
-        let chunkIndex = Math.floor(pos.x/Level.chunkSize.w)
-        pos.x = pos.x%this.chunkSize.w
-        return {chunkIndex,chunkX:pos.x,chunkY:pos.y}
+        return {worldX:pos.x,worldY:pos.y}
     }
-    static getBlock(x,y) {
-
+    static getBlock(worldX,worldY) {
+        let pos = this.getWorldRelativeCoords(worldX,worldY)
+        let chunkIndex = Math.floor(pos.worldX/Level.chunkSize.w*Level.blockSize)
+        let chunkX = Math.floor(worldX%Level.chunkSize.w)
+        return this.chunks[chunkIndex].getBlock(chunkX,worldY)
     }
     static create() {
 
     }
     static getBlockOnCoords(worldX,worldY) {
-        let pos = this.getChunkRelativeCoords(worldX,worldY)
-        return Level.chunks[pos.chunkIndex].getBlock(pos.chunkX,pos.chunkY)
+        let pos = this.getWorldRelativeCoords(worldX,worldY)
+        return Level.getBlock(pos.worldX,pos.worldY)
         //chunks[]
     }
     static getCollidedBlocks(obj) {
@@ -84,8 +82,7 @@ export function getLevelSize() {
 
 function initRegion() {
     for (let i = 0; i < 9 ; i ++) {
-        let c = new Chunk()
-        c.x = i*Level.blockSize*Level.chunkSize.w
+        let c = new Chunk(i*Level.blockSize*Level.chunkSize.w,0)
         Level.chunks.push(c)
     }
 }
@@ -115,7 +112,7 @@ function animate() {
     let b = User.selectedBlock
     if (b) {
         console.log(b)
-        Screen.drawHitbox((b.x*Level.blockSize),(b.y*Level.blockSize),b.w,b.h)
+        Screen.drawHitbox((b.worldX*Level.blockSize),(b.worldY*Level.blockSize),b.w,b.h)
     }
     
     Camera.updateOffset()
