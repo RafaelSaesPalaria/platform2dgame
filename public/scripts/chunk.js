@@ -70,7 +70,8 @@ export class Chunk {
         }
     }
     setBlock(id,chunkX,chunkY) {
-        let block = new Block(id,chunkX,chunkY)
+        let chunkIndex = Math.floor(this.x/Level.chunkSize.w)
+        let block = new Block(id,chunkX+chunkIndex,chunkY)
         this.rows[chunkY][chunkX] = block
         if (block.id === "sappling") {
             block = new Sappling(this,id,chunkX,chunkY)

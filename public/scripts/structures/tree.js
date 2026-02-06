@@ -13,6 +13,7 @@ export class Tree {
     ]
     static makeFormation(f,x,y) {
         console.log("Inicialization")
+        console.log(x,y)
         f.format.forEach((line,i) => {
             for (let w = 0; w< line.length;w++ ) {
                 Level.setBlock(f[line[w]],(x+w-Math.floor(line.length/2)),y+i-f.format.length+1)

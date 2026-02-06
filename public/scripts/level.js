@@ -111,7 +111,6 @@ function animate() {
 
     let b = User.selectedBlock
     if (b) {
-        console.log(b)
         Screen.drawHitbox((b.worldX*Level.blockSize),(b.worldY*Level.blockSize),b.w,b.h)
     }
     
