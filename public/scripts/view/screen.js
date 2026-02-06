@@ -1,14 +1,58 @@
 import { Camera } from "./camera.js";
 import { Images } from "./images.js";
 
-export class Screen {
+export class StaticScreen {
     static canvas = document.querySelector("canvas");
-    static c = Screen.canvas.getContext("2d")
+    static c = StaticScreen.canvas.getContext("2d")
     static frameCountDraw = 0
     static resize() {
-        Screen.canvas.width = 785
-        Screen.canvas.height = 515
+        StaticScreen.canvas.width = 785
+        StaticScreen.canvas.height = 515
     }
+    static drawRect(x,y,w,h,color) {
+        StaticScreen.c.beginPath()
+        StaticScreen.c.fillStyle = color
+        StaticScreen.c.fillRect(x,y,w,h)
+        StaticScreen.c.closePath()
+    }
+    static drawBlock() {
+
+    }
+    static drawHitbox(x,y,w,h) {
+        StaticScreen.c.beginPath()
+        StaticScreen.c.strokeRect(x,y,w,h)
+        StaticScreen.c.stroke()
+        StaticScreen.c.closePath()
+    }
+    static drawImage(id,x,y,w,h) {
+        StaticScreen.c.beginPath()
+
+        x = Math.floor(x)
+        y = Math.floor(y)
+        StaticScreen.c.drawImage(Images.use(id),x,y,w,h)
+        StaticScreen.c.closePath()
+    }
+    static write(text,color,size,x,y) {
+        StaticScreen.c.beginPath()
+        StaticScreen.c.fillStyle = color
+        StaticScreen.c.font = `${size}px Arial`
+        StaticScreen.c.fillText(text,x,y)
+        StaticScreen.c.closePath()
+    }
+    static erase() {
+        StaticScreen.c.fillStyle = "white"
+        StaticScreen.c.fillRect(0,0,StaticScreen.canvas.width,StaticScreen.canvas.height)
+        //console.log(StaticScreen.frameCountDraw)
+        StaticScreen.frameCountDraw=0
+    }
+}
+
+StaticScreen.canvas.addEventListener("contextmenu", (e) => {
+    console.log(e)
+    e.preventDefault()
+})
+
+export class Screen extends StaticScreen {
     static drawRect(x,y,w,h,color) {
         if (Camera.isOnCamera({x,y,w,h})) {
             this.frameCountDraw+=1
@@ -22,26 +66,8 @@ export class Screen {
 
             x = Math.floor(x)
             y = Math.floor(y)
-            Screen.c.beginPath()
-            Screen.c.fillStyle = color
-            Screen.c.fillRect(x,y,w,h)
-            Screen.c.closePath()
+            StaticScreen.drawRect(x,y,w,h,color)
         }
-    }
-    static drawUI(id,x,y,w,h) {
-        Screen.c.beginPath()
-
-        x = Math.floor(x)
-        y = Math.floor(y)
-        Screen.c.drawImage(Images.use(id),x,y,w,h)
-        Screen.c.closePath()
-    }
-    static writeUI(text,color,x,y) {
-        Screen.c.beginPath()
-        Screen.c.fillStyle = color
-        Screen.c.font = "20px Arial"
-        Screen.c.fillText(text,x,y)
-        Screen.c.closePath()
     }
     static write(text,color,size,x,y) {
         if (Camera.isOnCamera({x,y,w:10,h:10})) {
@@ -52,11 +78,7 @@ export class Screen {
             x*=Camera.getZoom()
             y*=Camera.getZoom()
 
-            Screen.c.beginPath()
-            Screen.c.fillStyle = color
-            Screen.c.font = `${size}px Arial`
-            Screen.c.fillText(text,x,y)
-            Screen.c.closePath()
+            StaticScreen.write(text,color,size,x,y)
         }
     }
     static drawHitbox(x,y,w,h) {
@@ -72,13 +94,10 @@ export class Screen {
 
             x = Math.floor(x)
             y = Math.floor(y)
-            Screen.c.beginPath()
-            Screen.c.strokeRect(x,y,w,h)
-            Screen.c.stroke()
-            Screen.c.closePath()
+            StaticScreen.drawHitbox(x,y,w,h)
         }
     }
-    static drawBlock(id,x,y,w,h) {
+    static drawImage(id,x,y,w,h) {
         if (Camera.isOnCamera({x,y,w,h}) & id!=="air") {
             this.frameCountDraw+=1
             x+= Camera.getOffset().x
@@ -89,29 +108,17 @@ export class Screen {
             w*=Camera.getZoom()
             h*=Camera.getZoom()
 
-            Screen.c.beginPath()
+            StaticScreen.c.beginPath()
 
 
-            //Screen.c.fillStyle = "#dAdAdA"
-            //Screen.c.fillRect(x,y,w,h)
+            //StaticScreen.c.fillStyle = "#dAdAdA"
+            //StaticScreen.c.fillRect(x,y,w,h)
 
             x = Math.floor(x)
             y = Math.floor(y)
-            Screen.c.drawImage(Images.use(id),x,y,w,h)
+            StaticScreen.drawImage(id,x,y,w,h)
 
-            Screen.c.closePath()
+            StaticScreen.c.closePath()
         }
     }
-    static erase() {
-        Screen.c.fillStyle = "white"
-        Screen.c.fillRect(0,0,Screen.canvas.width,Screen.canvas.height)
-
-        //console.log(Screen.frameCountDraw)
-        Screen.frameCountDraw=0
-    }
 }
-
-Screen.canvas.addEventListener("contextmenu", (e) => {
-    console.log(e)
-    e.preventDefault()
-})

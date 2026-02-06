@@ -171,7 +171,7 @@ export class Item extends Hitbox {
         this.draw()
     }
     draw() {
-        Screen.drawBlock(this.id,this.x,this.y,this.w,this.h)
+        Screen.drawImage(this.id,this.x,this.y,this.w,this.h)
         Screen.drawHitbox(this.x,this.y,this.w,this.h)
         if (this.qnt>1) {
             Screen.write(this.qnt,"white",15,this.x,this.y+this.h)

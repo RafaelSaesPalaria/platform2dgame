@@ -111,7 +111,7 @@ export class Chunk {
     }
     draw() {
         Chunk.forEachBlock(this,(b,i) => {
-            Screen.drawBlock(b.id,b.worldX*Level.blockSize,b.worldY*Level.blockSize,Level.blockSize,Level.blockSize)
+            Screen.drawImage(b.id,b.worldX*Level.blockSize,b.worldY*Level.blockSize,Level.blockSize,Level.blockSize)
         })
         //Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }

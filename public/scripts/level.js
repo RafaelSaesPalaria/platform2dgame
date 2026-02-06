@@ -6,6 +6,7 @@ import { User } from "./user.js"
 import {Screen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
 import { getDistance } from "./utils.js"
+import { Background } from "./view/background/background.js"
 updateUIs
 
 let levelSize = {width : 785, height : 515}
@@ -15,6 +16,8 @@ export class Level {
     static chunks = []
     static blockSize = 16
     static chunkSize = {w: 16,h: 250}
+    static gameTime = 0
+    static day = 1000
     static addEntity(e) {
         this.entities.push(e)
     }
@@ -116,7 +119,9 @@ export function init() {
 
 function animate() {
     requestAnimationFrame(animate)
+    Level.gameTime+=1
     Screen.erase()
+    Background.draw()
 
     Level.chunks.forEach(c => {
         c.update()

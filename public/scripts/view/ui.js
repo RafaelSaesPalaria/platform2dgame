@@ -1,5 +1,5 @@
 import { checkCollision } from "../utils.js"
-import { Screen } from "./screen.js"
+import { Screen, StaticScreen } from "./screen.js"
 import { User } from "../user.js"
 import { Message } from "./message.js"
 
@@ -137,19 +137,19 @@ class hotbarUI extends UI {
     draw() {
         if (this.slots.length<9) {
             for (let i = this.slots.length; i < 9 ; i++) {
-                Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+                StaticScreen.drawImage("ui-slot",this.x+(i*50),this.y,50,50)
             }
         }
 
-        Screen.drawUI("ui-slot",this.x-5+(this.selectedIndex*50),this.y-5,60,60)
+        StaticScreen.drawImage("ui-slot",this.x-5+(this.selectedIndex*50),this.y-5,60,60)
 
         this.slots.forEach((s,i) => {
             if (i !== this.selectedIndex) { 
-                Screen.drawUI("ui-slot",this.x+(i*50),this.y,50,50)
+                StaticScreen.drawImage("ui-slot",this.x+(i*50),this.y,50,50)
             }
             if (s !== null) {
-                Screen.drawUI(s.id,this.x+(10)+(i*50),this.y+10,30,30)
-                Screen.writeUI(s.qnt,"white",this.x+(10)+(i*50),this.y+40)
+                StaticScreen.drawImage(s.id,this.x+(10)+(i*50),this.y+10,30,30)
+                StaticScreen.write(s.qnt,"white",20,this.x+(10)+(i*50),this.y+40)
             }
         })
     }
@@ -167,17 +167,17 @@ class inventoryUI extends UI {
         }
     }
     draw() {
-        Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+        StaticScreen.drawImage("ui-background",this.x,this.y,this.w,this.h)
         let slotSize = {w:this.w/9,h:this.h/4}
         for (let i = 0; i < 36; i++) {
             let x = this.x+((i%9)*slotSize.w)
             let y = this.y+(Math.floor(i/9))
             *slotSize.h
             let item = this.slots[i]
-            Screen.drawUI("ui-slot",x,y,slotSize.w,slotSize.h)
+            StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
             if (item) {
-                Screen.drawUI(item.id,x+12,y+12,30,30)
-                Screen.writeUI(item.qnt,"white",x+12,y+42)
+                StaticScreen.drawImage(item.id,x+12,y+12,30,30)
+                StaticScreen.write(item.qnt,"white",20,x+12,y+42)
             }
         }
     }
@@ -190,7 +190,7 @@ class healthUI extends UI {
     }
     draw() {
         for(let h = 0; h < this.health; h+=10) {
-            Screen.drawUI("heart-filled",this.x+(h*3),this.y,30,30)
+            StaticScreen.drawImage("heart-filled",this.x+(h*3),this.y,30,30)
         }
     }
 }
@@ -212,24 +212,24 @@ class chatUI extends UI {
         }
     }
     draw() {
-        Screen.drawUI("ui-background",this.x,this.y,this.w,this.h)
+        StaticScreen.drawImage("ui-background",this.x,this.y,this.w,this.h)
 
         Message.messages.forEach((m,i) => {
-            Screen.writeUI(m,"white",this.x+5,this.y+190-((Message.messages.length-i)*4.5))
+            StaticScreen.write(m,"white",this.x+5,this.y+190-((Message.messages.length-i)*4.5))
         })
 
         if (User.isWriting) {
-            Screen.drawUI("ui-background",this.x,this.y+190,this.w,30)
-            Screen.writeUI(Message.currentlyMessage,"white",this.x+5,this.y+210)
+            StaticScreen.drawImage("ui-background",this.x,this.y+190,this.w,30)
+            StaticScreen.write(Message.currentlyMessage,"white",this.x+5,this.y+210)
             if (this.hints) {
                 if (this.hints.length>0) {
                     this.hints.forEach((h,i) => {
                         if (i>Message.selectedHint) {
-                            Screen.writeUI(h,"white",this.x+5,this.y+190-((i-Message.selectedHint)*30))
+                            StaticScreen.write(h,"white",this.x+5,this.y+190-((i-Message.selectedHint)*30))
                         }
                     })
                     let msg = this.hints[Message.selectedHint]
-                    Screen.writeUI(msg,"yellow",this.x+5,this.y+190)
+                    StaticScreen.write(msg,"yellow",this.x+5,this.y+190)
                 }
             }
         }
