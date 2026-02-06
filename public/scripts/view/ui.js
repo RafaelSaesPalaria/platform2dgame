@@ -224,10 +224,10 @@ class chatUI extends UI {
             if (this.hints) {
                 if (this.hints.length>0) {
                     this.hints.forEach((h,i) => {
-                        Screen.writeUI(h,"white",this.x,this.y+190-(i*30))
+                        Screen.writeUI(h,"white",this.x,this.y+160-(i*30))
                     })
                     let msg = this.hints[Message.selectedHint]
-                    Screen.writeUI(msg,"yellow",this.x+5,this.y+210)
+                    Screen.writeUI(msg,"yellow",this.x+5,this.y+190)
                 }
             }
         }

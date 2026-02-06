@@ -29,6 +29,14 @@ export function getObj(id) {
     }
 }
 
+export function getBlockList() {
+    let list = []
+    for (let block of blocks) {
+        list.push(block.id)
+    }
+    return list
+}
+
 export function getUI(id) {
     for (let ui of uis) {
         if (ui.id === id) {

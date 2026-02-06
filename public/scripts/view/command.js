@@ -1,3 +1,4 @@
+import { getBlockList } from "../block/blockHandler.js"
 import { Level } from "../level.js"
 import { User } from "../user.js"
 
@@ -9,10 +10,6 @@ export class Command {
     static commandsList = [
         "/give","/atest","/ztest","/setblock","/teleport","/fill"
     ]
-    static playerList = [
-        "eu","tu","nois"
-    ]
-    static ids = []
     static give(player,id,amount) {
         User.addItem(id,Number.parseInt(amount))
     }
@@ -46,7 +43,11 @@ export class Command {
             }
             if (testCommand) {
                  if (this.commands[c][l].includes(command[l])) {
-                    hints.push(this.commands[c][l])
+                    if (this.commands[c][l] === "id") {
+                        hints.push(...getBlockList())
+                    } else {
+                        hints.push(this.commands[c][l])
+                    }
                 }
             }
         }
