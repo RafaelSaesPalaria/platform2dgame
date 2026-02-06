@@ -1,7 +1,7 @@
 import { checkCollision } from "../utils.js"
 import { Screen } from "./screen.js"
 import { User } from "../user.js"
-import { Message } from "../inputHandler.js"
+import { Message } from "./message.js"
 
 let UIs = []
 
@@ -223,7 +223,6 @@ class chatUI extends UI {
             Screen.writeUI(Message.currentlyMessage,"white",this.x+5,this.y+210)
             if (this.hints) {
                 if (this.hints.length>0) {
-                    console.log(this.hints === true)
                     this.hints.forEach((h,i) => {
                         Screen.writeUI(h,"white",this.x,this.y+190-(i*30))
                     })
