@@ -33,7 +33,6 @@ export class Message {
     static updateHint() {
         if (this.isCommand(this.currentlyMessage)) {
             Message.hints = (Command.hint(this.currentlyMessage))
-            console.log(Message.hints)
         } else {
             Message.hints = []
         }
@@ -44,12 +43,12 @@ export class Message {
         }
         if (e.code === "ArrowUp") {
             this.selectedHint+=1
-            if (this.selectedHint>this.hints.length) {
+            if (this.selectedHint>=this.hints.length) {
                 this.selectedHint=0
             }
         } else if (e.code === "ArrowDown") {
             this.selectedHint-=1
-            if (this.selectedHint<0) {
+            if (this.selectedHint<=0) {
                 this.selectedHint=this.hints.length
             }
         }
