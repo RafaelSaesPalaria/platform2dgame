@@ -210,16 +210,22 @@ export class Message {
 
 export class Command {
     static commandsList = [
-        "/give","/atest","/ztest"
+        "/give","/atest","/ztest,/setblock,/teleport,/fill"
     ]
     static give(player,id,amount) {
         User.addItem(id,Number.parseInt(amount))
     }
+    static setBlock(id,x,y) {
+        Level.setBlock(id,x,y)
+    }
     static searchCommand(cmd) {
-        let command = cmd.split(" ")
+        let full_command = cmd.split(" ")
+        let command = full_command[0]
 
-        if (command[0]==="/give") {
-            Command.give(command[1],command[2],command[3])
+        if (command==="/give") {
+            Command.give(full_command[1],full_command[2],full_command[3])
+        } else if (command==="/setblock") {
+            Command.setBlock(full_command[1],full_command[2], full_command[3])
         }
     }
     static apply(cmd) {
