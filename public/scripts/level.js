@@ -53,6 +53,18 @@ export class Level {
     static create() {
 
     }
+    static fill(id,x,y,x2,y2) {
+        let xmin = Math.min(x,x2)
+        let ymin = Math.min(y,y2)
+        let xmax = Math.max(x,x2)
+        let ymax = Math.max(y,y2)
+        for (let xc = xmin ; xc < xmax; xc++) {
+            for (let yc = ymin; yc < ymax; yc++) {
+                console.log(xc,yc)
+                Level.setBlock(id,xc,yc)
+            }
+        }
+    }
     static getBlockOnCoords(worldX,worldY) {
         let pos = this.getWorldRelativeCoords(worldX,worldY)
         return Level.getBlock(pos.worldX,pos.worldY)
@@ -94,7 +106,9 @@ function initRegion() {
 }
 
 export function init() {
-    Level.addEntity(new Player(392,1259,20,20))
+    let p = new Player(392,1259,20,20)
+    User.player = p
+    Level.addEntity(p)
     
     initRegion()
     animate()

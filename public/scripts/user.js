@@ -5,6 +5,7 @@ export class User {
     static inventoryOpen = false
     static selectedItemIndex = 0
     static selectedBlock = null
+    static player = {}
 
     static isChatOpen = false
     static isWriting = false

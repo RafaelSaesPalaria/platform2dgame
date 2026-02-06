@@ -1,17 +1,26 @@
 import { getBlockList } from "../block/blockHandler.js"
+import { mouse } from "../inputHandler.js"
 import { Level } from "../level.js"
 import { User } from "../user.js"
 
 export class Command {
     static commands = [
         ["/give","player","id","amount"],
-        ["/setblock", "id", "coordinate","coordinate"]
+        ["/setblock", "id", "blockX","blockY"],
+        ["/teleport","player","x","y"],
+        ["/fill","id","blockX","blockY","blockX","blockY"]
     ]
-    static commandsList = [
-        "/give","/atest","/ztest","/setblock","/teleport","/fill"
-    ]
+    static teleport(player,x,y) {
+        player = User.player
+        player.x = Number.parseInt(x)
+        player.y = Number.parseInt(y)
+    }
     static give(player,id,amount) {
+        if (!amount) {amount=1}
         User.addItem(id,Number.parseInt(amount))
+    }
+    static fill(id,x1,y1,x2,y2) {
+        Level.fill(id,x1,y1,x2,y2)
     }
     static setBlock(id,x,y) {
         Level.setBlock(id,x,y)
@@ -24,6 +33,10 @@ export class Command {
             Command.give(full_command[1],full_command[2],full_command[3])
         } else if (command==="/setblock") {
             Command.setBlock(full_command[1],full_command[2], full_command[3])
+        } else if (command==="/teleport") {
+            Command.teleport(full_command[1],full_command[2], full_command[3])
+        } else if (command==="/fill") {
+            Command.fill(full_command[1],full_command[2], full_command[3],full_command[4],full_command[5])
         }
     }
     static apply(cmd) {
@@ -45,6 +58,14 @@ export class Command {
                  if (this.commands[c][l].includes(command[l])) {
                     if (this.commands[c][l] === "id") {
                         hints.push(...getBlockList())
+                    } else if (this.commands[c][l] === "x"){
+                        hints.push(mouse.x)
+                    } else if (this.commands[c][l] === "y") {
+                        hints.push(mouse.y)
+                    } else if (this.commands[c][l] === "blockX"){
+                        hints.push(Level.getBlockOnCoords(mouse.x,mouse.y).worldX)
+                    } else if (this.commands[c][l] === "blockY") {
+                        hints.push(Level.getBlockOnCoords(mouse.x,mouse.y).worldY)
                     } else {
                         hints.push(this.commands[c][l])
                     }
