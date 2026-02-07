@@ -15,9 +15,9 @@ export class Tree {
         f.format.forEach((line,i) => {
             for (let w = 0; w< line.length;w++ ) {
                 let id = f[line[w]]
-                x = (x+w-Math.floor(line.length/2))
-                y = y+i-f.format.length+1
-                Level.setBlock(id,x,y)
+                let blockX = (x+w-Math.floor(line.length/2))
+                let blockY = y+i-f.format.length+1
+                Level.setBlock(id,blockX,blockY)
             }
         })
     }

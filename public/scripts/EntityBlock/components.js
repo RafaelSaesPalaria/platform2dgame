@@ -1,10 +1,16 @@
-import { Block } from "../block/block.js"
+import { Level } from "../level.js"
 
 export class EntityBlock {
-    constructor(id,x,y) {
+    constructor(id,worldX,worldY) {
         this.id = id
-        this.x = x
-        this.y =y
+        this.worldX = worldX
+        this.worldY =worldY
+    }
+    getChunk() {
+        return Level.chunks[Math.floor(this.worldX/Level.blockSize)]
+    }
+    right_click() {
+        
     }
     update() {
 
