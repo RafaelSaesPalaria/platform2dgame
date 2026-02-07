@@ -7,6 +7,7 @@ import { Item } from "./entities.js"
 import { Chunk } from "./chunk.js"
 import { Camera } from "./view/camera.js"
 import { Message } from "./view/message.js"
+import { getBlock } from "./block/blockHandler.js"
 
 
 export let mouse = {
@@ -57,8 +58,9 @@ export function right_click() {
 export function break_block(b) {
     if (b.id !== "air") {
         let id = b.id
+        let drop_id = getBlock(b.id).drops
         b.id = "air"
-        Level.addEntity(new Item(id,1,b.worldX,b.worldY))
+        Level.addEntity(new Item(drop_id,1,b.worldX,b.worldY))
     }
 }
 

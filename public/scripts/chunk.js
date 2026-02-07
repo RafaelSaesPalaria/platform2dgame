@@ -30,9 +30,9 @@ export class GenerateChunk {
         Chunk.forEachBlock(this,(b) => {
             if (b.worldY===100) {
                 b.id = "grass"
-            } else if (b.worldY>100 & b.worldY<=130) {
+            } else if (b.worldY>100 & b.worldY<=110) {
                 b.id = "dirt"
-            } else if (b.worldY>130) {
+            } else if (b.worldY>110) {
                 b.id = "stone"
             }
         })

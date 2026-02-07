@@ -7,7 +7,7 @@
     {
         "id":"dirt",
         "src":"blocks/dirt.png",
-        "drops":null,
+        "drops":"dirt",
         "collide":true
     },
     {
@@ -19,7 +19,12 @@
     {
         "id":"stone",
         "src":"blocks/stone.png",
-        "drops":null,
+        "drops":"cobblestone",
+        "collide":true
+    },
+    {
+        "id":"cobblestone",
+        "src":"blocks/cobblestone.png",
         "collide":true
     },
     {
@@ -38,6 +43,7 @@
     },
     {
         "id":"leaves",
-        "src":"blocks/oak_leaves.png"
+        "src":"blocks/oak_leaves.png",
+        "drops":"sappling"
     }
 ]
