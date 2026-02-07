@@ -25,15 +25,18 @@
     {
         "id":"cobblestone",
         "src":"blocks/cobblestone.png",
+        "drops":"cobblestone",
         "collide":true
     },
     {
         "id":"sappling",
-        "src":"blocks/sappling.png"
+        "src":"blocks/sappling.png",
+        "drops":"sappling"
     },
     {
         "id":"log",
         "src":"blocks/oak_log.png",
+        "drops":"log",
         "collide":true
     },
     {
