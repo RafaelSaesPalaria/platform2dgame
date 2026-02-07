@@ -27,5 +27,8 @@ export class Cloud {
     }
     draw() {
         StaticScreen.drawRect(this.x,this.y,this.w,this.h,this.color)
+        if (this.w>=this.h*2) {
+            StaticScreen.drawRect(this.x+this.w/3,this.y-(this.h/2),this.w/3,this.h/2,this.color)   
+        }
     }
 }
