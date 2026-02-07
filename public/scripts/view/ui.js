@@ -174,7 +174,7 @@ class inventoryUI extends UI {
             let y = this.y+(Math.floor(i/9))
             *slotSize.h
             let item = this.slots[i]
-            StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
+            StaticScreen.drawImage("ui-slot",x,y,slotSize.w+1,slotSize.h+1)
             if (item) {
                 StaticScreen.drawImage(item.id,x+12,y+12,30,30)
                 StaticScreen.write(item.qnt,"white",20,x+12,y+42)

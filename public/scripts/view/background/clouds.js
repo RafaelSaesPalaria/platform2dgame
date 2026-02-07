@@ -15,6 +15,7 @@ export class Cloud {
         this.dx = dy*(1/this.distanceFromView)
         this.dy = 0
         this.color = "white"
+        this.transparency = 0
     }
     update() {
         Velocity.apply(this)
@@ -32,3 +33,5 @@ export class Cloud {
         }
     }
 }
+
+export class CloudModel {}

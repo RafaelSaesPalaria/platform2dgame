@@ -1,4 +1,5 @@
 import { getObj } from "../block/blockHandler.js"
+import { Level } from "../level.js"
 
 export class Images {
     static defaultRepository = '../../res/'
@@ -17,7 +18,7 @@ export class Images {
     }
     static create(id) {
         if (!this.has(id)) {
-            let img = new Image(16,16)
+            let img = new Image(Level.blockSize,Level.blockSize)
             img.src = Images.defaultRepository + getObj(id).src
             this.imgs.push({id,img})
         }

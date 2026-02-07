@@ -10,15 +10,22 @@ export class Camera {
         this.focusObject = obj
     }
     static updateFocus() {
+        let x = this.focusObject.x+(this.focusObject.w/2)
+        let y = this.focusObject.y+(this.focusObject.h/2)
         Camera.setOffset(
-            -this.focusObject.x+(Screen.canvas.width/2)/Camera.zoom,
-            -this.focusObject.y+(Screen.canvas.height/2)/Camera.zoom)
+            -x+(Screen.canvas.width/2)/Camera.zoom,
+            -y+(Screen.canvas.height/2)/Camera.zoom)
+    }
+    static validZoom(value) {
+        return value<25 && value > 0.3
     }
     static addZoom(value) {
-        Camera.zoom+=value
-
-        Camera.size.w = Screen.canvas.width/Camera.zoom
-        Camera.size.h = Screen.canvas.height/Camera.zoom
+        if (this.validZoom(Camera.zoom+value)) {
+            Camera.zoom+=value
+            this.updateFocus()
+            Camera.size.w = Screen.canvas.width/Camera.zoom
+            Camera.size.h = Screen.canvas.height/Camera.zoom
+        }   
     }
     static setOffset(x,y) {
         Camera.offset.x = x

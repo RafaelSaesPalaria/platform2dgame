@@ -159,7 +159,7 @@ function keyHandler(e) {
 
 function updateZoom() {
     let z = keys.NumpadAdd - keys.NumpadSubtract
-    Camera.addZoom(z*0.01)
+    Camera.addZoom(z*0.1)
 }
 
 function updateDir() {
