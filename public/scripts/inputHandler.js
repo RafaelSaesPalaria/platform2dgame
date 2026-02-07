@@ -9,23 +9,78 @@ import { Camera } from "./view/camera.js"
 import { Message } from "./view/message.js"
 import { getBlock } from "./block/blockHandler.js"
 
+export class Keyboard {
+    static keys = {
+        KeyW : false,
+        KeyS: false,
+        KeyD:false,
+        KeyA:false,
+        Enter: false,
+        NumpadAdd: false,
+        NumpadSubtract: false,
+        KeyE: false
+    }
 
-export let mouse = {
-    x:0,
-    y:0,
-    isDown:false,
-    isLeftKey: false
+    static keyHandler(e) {
+        if (e.code === "Tab") {
+            e.preventDefault()
+        }
+        if (e.code==="Enter" || !User.isWriting) {
+            this.keys[e.code] = e.type !== "keyup"
+            updateDir()
+            updateZoom()
+            if (this.keys["KeyE"]) {
+                User.inventoryOpen=!User.inventoryOpen  
+                if (User.inventoryOpen) {
+                    User.openInventory()
+                } else {
+                    User.closeInventory()
+                }
+            }
+            if (this.keys["Enter"]) {
+                User.isChatOpen = !User.isChatOpen
+                User.isWriting = User.isChatOpen
+            }
+            if (e.code === "Enter") {
+                Message.send()
+            }
+        } else {
+            if (e.type !== "keyup") {
+                Message.type(e)
+            }
+        }
+    }
 }
+export class Mouse {
+    static x = 0
+    static y = 0
+    static isDown = 0
+    static isLeftKey=0
 
-export let keys = {
-    KeyW : false,
-    KeyS: false,
-    KeyD:false,
-    KeyA:false,
-    Enter: false,
-    NumpadAdd: false,
-    NumpadSubtract: false,
-    KeyE: false
+    static mouseMove(e) {
+        let cam = Camera.getOffset()
+        let z = Camera.getZoom()
+        this.x = (e.offsetX/z - (cam.x))
+        this.y = (e.offsetY/z - (cam.y))
+
+        let bs= Level.getCollidedBlocks({...this,w:1,h:1})
+        bs.forEach(b => {
+            let fb = {...b}
+            fb.w=Level.blockSize
+            fb.h=Level.blockSize
+            highlight_block(fb)
+        })
+    }
+    static wheel(e) {
+        User.moveSelectedIndex(e.wheelDeltaY)
+    }
+    static mouseUp(e) {
+        Mouse.isDown = false
+    }
+    static mouseDown(e) {
+        Mouse.isDown= true
+        Mouse.isLeftKey = e.button === 0
+    }
 }
 
 let dir = {
@@ -37,10 +92,10 @@ export function getDir() {
 }
 
 export function right_click() {
-    if (!checkClickOnUIs(mouse.x,mouse.y)) {
-        let blocks = Level.getCollidedBlocks({x:mouse.x,y:mouse.y,w:1,h:1})
+    if (!checkClickOnUIs(Mouse.x,Mouse.y)) {
+        let blocks = Level.getCollidedBlocks({x:Mouse.x,y:Mouse.y,w:1,h:1})
         blocks.forEach(b => {
-            if (mouse.isLeftKey) {
+            if (Mouse.isLeftKey) {
                 break_block(b)
             } else {
                 place_block(b)
@@ -85,90 +140,39 @@ export function highlight_block(b) {
     }
 }
 
-export function mouseMove() {
-    let bs= Level.getCollidedBlocks({...mouse,w:1,h:1})
-    bs.forEach(b => {
-        let fb = {...b}
-        fb.w=Level.blockSize
-        fb.h=Level.blockSize
-        highlight_block(fb)
-    })
-}
-
 export function addMouse() {
     document.addEventListener("mousemove", (e) => {
-        let cam = Camera.getOffset()
-        let z = Camera.getZoom()
-        mouse.x = (e.offsetX/z - (cam.x))
-        mouse.y = (e.offsetY/z - (cam.y))
-
-        mouseMove()
+        Mouse.mouseMove(e)
     })
     document.addEventListener("mousedown",(e) => {
-        mouse.isDown= true
-        mouse.isLeftKey = e.button === 0
+        Mouse.mouseDown(e)
     })
     document.addEventListener("wheel",(e) => {
-        mouseWheelHandler(e.wheelDeltaY)
+        Mouse.wheel(e)
     })
     document.addEventListener("mouseup", (e) => {
-        mouse.isDown = false
+        Mouse.mouseUp(e)
     })
 }
 
 export function addKeys() {
     document.addEventListener("keyup", (e) => {
-        keyHandler(e)
+        Keyboard.keyHandler(e)
     }),
     document.addEventListener("keydown",(e) => {
-        keyHandler(e)
+        Keyboard.keyHandler(e)
     })
 }
-
-function mouseWheelHandler(delta) {
-    User.moveSelectedIndex(delta)
-}
-
-function keyHandler(e) {
-    if (e.code === "Tab") {
-        e.preventDefault()
-    }
-    if (e.code==="Enter" || !User.isWriting) {
-        keys[e.code] = e.type !== "keyup"
-        updateDir()
-        updateZoom()
-        if (keys["KeyE"]) {
-            User.inventoryOpen=!User.inventoryOpen  
-            if (User.inventoryOpen) {
-                User.openInventory()
-            } else {
-                User.closeInventory()
-            }
-        }
-        if (keys["Enter"]) {
-            User.isChatOpen = !User.isChatOpen
-            User.isWriting = User.isChatOpen
-        }
-        if (e.code === "Enter") {
-            Message.send()
-        }
-    } else {
-        if (e.type !== "keyup") {
-            Message.type(e)
-        }
-    }
-}
-
 
 
 
 
 function updateZoom() {
-    let z = keys.NumpadAdd - keys.NumpadSubtract
+    let z = Keyboard.keys.NumpadAdd - Keyboard.keys.NumpadSubtract
     Camera.addZoom(z*0.1)
 }
 
 function updateDir() {
-    dir.y = keys.KeyS - keys.KeyW
-    dir.x = keys.KeyD - keys.KeyA
+    dir.y = Keyboard.keys.KeyS - Keyboard.keys.KeyW
+    dir.x = Keyboard.keys.KeyD - Keyboard.keys.KeyA
 }

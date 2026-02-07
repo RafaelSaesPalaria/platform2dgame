@@ -12,12 +12,12 @@ export class Tree {
         ],'X':'log','#':'leaves'}
     ]
     static makeFormation(f,x,y) {
-        console.log(x,y)
         f.format.forEach((line,i) => {
             for (let w = 0; w< line.length;w++ ) {
-                console.log(f[line[w]],(x+w-Math.floor(line.length/2)),y+i-f.format.length+1)
-                Level.setBlock(f[line[w]],(x+w-Math.floor(line.length/2)),y+i-f.format.length+1)
-                //Level.setBlock(f[line[w],x+w,y+i])
+                let id = f[line[w]]
+                x = (x+w-Math.floor(line.length/2))
+                y = y+i-f.format.length+1
+                Level.setBlock(id,x,y)
             }
         })
     }

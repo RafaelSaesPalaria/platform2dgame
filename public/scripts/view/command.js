@@ -1,5 +1,5 @@
 import { getBlockList } from "../block/blockHandler.js"
-import { mouse } from "../inputHandler.js"
+import { Mouse } from "../inputHandler.js"
 import { Level } from "../level.js"
 import { User } from "../user.js"
 
@@ -59,13 +59,13 @@ export class Command {
                     if (this.commands[c][l] === "id") {
                         hints.push(...getBlockList())
                     } else if (this.commands[c][l] === "x"){
-                        hints.push(mouse.x)
+                        hints.push(Mouse.x)
                     } else if (this.commands[c][l] === "y") {
-                        hints.push(mouse.y)
+                        hints.push(Mouse.y)
                     } else if (this.commands[c][l] === "blockX"){
-                        hints.push(Level.getBlockOnCoords(mouse.x,mouse.y).worldX)
+                        hints.push(Level.getBlockOnCoords(Mouse.x,Mouse.y).worldX)
                     } else if (this.commands[c][l] === "blockY") {
-                        hints.push(Level.getBlockOnCoords(mouse.x,mouse.y).worldY)
+                        hints.push(Level.getBlockOnCoords(Mouse.x,Mouse.y).worldY)
                     } else {
                         hints.push(this.commands[c][l])
                     }

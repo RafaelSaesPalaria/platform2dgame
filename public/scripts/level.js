@@ -1,6 +1,6 @@
 import { Chunk } from "./chunk.js"
 import { Item, Player } from "./entities.js"
-import { mouse, right_click } from "./inputHandler.js"
+import { Mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./view/ui.js"
 import { User } from "./user.js"
 import {Screen } from './view/screen.js'
@@ -132,7 +132,7 @@ function animate() {
     })
 
     // UIs
-    Screen.drawRect(mouse.x,mouse.y,4,4,"purple")
+    Screen.drawRect(Mouse.x,Mouse.y,4,4,"purple")
     Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
 
     let b = User.selectedBlock
@@ -144,7 +144,7 @@ function animate() {
     Camera.updateFocus()
     updateUIs()
 
-    if (mouse.isDown) {
+    if (Mouse.isDown) {
         right_click()
     }
 
