@@ -17,7 +17,7 @@ export class Level {
     static blockSize = 16
     static chunkSize = {w: 16,h: 250}
     static gameTime = 0
-    static day = 1000
+    static day = 100
     static addEntity(e) {
         this.entities.push(e)
     }
@@ -119,7 +119,7 @@ export function init() {
 
 function animate() {
     requestAnimationFrame(animate)
-    Level.gameTime+=1
+    Level.gameTime+=0.01
     Screen.erase()
     Background.draw()
 
