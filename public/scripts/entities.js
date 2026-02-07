@@ -26,9 +26,15 @@ export class Hitbox {
 export class Velocity {
     static maxSpeed = 10
     static minSpeed = 0
+    static slowBy = 0.3
     static apply(obj) {
         obj.x += obj.dx
         obj.y += obj.dy
+    }
+    static slowDown(obj) {
+        obj.dx -= Math.sign(obj.dx) * this.slowBy
+        if (Math.abs(obj.dx) < this.slowBy) obj.dx = 0
+
     }
     static fixSpeed(value) {
         let v = Math.abs(value)
@@ -196,6 +202,7 @@ export class Player extends Hitbox {
        }
         
         Velocity.apply(this)
+        Velocity.slowDown(this)
         Gravity.apply(this)
         Item.pickUp(this)
         Controller.apply(this)
