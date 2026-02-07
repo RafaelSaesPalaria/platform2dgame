@@ -1,5 +1,5 @@
 import { emit } from "./client.js"
-import { checkClickOnUIs } from "./view/ui.js"
+import { addUI, checkClickOnUIs } from "./view/ui.js"
 import { Level } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
@@ -65,15 +65,15 @@ export function break_block(b) {
 }
 
 export function place_block(b) {
+    
     if (b.id === "air") {
         if (User.getSelectedItem()) {
             b.id = User.getSelectedItem().id
-            if (b.id === "sappling") {
-                console.log(b.worldX)
-                Level.setBlock(b.id,b.worldX,b.worldY)
-            }
+            Level.setBlock(b.id,b.worldX,b.worldY)
             User.removeItem(User.getSelectedItem().id,1)
         }
+    } else {
+        Level.getBlock(b.worldX,b.worldY).right_click()
     }
 }
 
@@ -140,6 +140,11 @@ function keyHandler(e) {
         updateZoom()
         if (keys["KeyE"]) {
             User.inventoryOpen=!User.inventoryOpen  
+            if (User.inventoryOpen) {
+                User.openInventory()
+            } else {
+                User.closeInventory()
+            }
         }
         if (keys["Enter"]) {
             User.isChatOpen = !User.isChatOpen

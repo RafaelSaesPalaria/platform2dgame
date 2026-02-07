@@ -48,5 +48,10 @@
         "id":"leaves",
         "src":"blocks/oak_leaves.png",
         "drops":"sappling"
+    },
+    {
+        "id":"chest",
+        "src":"blocks/chest.png",
+        "drops":"chest"
     }
 ]

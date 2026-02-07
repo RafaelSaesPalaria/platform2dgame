@@ -5,6 +5,8 @@ import { checkCollision, getDistance } from "./utils.js"
 import { Screen } from "./view/screen.js"
 import { Camera } from "./view/camera.js"
 import { Level } from "./level.js"
+import { Block } from "./block/block.js"
+import { Chest } from "./block/chest.js"
 
 export class GenerateChunk {
     static seed = 0
@@ -43,13 +45,7 @@ export class GenerateChunk {
     }
 }
 
-export class Block {    
-    constructor(id,worldX, worldY) {
-        this.id = id;
-        this.worldX = worldX
-        this.worldY = worldY
-    }
-}
+
 
 export class Chunk {
     constructor(x,y) {
@@ -70,7 +66,6 @@ export class Chunk {
         }
     }
     setBlock(id,chunkX,chunkY) {
-        console.log(chunkX)
         let chunkIndex = Math.floor(this.x/(Level.chunkSize.w*Level.blockSize))
         let blockX = (chunkX%Level.chunkSize.w)
 
@@ -80,6 +75,9 @@ export class Chunk {
         if (block.id === "sappling") {
             block = new Sappling(this,id,chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
             this.entityBlocks.push(block)
+        } else if (block.id === "chest") {
+            block = new Chest(chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
+            this.rows[chunkY][chunkX] = block
         }
     }
     // ChunkRelative Coords

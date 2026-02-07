@@ -20,7 +20,7 @@ export class Cloud {
     update() {
         Velocity.apply(this)
 
-        if (!checkCollision({...Camera.size,x:0,y:0},this)) {
+        if (!checkCollision({...Background.size,x:0,y:0},this)) {
             Background.removeCloud(this)
         }
 

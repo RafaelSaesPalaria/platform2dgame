@@ -48,7 +48,6 @@ export class StaticScreen {
 }
 
 StaticScreen.canvas.addEventListener("contextmenu", (e) => {
-    console.log(e)
     e.preventDefault()
 })
 

@@ -8,8 +8,15 @@ let UIs = []
 export function initUIs() {
     UIs.push({type:"hotbarUI",element:new hotbarUI(25,25,200,50)})
     UIs.push({type:"healthUI",element:new healthUI(25,85,200,30)})
-    UIs.push({type:"inventoryUI",element:new inventoryUI(150,150,500,222)})
     UIs.push({type:"chatUI",element:new chatUI(0,300,350,220)})
+}
+
+export function addUI(ui,type) {
+    UIs.push({type,element:ui})
+}
+
+export function removeUI(ui) {
+    UIs = UIs.filter(u => u.element!==ui)
 }
 
 export function updateUIs() {
@@ -155,25 +162,22 @@ class hotbarUI extends UI {
     }
 }
 
-class inventoryUI extends UI {
-    constructor(x,y,w,h) {
-        super(x,y,w,h)
-        this.slots = []
+export class inventoryUI extends UI {
+    constructor(inventory,x,y) {
+        super(x,y,30*inventory.slotX,30*inventory.slotY)
+        this.inventory = inventory
     }
     update() {
-        if (User.inventoryOpen) {
-            this.slots = User.Inventory
-            this.draw()
-        }
+        this.draw()
     }
     draw() {
         StaticScreen.drawImage("ui-background",this.x,this.y,this.w,this.h)
-        let slotSize = {w:this.w/9,h:this.h/4}
-        for (let i = 0; i < 36; i++) {
-            let x = this.x+((i%9)*slotSize.w)
-            let y = this.y+(Math.floor(i/9))
+        let slotSize = {w:this.w/this.inventory.slotX,h:this.h/this.inventory.slotY}
+        for (let i = 0; i < this.inventory.slotX*this.inventory.slotY; i++) {
+            let x = this.x+((i%this.inventory.slotX)*slotSize.w)
+            let y = this.y+(Math.floor(i/this.inventory.slotX))
             *slotSize.h
-            let item = this.slots[i]
+            let item = this.inventory.inventory[i]
             StaticScreen.drawImage("ui-slot",x,y,slotSize.w+1,slotSize.h+1)
             if (item) {
                 StaticScreen.drawImage(item.id,x+12,y+12,30,30)

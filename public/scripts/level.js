@@ -1,4 +1,4 @@
-import { Block, Chunk } from "./chunk.js"
+import { Chunk } from "./chunk.js"
 import { Item, Player } from "./entities.js"
 import { mouse, right_click } from "./inputHandler.js"
 import { updateUIs } from "./view/ui.js"
