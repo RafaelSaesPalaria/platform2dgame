@@ -108,7 +108,6 @@ export function addMouse() {
         mouse.isDown= true
         mouse.isLeftKey = e.button === 0
     })
-    document.addEventListener("drag", (e) => {})
     document.addEventListener("wheel",(e) => {
         mouseWheelHandler(e.wheelDeltaY)
     })

@@ -1,3 +1,7 @@
+import { Sappling } from "../EntityBlock/sappling.js"
+import { Block } from "./block.js"
+import { Chest } from "./chest.js"
+
 let blocks = []
 let uis = []
 
@@ -51,4 +55,14 @@ export function getBlock(id) {
             return block
         }
     }
+}
+
+let blockRegistry = {
+    block: Block,
+    sappling: Sappling,
+    chest: Chest
+}
+
+export function getBlockRegistry() {
+    return blockRegistry
 }

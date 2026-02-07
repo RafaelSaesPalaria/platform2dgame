@@ -1,4 +1,4 @@
-import { getBlock } from "./block/blockHandler.js"
+import { getBlock, getBlockRegistry } from "./block/blockHandler.js"
 import { Velocity } from "./entities.js"
 import { Sappling } from "./EntityBlock/sappling.js"
 import { checkCollision, getDistance } from "./utils.js"
@@ -67,18 +67,17 @@ export class Chunk {
     }
     setBlock(id,chunkX,chunkY) {
         let chunkIndex = Math.floor(this.x/(Level.chunkSize.w*Level.blockSize))
-        let blockX = (chunkX%Level.chunkSize.w)
 
-        let block = new Block(id,chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
+        let worldX = chunkX+(chunkIndex*Level.chunkSize.w)
 
-        this.rows[chunkY][chunkX] = block
-        if (block.id === "sappling") {
-            block = new Sappling(this,id,chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
-            this.entityBlocks.push(block)
-        } else if (block.id === "chest") {
-            block = new Chest(chunkX+(chunkIndex*Level.chunkSize.w),chunkY)
-            this.rows[chunkY][chunkX] = block
+
+        let registry = (getBlockRegistry()[id])
+        if (!registry) {
+            registry = Block
         }
+
+        let b = new registry(id,worldX,chunkY)
+        this.rows[chunkY][chunkX] = b       
     }
     // ChunkRelative Coords
     getBlock(chunkX,chunkY) {

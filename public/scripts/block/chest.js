@@ -4,8 +4,8 @@ import { addUI, inventoryUI, removeUI } from "../view/ui.js"
 import { Block } from "./block.js"
 
 export class Chest extends Block {
-    constructor(x,y) {
-        super("chest",x,y)
+    constructor(id,x,y) {
+        super(id,x,y)
         this.open = false
         this.ui = null
         this.inventory = new Inventory(9,3)
