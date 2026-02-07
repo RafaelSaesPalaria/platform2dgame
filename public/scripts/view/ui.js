@@ -220,16 +220,16 @@ class chatUI extends UI {
 
         if (User.isWriting) {
             StaticScreen.drawImage("ui-background",this.x,this.y+190,this.w,30)
-            StaticScreen.write(Message.currentlyMessage,"white",this.x+5,this.y+210)
+            StaticScreen.write(Message.currentlyMessage,"white",20,this.x+5,this.y+210)
             if (this.hints) {
                 if (this.hints.length>0) {
                     this.hints.forEach((h,i) => {
                         if (i>Message.selectedHint) {
-                            StaticScreen.write(h,"white",this.x+5,this.y+190-((i-Message.selectedHint)*30))
+                            StaticScreen.write(h,"white",20,this.x+5,this.y+190-((i-Message.selectedHint)*30))
                         }
                     })
                     let msg = this.hints[Message.selectedHint]
-                    StaticScreen.write(msg,"yellow",this.x+5,this.y+190)
+                    StaticScreen.write(msg,"yellow",20,this.x+5,this.y+190)
                 }
             }
         }
