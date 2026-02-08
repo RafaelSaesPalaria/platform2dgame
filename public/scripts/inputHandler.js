@@ -8,8 +8,8 @@ import { Message } from "./view/message.js"
 import { getBlock } from "./block/blockHandler.js"
 import { UIHandler } from "./ui/uiHandler.js"
 import { Item } from "./entity/item.js"
-import { Mouse } from "./io/mouse.js"
-import { Keyboard } from "./io/keyboard.js"
+import { Mouse } from "./input/mouse.js"
+import { Keyboard } from "./input/keyboard.js"
 
 let dir = {
     x: 0, y : 0

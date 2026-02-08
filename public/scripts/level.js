@@ -7,7 +7,7 @@ import { getDistance } from "./utils.js"
 import { Background } from "./view/background/background.js"
 import { UIHandler } from "./ui/uiHandler.js"
 import { Player } from "./entity/player.js"
-import { Mouse } from "./io/mouse.js"
+import { Mouse } from "./input/mouse.js"
 
 let levelSize = {width : 785, height : 515}
 
@@ -109,7 +109,7 @@ function initRegion() {
 }
 
 export function init() {
-    let p = new Player(392,1259,20,20)
+    let p = new Player(392,1259,15,27)
     User.player = p
     Level.addEntity(p)
     

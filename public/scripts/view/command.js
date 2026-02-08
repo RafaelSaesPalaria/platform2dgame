@@ -1,5 +1,5 @@
 import { getBlockList } from "../block/blockHandler.js"
-import { Mouse } from "../io/mouse.js"
+import { Mouse } from "../input/mouse.js"
 import { Level } from "../level.js"
 import { User } from "../user.js"
 

@@ -24,7 +24,7 @@ export class Mouse {
         })
     }
     static wheel(e) {
-        User.moveSelectedIndex(e.wheelDeltaY)
+        User.moveSelectedIndex(-e.wheelDeltaY)
     }
     static mouseUp(e) {
         Mouse.isDown = false
