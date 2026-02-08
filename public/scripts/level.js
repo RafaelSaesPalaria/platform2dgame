@@ -3,7 +3,7 @@ import { right_click } from "./inputHandler.js"
 import { User } from "./user.js"
 import {Screen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
-import { getDistance } from "./utils.js"
+import { checkCollision, getDistance } from "./utils.js"
 import { Background } from "./view/background/background.js"
 import { UIHandler } from "./ui/uiHandler.js"
 import { Player } from "./entity/player.js"
@@ -47,11 +47,17 @@ export class Level {
         pos.y = Math.floor(pos.y/Level.blockSize)
         return {worldX:pos.x,worldY:pos.y}
     }
+    static isValidBlock(worldX,worldY) {
+        return ((worldX>0 && worldX<Level.blockSize*9*Level.chunkSize.w) && (worldY>0 && worldY<Level.blockSize*Level.chunkSize.h))
+    }
     static getBlock(worldX,worldY) {
-        let pos = this.getWorldRelativeCoords(worldX,worldY)
-        let chunkIndex = Math.floor(pos.worldX/Level.chunkSize.w*Level.blockSize)
-        let chunkX = Math.floor(worldX%Level.chunkSize.w)
-        return this.chunks[chunkIndex].getBlock(chunkX,worldY)
+        console.log(this.isValidBlock(worldX,worldY))
+        if (this.isValidBlock(worldX,worldY)) {
+            let pos = this.getWorldRelativeCoords(worldX,worldY)
+            let chunkIndex = Math.floor(pos.worldX/Level.chunkSize.w*Level.blockSize)
+            let chunkX = Math.floor(worldX%Level.chunkSize.w)
+            return this.chunks[chunkIndex].getBlock(chunkX,worldY)
+        }
     }
     static create() {
 
@@ -78,17 +84,25 @@ export class Level {
         let collidedBlocks = []
             
         //Math.floor(getDistance(obj,this).x/blockSize)
-        for (let blockWidth = obj.x ;
-            blockWidth < obj.x + obj.w ;
+        for (let blockWidth = obj.x;
+            blockWidth < (obj.x + obj.w + Level.blockSize) ;
             blockWidth+=Level.blockSize) {
             for (let blockHeight = obj.y;
-                blockHeight < obj.y + obj.h ;
+                blockHeight < (obj.y + obj.h + Level.blockSize) ;
                 blockHeight+=Level.blockSize) {
                 let block = this.getBlockOnCoords(blockWidth,blockHeight)
 
                 //Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
                 if (block!==undefined) {
-                    collidedBlocks.push(block)
+                    //Screen.drawRect(block.worldX*Level.blockSize,block.worldY*Level.blockSize,5,5,"blue")
+                    if (checkCollision({
+                        x: block.worldX*Level.blockSize,
+                        y: block.worldY*Level.blockSize,
+                        w: Level.blockSize,
+                        h: Level.blockSize
+                    },obj)) {
+                        collidedBlocks.push(block)
+                    }
                             //}
                 }
             }
