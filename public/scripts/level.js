@@ -51,7 +51,6 @@ export class Level {
         return ((worldX>0 && worldX<Level.blockSize*9*Level.chunkSize.w) && (worldY>0 && worldY<Level.blockSize*Level.chunkSize.h))
     }
     static getBlock(worldX,worldY) {
-        console.log(this.isValidBlock(worldX,worldY))
         if (this.isValidBlock(worldX,worldY)) {
             let pos = this.getWorldRelativeCoords(worldX,worldY)
             let chunkIndex = Math.floor(pos.worldX/Level.chunkSize.w*Level.blockSize)

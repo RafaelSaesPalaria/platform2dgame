@@ -13,19 +13,19 @@ export class PlayerModel {
             x: 2, y: 0, w: 8, h:7, color:"yellow"
         }
         this.leftArm = {
-            x: 7, y:9, w: 5, h:11, color:"red"
+            x: 5, y:9, w: 5, h:11, color:"red"
         },
         this.rightArm = {
-            x: 7, y: 9, w: 5, h:11, color:"green"
+            x: 5, y: 9, w: 5, h:11, color:"green"
         }
         this.torso = {
-            x: 3, y: 6, w: 8, h:12, color:"purple"
+            x: 3, y: 7, w: 8, h:12, color:"purple"
         },
         this.leftLeg = {
-            x: 2, y: 18, w: 5, h:9, color:"pink"
+            x: 5, y: 18, w: 5, h:9, color:"pink"
         },
         this.rightLeg = {
-            x: 7, y: 18, w: 5, h:9, color:"black"
+            x: 5, y: 18, w: 5, h:9, color:"black"
         }
         this.parts = [
             this.leftArm,
@@ -36,23 +36,21 @@ export class PlayerModel {
             ,this.rightArm]
     }
     walk() {
-        if (this.dir!==0) {
-            let p = Math.floor(10-this.poseTime%21)
-            p = p/10
-            this.rightLeg.x+=p*0.7
-            this.leftLeg.x-=p*0.7
-            this.rightArm.x+=p*0.2
-            this.leftArm.x-=p*0.2
-        }
+        this.head.animationY=0.6
+        this.torso.animationY=0.8
+        this.rightLeg.animationX=-1.4
+        this.leftLeg.animationX=1.4
+        this.rightArm.animationX=0.4
+        this.leftArm.animationX=-0.4
     }
     update(x,y) {
         this.x = x
         this.y = y
         if (this.dir === getDir().x) {
             this.updatePose()
-            this.walk()
         } else {
             this.changePose()
+            this.walk()
         }
         
     }
@@ -63,15 +61,31 @@ export class PlayerModel {
         this.dir = getDir().x
     }
     draw() {
+        let t = this.poseTime%20
+        let animationFactor = 10 - Math.abs(t - 10)
+        animationFactor/=5
+        if (this.dir===0) {
+            animationFactor = 0
+        }
+
         this.parts.forEach(part => {
             let x = part.x
             let w = part.w
+            let y = part.y
             if (this.dir === 1) {
                 let half = (this.w/2)
                 let diff = x - (half)
                 diff*=-1
                 x = diff + half - w
             }
+
+            if (part.animationX) {
+                x+=(part.animationX*animationFactor)
+            }
+            if (part.animationY) {
+                y+=(part.animationX*animationFactor)
+            }
+
             Screen.drawRect(this.x+x,this.y+part.y,part.w,part.h,part.color)
         });
         //Screen.drawHitbox(this.x,this.y,this.w,this.h)
