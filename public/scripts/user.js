@@ -46,7 +46,9 @@ export class User {
     static inventoryUI = null
 
     static openInventory() {
-        User.inventoryUI = new InventoryUI(User.inventory,250,280)
+        let slotSize = 30
+        console.log(User.inventory.slotX*30)
+        User.inventoryUI = new InventoryUI(User.inventory,250,280,(slotSize*User.inventory.slotX),(slotSize*User.inventory.slotY))
         UIHandler.addUI(User.inventoryUI,"inventoryUI")
     }
     static closeInventory() {

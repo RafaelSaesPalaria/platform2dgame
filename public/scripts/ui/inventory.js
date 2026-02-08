@@ -2,8 +2,8 @@ import { StaticScreen } from "../view/screen.js"
 import { UI } from "./components.js"
 
 export class InventoryUI extends UI {
-    constructor(inventory,x,y) {
-        super(x,y,30*inventory.slotX,30*inventory.slotY)
+    constructor(inventory,x,y,w,h) {
+        super(x,y,w,h)
         this.inventory = inventory
     }
     update() {
@@ -19,8 +19,14 @@ export class InventoryUI extends UI {
             let item = this.inventory.inventory[i]
             StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
             if (item) {
-                StaticScreen.drawImage(item.id,x+12,y+12,30,30)
-                StaticScreen.write(item.qnt,"white",20,x+12,y+42)
+                StaticScreen.drawImage(
+                    item.id,
+                    x+slotSize.w/4,
+                    y+slotSize.h/4,
+                    slotSize.w/2,
+                    slotSize.h/2
+                )
+                StaticScreen.write(item.qnt,"white",slotSize.w/3,x+slotSize.w/4,y+(slotSize.h/4)*3)
             }
         }
     }
