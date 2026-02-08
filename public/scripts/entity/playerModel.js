@@ -1,3 +1,4 @@
+import { getDir } from "../inputHandler.js"
 import { Screen } from "../view/screen.js"
 
 export class PlayerModel {
@@ -7,6 +8,7 @@ export class PlayerModel {
         this.w = w
         this.h = h
         this.dir = 1
+        this.poseTime = 0
         this.head = {
             x: 2, y: 0, w: 8, h:7, color:"yellow"
         }
@@ -31,21 +33,33 @@ export class PlayerModel {
             this.leftLeg,this.rightLeg,
             this.leftArm,this.rightArm]
     }
-    update(x,y,dx) {
+    walk() {
+        
+    }
+    update(x,y) {
         this.x = x
         this.y = y
-        if (dx>=1) {
-            this.dir = -1
+        if (this.dir === getDir().x) {
+            this.updatePose()
         } else {
-            this.dir = 1
+            this.changePose()
         }
-        console.log(this.dir)
+        
+    }
+    updatePose() {
+        this.poseTime+=1
+    }
+    changePose() {
+        this.dir = getDir().x
     }
     draw() {
         this.parts.forEach(part => {
             let x = part.x
-            if (this.dir === -1) {
-                x = (this.w/2)-part.x
+            if (this.dir === 1) {
+                let half = (this.w/2)
+                let diff = x - (half)
+                diff*=-1
+                x = diff + half
             }
             Screen.drawRect(this.x+x,this.y+part.y,part.w,part.h,part.color)
         });

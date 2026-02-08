@@ -1,7 +1,7 @@
+import { Block } from "../block/block.js"
 import { Tree } from "../structures/tree.js"
-import { EntityBlock } from "./components.js"
 
-export class Sappling extends EntityBlock {
+export class Sappling extends Block {
     constructor(id,worldX,worldY) {
         super(id,worldX,worldY)
         this.timeLeft = 200

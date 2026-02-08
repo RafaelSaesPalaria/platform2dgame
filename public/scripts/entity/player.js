@@ -31,7 +31,7 @@ export class Player extends Hitbox {
         /*if (!Collision.willCollideX()) {
             Velocity.apply(this)
         }*/
-        this.model.update(this.x,this.y,this.dx)
+        this.model.update(this.x,this.y)
         this.draw()
     }
     draw() {

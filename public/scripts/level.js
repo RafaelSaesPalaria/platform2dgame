@@ -112,6 +112,7 @@ export function init() {
     let p = new Player(392,1259,15,27)
     User.player = p
     Level.addEntity(p)
+    Camera.zoom = 5
     
     initRegion()
     animate()

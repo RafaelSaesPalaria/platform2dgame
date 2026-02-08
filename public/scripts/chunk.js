@@ -1,11 +1,9 @@
 import { getBlock, getBlockRegistry } from "./block/blockHandler.js"
-import { Sappling } from "./EntityBlock/sappling.js"
 import { checkCollision, getDistance } from "./utils.js"
 import { Screen } from "./view/screen.js"
 import { Camera } from "./view/camera.js"
 import { Level } from "./level.js"
 import { Block } from "./block/block.js"
-import { Chest } from "./block/chest.js"
 
 export class GenerateChunk {
     static seed = 0
@@ -99,8 +97,10 @@ export class Chunk {
         return this.getBlock(pos.x,pos.y)
     }
     update() {
-        this.entityBlocks.forEach(e => {
-            e.update()
+       this.rows.forEach(r => {
+            r.forEach(b => {
+                b.update()
+            })
         })
         //Velocity.apply(this)
         this.draw() 

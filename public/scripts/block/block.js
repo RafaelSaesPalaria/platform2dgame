@@ -6,6 +6,7 @@ export class Block {
         this.worldX = worldX
         this.worldY = worldY
     }
+    update() {}
     getChunk() {
         return Level.chunks[Math.floor(this.worldX/Level.blockSize)]
     }
