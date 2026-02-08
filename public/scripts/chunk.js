@@ -1,5 +1,4 @@
 import { getBlock, getBlockRegistry } from "./block/blockHandler.js"
-import { Velocity } from "./entities.js"
 import { Sappling } from "./EntityBlock/sappling.js"
 import { checkCollision, getDistance } from "./utils.js"
 import { Screen } from "./view/screen.js"

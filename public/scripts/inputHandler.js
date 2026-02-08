@@ -1,87 +1,15 @@
 import { emit } from "./client.js"
-import { addUI, checkClickOnUIs } from "./view/ui.js"
 import { Level } from "./level.js"
 import { checkCollision } from "./utils.js"
 import { User } from "./user.js"
-import { Item } from "./entities.js"
 import { Chunk } from "./chunk.js"
 import { Camera } from "./view/camera.js"
 import { Message } from "./view/message.js"
 import { getBlock } from "./block/blockHandler.js"
-
-export class Keyboard {
-    static keys = {
-        KeyW : false,
-        KeyS: false,
-        KeyD:false,
-        KeyA:false,
-        Enter: false,
-        NumpadAdd: false,
-        NumpadSubtract: false,
-        KeyE: false
-    }
-
-    static keyHandler(e) {
-        if (e.code === "Tab") {
-            e.preventDefault()
-        }
-        if (e.code==="Enter" || !User.isWriting) {
-            this.keys[e.code] = e.type !== "keyup"
-            updateDir()
-            updateZoom()
-            if (this.keys["KeyE"]) {
-                User.inventoryOpen=!User.inventoryOpen  
-                if (User.inventoryOpen) {
-                    User.openInventory()
-                } else {
-                    User.closeInventory()
-                }
-            }
-            if (this.keys["Enter"]) {
-                User.isChatOpen = !User.isChatOpen
-                User.isWriting = User.isChatOpen
-            }
-            if (e.code === "Enter") {
-                Message.send()
-            }
-        } else {
-            if (e.type !== "keyup") {
-                Message.type(e)
-            }
-        }
-    }
-}
-export class Mouse {
-    static x = 0
-    static y = 0
-    static isDown = 0
-    static isLeftKey=0
-
-    static mouseMove(e) {
-        let cam = Camera.getOffset()
-        let z = Camera.getZoom()
-        this.x = (e.offsetX/z - (cam.x))
-        this.y = (e.offsetY/z - (cam.y))
-
-        let bs= Level.getCollidedBlocks({...this,w:1,h:1})
-        bs.forEach(b => {
-            let fb = {...b}
-            fb.w=Level.blockSize
-            fb.h=Level.blockSize
-            highlight_block(fb)
-        })
-    }
-    static wheel(e) {
-        User.moveSelectedIndex(e.wheelDeltaY)
-    }
-    static mouseUp(e) {
-        Mouse.isDown = false
-    }
-    static mouseDown(e) {
-        Mouse.isDown= true
-        Mouse.isLeftKey = e.button === 0
-    }
-}
+import { UIHandler } from "./ui/uiHandler.js"
+import { Item } from "./entity/item.js"
+import { Mouse } from "./io/mouse.js"
+import { Keyboard } from "./io/keyboard.js"
 
 let dir = {
     x: 0, y : 0
@@ -92,7 +20,7 @@ export function getDir() {
 }
 
 export function right_click() {
-    if (!checkClickOnUIs(Mouse.x,Mouse.y)) {
+    if (!UIHandler.checkClickOnUIs(Mouse.x,Mouse.y)) {
         let blocks = Level.getCollidedBlocks({x:Mouse.x,y:Mouse.y,w:1,h:1})
         blocks.forEach(b => {
             if (Mouse.isLeftKey) {
@@ -167,12 +95,12 @@ export function addKeys() {
 
 
 
-function updateZoom() {
+export function updateZoom() {
     let z = Keyboard.keys.NumpadAdd - Keyboard.keys.NumpadSubtract
     Camera.addZoom(z*0.1)
 }
 
-function updateDir() {
+export function updateDir() {
     dir.y = Keyboard.keys.KeyS - Keyboard.keys.KeyW
     dir.x = Keyboard.keys.KeyD - Keyboard.keys.KeyA
 }

@@ -1,13 +1,13 @@
 import { Chunk } from "./chunk.js"
-import { Item, Player } from "./entities.js"
-import { Mouse, right_click } from "./inputHandler.js"
-import { updateUIs } from "./view/ui.js"
+import { right_click } from "./inputHandler.js"
 import { User } from "./user.js"
 import {Screen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
 import { getDistance } from "./utils.js"
 import { Background } from "./view/background/background.js"
-updateUIs
+import { UIHandler } from "./ui/uiHandler.js"
+import { Player } from "./entity/player.js"
+import { Mouse } from "./io/mouse.js"
 
 let levelSize = {width : 785, height : 515}
 
@@ -142,7 +142,7 @@ function animate() {
     
     Camera.updateOffset()
     Camera.updateFocus()
-    updateUIs()
+    UIHandler.updateUIs()
 
     if (Mouse.isDown) {
         right_click()

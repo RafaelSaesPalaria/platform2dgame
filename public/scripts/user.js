@@ -1,6 +1,6 @@
 import { getObj } from "./block/blockHandler.js"
-import { addUI, inventoryUI, removeUI } from "./view/ui.js"
-
+import { InventoryUI } from "./ui/inventory.js"
+import { UIHandler } from "./ui/uiHandler.js"
 
 export class Inventory {
     constructor(slotX,slotY) {
@@ -46,11 +46,11 @@ export class User {
     static inventoryUI = null
 
     static openInventory() {
-        User.inventoryUI = new inventoryUI(User.inventory,250,280)
-        addUI(User.inventoryUI,"inventoryUI")
+        User.inventoryUI = new InventoryUI(User.inventory,250,280)
+        UIHandler.addUI(User.inventoryUI,"inventoryUI")
     }
     static closeInventory() {
-        removeUI(User.inventoryUI)
+        UIHandler.removeUI(User.inventoryUI)
     }
     static getInventory() {
         return this.inventory.inventory

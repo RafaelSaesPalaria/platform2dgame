@@ -2,7 +2,7 @@ import { loadBlocks, loadUIs } from "./scripts/block/blockHandler.js";
 import { onMessage, startSocket } from "./scripts/client.js";
 import { addKeys, addMouse } from "./scripts/inputHandler.js";
 import { init } from "./scripts/level.js";
-import { initUIs } from "./scripts/view/ui.js";
+import { initUIs } from "./scripts/ui/uiHandler.js";
 import { Screen } from "./scripts/view/screen.js";
 
 startSocket()

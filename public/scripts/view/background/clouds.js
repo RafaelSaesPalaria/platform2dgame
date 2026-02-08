@@ -1,6 +1,5 @@
-import { Velocity } from "../../entities.js"
+import { Velocity } from "../../entity/components.js"
 import { checkCollision } from "../../utils.js"
-import { Camera } from "../camera.js"
 import { StaticScreen } from "../screen.js"
 import { Background } from "./background.js"
 

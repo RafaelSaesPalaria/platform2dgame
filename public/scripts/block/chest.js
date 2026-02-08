@@ -1,6 +1,6 @@
+import { InventoryUI } from "../ui/inventory.js"
+import { UIHandler } from "../ui/uiHandler.js"
 import { Inventory } from "../user.js"
-import { StaticScreen } from "../view/screen.js"
-import { addUI, inventoryUI, removeUI } from "../view/ui.js"
 import { Block } from "./block.js"
 
 export class Chest extends Block {
@@ -13,10 +13,10 @@ export class Chest extends Block {
     right_click() {
         this.open=!this.open
         if (this.open) {
-            this.ui = new inventoryUI(this.inventory,250,170)
-            addUI(this.ui,"inventoryUI")
+            this.ui = new InventoryUI(this.inventory,250,170)
+            UIHandler.addUI(this.ui,"inventoryUI")
         } else {
-            removeUI(this.ui)
+            UIHandler.removeUI(this.ui)
         }
     }
 }
