@@ -86,7 +86,7 @@ export class Level {
                 blockHeight+=Level.blockSize) {
                 let block = this.getBlockOnCoords(blockWidth,blockHeight)
 
-                Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
+                //Screen.drawRect(blockWidth,blockHeight,5,5,"blue")
                 if (block!==undefined) {
                     collidedBlocks.push(block)
                             //}
