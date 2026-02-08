@@ -10,22 +10,22 @@ export class PlayerModel {
         this.dir = 1
         this.poseTime = 0
         this.head = {
-            x: 2, y: 0, w: 8, h:7, color:"yellow"
+            x: 0, y: 0, w: 8, h:7, color:"yellow"
         }
         this.leftArm = {
-            x: 5, y:9, w: 5, h:11, color:"red"
+            x: 3, y:9, w: 5, h:11, color:"red"
         },
         this.rightArm = {
-            x: 5, y: 9, w: 5, h:11, color:"green"
+            x: 3, y: 9, w: 5, h:11, color:"green"
         }
         this.torso = {
-            x: 3, y: 7, w: 8, h:12, color:"purple"
+            x: 1, y: 7, w: 8, h:12, color:"purple"
         },
         this.leftLeg = {
-            x: 5, y: 18, w: 5, h:9, color:"pink"
+            x: 3, y: 18, w: 5, h:9, color:"pink"
         },
         this.rightLeg = {
-            x: 5, y: 18, w: 5, h:9, color:"black"
+            x: 3, y: 18, w: 5, h:9, color:"black"
         }
         this.parts = [
             this.leftArm,
@@ -88,6 +88,6 @@ export class PlayerModel {
 
             Screen.drawRect(this.x+x,this.y+part.y,part.w,part.h,part.color)
         });
-        //Screen.drawHitbox(this.x,this.y,this.w,this.h)
+        Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }
 }

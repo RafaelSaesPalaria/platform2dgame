@@ -15,9 +15,6 @@ export class StaticScreen {
         StaticScreen.c.fillRect(x,y,w,h)
         StaticScreen.c.closePath()
     }
-    static drawBlock() {
-
-    }
     static drawHitbox(x,y,w,h) {
         StaticScreen.c.beginPath()
         StaticScreen.c.strokeRect(x,y,w,h)
@@ -29,6 +26,8 @@ export class StaticScreen {
 
         x = Math.floor(x)
         y = Math.floor(y)
+        w = Math.ceil(w)
+        h = Math.ceil(h)
         StaticScreen.c.drawImage(Images.use(id),x,y,w,h)
         StaticScreen.c.closePath()
     }
@@ -115,6 +114,8 @@ export class Screen extends StaticScreen {
 
             x = Math.floor(x)
             y = Math.floor(y)
+            w = Math.ceil(w)
+            h = Math.ceil(h)
             StaticScreen.drawImage(id,x,y,w,h)
 
             StaticScreen.c.closePath()

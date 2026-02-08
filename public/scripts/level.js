@@ -122,7 +122,7 @@ function initRegion() {
 }
 
 export function init() {
-    let p = new Player(392,1259,15,27)
+    let p = new Player(392,1259,10,27)
     User.player = p
     Level.addEntity(p)
     Camera.zoom = 5
