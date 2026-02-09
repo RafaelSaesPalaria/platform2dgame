@@ -61,6 +61,7 @@ export function place_block(b) {
 }
 
 export function highlight_block(b) {
+    console.log(b)
     if (b.id!=="air" || User.getSelectedItem()) {
         User.selectedBlock = b
     } else {

@@ -18,8 +18,8 @@ export class Mouse {
         this.screenY= e.offsetY
         this.blockX = (e.offsetX/z - (cam.x))
         this.blockY = (e.offsetY/z - (cam.y))
-
-        let bs= Level.getCollidedBlocks({...this,w:1,h:1})
+    
+        let bs= Level.getCollidedBlocks({x:this.blockX,y:this.blockY,w:1,h:1})
         bs.forEach(b => {
             let fb = {...b}
             fb.w=Level.blockSize

@@ -79,7 +79,6 @@ export class Level {
         //chunks[]
     }
     static getCollidedBlocks(obj) {
-        let b = this.getBlockOnCoords(obj.x,obj.y)
         let collidedBlocks = []
             
         //Math.floor(getDistance(obj,this).x/blockSize)
