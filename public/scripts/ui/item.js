@@ -20,31 +20,32 @@ export class ItemUI extends UI {
         this.reference = reference
     }
     click(x,y) {
-        this.isDragged = true
+        //this.isDragged = !this.isDragged
     }
     update() {
         if (this.isDragged) {
             this.x = Mouse.screenX
             this.y = Mouse.screenY
+            if (!Mouse.isDown) {
+                if (checkCollision({x:this.x,y:this.y,h:this.h,w:this.w},{x:Mouse.screenX,y:Mouse.screenY,w:100,h:100})) {
+                    let ui = (UIHandler.checkClickOnUIs(Mouse.screenX,Mouse.screenY))
+                    let slot = ui.slotOnCoords(Mouse.screenX,Mouse.screenY)
+                    this.reference = ui
+                        //this.reference.inventory
+                    this.reference.inventory.inventory.forEach(i => {
+                        if (i.slot === this.slot) {
+                            i.slot = slot
+                        }
+                    })
+                    this.isDragged = !this.isDragged
+                }
+            }
+        }
+        if (checkCollision({x:this.x,y:this.y,h:this.h,w:this.w},{x:Mouse.screenX,y:Mouse.screenY,w:100,h:100}) & Mouse.isDown) {
+            this.isDragged = true
         }
         //console.log(checkCollision(this,{x:Mouse.x,y:Mouse.y,w:1,h:1}))
         
-        if (checkCollision({x:this.x,y:this.y,h:this.h,w:this.w},{x:Mouse.screenX,y:Mouse.screenY,w:100,h:100}) & Mouse.isDown) {
-            if (!this.isDragged) {
-                this.isDragged = true
-            } else {
-                let ui = (UIHandler.checkClickOnUIs(Mouse.screenX,Mouse.screenY))
-                let slot = ui.slotOnCoords(Mouse.screenX,Mouse.screenY)
-                this.reference = ui
-                //this.reference.inventory
-                this.reference.inventory.inventory.forEach(i => {
-                    if (i.slot === this.slot) {
-                        i.slot = slot
-                    }
-                })
-                this.isDragged = false
-            }
-        }
         this.draw()
     }
     draw() {
