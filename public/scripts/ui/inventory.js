@@ -1,10 +1,13 @@
 import { StaticScreen } from "../view/screen.js"
 import { UI } from "./components.js"
+import { ItemUI } from "./item.js"
+import { UIHandler } from "./uiHandler.js"
 
 export class InventoryUI extends UI {
     constructor(inventory,x,y,w,h) {
         super(x,y,w,h)
         this.inventory = inventory
+        this.item_uis = []
     }
     update() {
         this.draw()
@@ -19,14 +22,24 @@ export class InventoryUI extends UI {
             let item = this.inventory.inventory[i]
             StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
             if (item) {
-                StaticScreen.drawImage(
+                let it = new ItemUI(this,item.id,item.qnt,x+slotSize.w/4,
+                    y+slotSize.h/4,
+                    slotSize.w/2,
+                    slotSize.h/2)
+
+                if (this.item_uis.length<this.inventory.slotX*this.inventory.slotY) {
+                    console.log("itemui added")
+                    UIHandler.addUI(it,"ItemUI",this)
+                    this.item_uis.push(it)
+                }
+                /*StaticScreen.drawImage(
                     item.id,
                     x+slotSize.w/4,
                     y+slotSize.h/4,
                     slotSize.w/2,
                     slotSize.h/2
                 )
-                StaticScreen.write(item.qnt,"white",slotSize.w/3,x+slotSize.w/4,y+(slotSize.h/4)*3)
+                StaticScreen.write(item.qnt,"white",slotSize.w/3,x+slotSize.w/4,y+(slotSize.h/4)*3)*/
             }
         }
     }

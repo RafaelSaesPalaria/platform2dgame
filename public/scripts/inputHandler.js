@@ -20,8 +20,8 @@ export function getDir() {
 }
 
 export function right_click() {
-    if (!UIHandler.checkClickOnUIs(Mouse.x,Mouse.y)) {
-        let blocks = Level.getCollidedBlocks({x:Mouse.x,y:Mouse.y,w:1,h:1})
+    if (!UIHandler.checkClickOnUIs(Mouse.blockX,Mouse.blockY)) {
+        let blocks = Level.getCollidedBlocks({x:Mouse.blockX,y:Mouse.blockY,w:1,h:1})
         blocks.forEach(b => {
             if (Mouse.isLeftKey) {
                 break_block(b)

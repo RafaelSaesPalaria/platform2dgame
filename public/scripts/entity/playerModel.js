@@ -88,6 +88,6 @@ export class PlayerModel {
 
             Screen.drawRect(this.x+x,this.y+part.y,part.w,part.h,part.color)
         });
-        Screen.drawHitbox(this.x,this.y,this.w,this.h)
+        //Screen.drawHitbox(this.x,this.y,this.w,this.h)
     }
 }

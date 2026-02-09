@@ -6,10 +6,12 @@ import { HotbarUI } from "./hotbar.js"
 export class UIHandler {
     static UIs = []
     
-    static addUI(ui,type) {
-        this.UIs.push({type,"element":ui})
+    static addUI(ui,type,reference) {
+        ui.id = this.UIs.length+1
+        this.UIs.push({type,"element":ui,reference})
     }
     static removeUI(ui) {
+        this.UIs = this.UIs.filter(u => u.reference !== ui)
         this.UIs = this.UIs.filter(u => u.element!==ui)
     }
     static updateUIs() {

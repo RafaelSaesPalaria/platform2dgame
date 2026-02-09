@@ -59,13 +59,13 @@ export class Command {
                     if (this.commands[c][l] === "id") {
                         hints.push(...getBlockList())
                     } else if (this.commands[c][l] === "x"){
-                        hints.push(Mouse.x)
+                        hints.push(Mouse.blockX)
                     } else if (this.commands[c][l] === "y") {
-                        hints.push(Mouse.y)
+                        hints.push(Mouse.blockY)
                     } else if (this.commands[c][l] === "blockX"){
-                        hints.push(Level.getBlockOnCoords(Mouse.x,Mouse.y).worldX)
+                        hints.push(Level.getBlockOnCoords(Mouse.blockX,Mouse.blockY).worldX)
                     } else if (this.commands[c][l] === "blockY") {
-                        hints.push(Level.getBlockOnCoords(Mouse.x,Mouse.y).worldY)
+                        hints.push(Level.getBlockOnCoords(Mouse.blockX,Mouse.blockY).worldY)
                     } else {
                         hints.push(this.commands[c][l])
                     }

@@ -1,7 +1,7 @@
 import { Chunk } from "./chunk.js"
 import { right_click } from "./inputHandler.js"
 import { User } from "./user.js"
-import {Screen } from './view/screen.js'
+import {Screen, StaticScreen } from './view/screen.js'
 import { Camera } from "./view/camera.js"
 import { checkCollision, getDistance } from "./utils.js"
 import { Background } from "./view/background/background.js"
@@ -146,14 +146,13 @@ function animate() {
     })
 
     // UIs
-    Screen.drawRect(Mouse.x,Mouse.y,4,4,"purple")
-    Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
+    //Screen.drawRect(Mouse.x,Mouse.y,4,4,"purple")
+    //Screen.drawHitbox(-Camera.offset.x,-Camera.offset.y,Camera.size.w,Camera.size.h)
 
     let b = User.selectedBlock
     if (b) {
         Screen.drawHitbox((b.worldX*Level.blockSize),(b.worldY*Level.blockSize),b.w,b.h)
     }
-    
     Camera.updateOffset()
     Camera.updateFocus()
     UIHandler.updateUIs()
