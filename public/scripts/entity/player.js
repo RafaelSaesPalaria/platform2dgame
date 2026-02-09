@@ -22,6 +22,7 @@ export class Player extends Hitbox {
         this.dy*=0
        }
         
+       Velocity.jump(this)
         Velocity.apply(this)
         Velocity.slowDown(this)
         Gravity.apply(this)

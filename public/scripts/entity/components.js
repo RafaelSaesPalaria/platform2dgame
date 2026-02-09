@@ -8,6 +8,12 @@ export class Velocity {
     static maxSpeed = 10
     static minSpeed = 0
     static slowBy = 0.1
+    static jump(obj) {
+        let bs = Level.getCollidedBlocks(obj)
+        if (getDir().y<0 & bs.length>0) {
+            obj.dy -= 5
+        }
+    }
     static apply(obj) {
         obj.x += obj.dx
         obj.y += obj.dy
