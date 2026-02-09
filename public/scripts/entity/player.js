@@ -9,6 +9,7 @@ export class Player extends Hitbox {
         super(x,y,w,h)
         this.color = "red"
         this.model = new PlayerModel(x,y,w,h)
+        this.speed = 0.2
         Camera.setFocus(this)
     }
     update() {

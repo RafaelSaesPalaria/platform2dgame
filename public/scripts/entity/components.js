@@ -7,7 +7,7 @@ import { Screen } from "../view/screen.js"
 export class Velocity {
     static maxSpeed = 10
     static minSpeed = 0
-    static slowBy = 0.3
+    static slowBy = 0.1
     static apply(obj) {
         obj.x += obj.dx
         obj.y += obj.dy
@@ -62,8 +62,8 @@ export class Border {
 export class Controller {
     static apply(obj) {
         let d = getDir()
-        obj.dx += d.x
-        obj.dy += d.y
+        obj.dx += d.x * obj.speed
+        obj.dy += d.y * obj.speed
     }
 }
 
