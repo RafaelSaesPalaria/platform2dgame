@@ -1,4 +1,6 @@
 import { updateDir, updateZoom } from "../inputHandler.js"
+import { ChatUI } from "../ui/chat.js"
+import { UIHandler } from "../ui/uiHandler.js"
 import { User } from "../user.js"
 import { Message } from "../view/message.js"
 
@@ -33,6 +35,12 @@ export class Keyboard {
             if (this.keys["Enter"]) {
                 User.isChatOpen = !User.isChatOpen
                 User.isWriting = User.isChatOpen
+                if (User.isChatOpen) {
+                    User.chatUI = new ChatUI(0,300,350,220)
+                    UIHandler.UIs.push({type:"chatUI",element:User.chatUI})
+                } else {
+                    UIHandler.removeUI(User.chatUI)
+                }
             }
             if (e.code === "Enter") {
                 Message.send()

@@ -23,19 +23,16 @@ export class UIHandler {
         return this.UIs.filter(ui => ui.type===type)[0].element
     }
     static checkClickOnUIs(x,y) {
-        this.UIs.forEach(ui => {
-        if (checkCollision({x,y,w:1,h:1},ui.element)) {
-            ui.element.click(x,y)
-            return true
+        for (let ui in this.UIs) {
+            if (checkCollision({x,y,w:1,h:1},this.UIs[ui].element)) {
+                return this.UIs[ui].element
+            }
         }
-    })
-    return false
     }
 }
 
 export function initUIs() {
     UIHandler.UIs.push({type:"hotbarUI",element:new HotbarUI(25,25,200,50)})
     UIHandler.UIs.push({type:"healthUI",element:new HealthUI(25,85,200,30)})
-    UIHandler.UIs.push({type:"chatUI",element:new ChatUI(0,300,350,220)})
 }
 

@@ -12,6 +12,14 @@ export class InventoryUI extends UI {
     update() {
         this.draw()
     }
+    slotOnCoords(x,y) {
+        let slotSize = {w:this.w/this.inventory.slotX,h:this.h/this.inventory.slotY}
+        let slotX = (Math.floor((x-this.x)/slotSize.w))
+        let slotY = (Math.floor((y-this.y)/slotSize.h))
+        let slot = slotX
+        console.log(slot)
+        return slot
+    }
     draw() {
         StaticScreen.drawImage("ui-background",this.x,this.y,this.w,this.h)
         let slotSize = {w:this.w/this.inventory.slotX,h:this.h/this.inventory.slotY}
@@ -24,7 +32,7 @@ export class InventoryUI extends UI {
             StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
             if (item) {
                 let it = new ItemUI(this,item.id,
-                    item.qnt,
+                    item.qnt,item.slot,
                      this.x+((item.slot%this.inventory.slotX)*slotSize.w)+slotSize.w/4,
                     this.y+(Math.floor(item.slot/this.inventory.slotX))+slotSize.h/4,
                     slotSize.w/2,

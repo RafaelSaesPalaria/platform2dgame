@@ -44,6 +44,7 @@ export class User {
     static isChatOpen = false
     static isWriting = false
     static inventoryUI = null
+    static chatUI = null
 
     static openInventory() {
         let slotSize = 30
