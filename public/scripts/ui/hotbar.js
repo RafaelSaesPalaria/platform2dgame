@@ -33,8 +33,8 @@ export class HotbarUI extends UI {
                 StaticScreen.drawImage("ui-slot",this.x+(i*50),this.y,50,50)
             }
             if (s !== null) {
-                StaticScreen.drawImage(s.id,this.x+(10)+(i*50),this.y+10,30,30)
-                StaticScreen.write(s.qnt,"white",20,this.x+(10)+(i*50),this.y+40)
+                StaticScreen.drawImage(s.id,this.x+(10)+(s.slot*50),this.y+10,30,30)
+                StaticScreen.write(s.qnt,"white",20,this.x+(10)+(s.slot*50),this.y+40)
             }
         })
     }

@@ -16,14 +16,17 @@ export class InventoryUI extends UI {
         StaticScreen.drawImage("ui-background",this.x,this.y,this.w,this.h)
         let slotSize = {w:this.w/this.inventory.slotX,h:this.h/this.inventory.slotY}
         for (let i = 0; i < this.inventory.slotX*this.inventory.slotY; i++) {
+            let item = this.inventory.inventory[i]
             let x = this.x+((i%this.inventory.slotX)*slotSize.w)
             let y = this.y+(Math.floor(i/this.inventory.slotX))
             *slotSize.h
-            let item = this.inventory.inventory[i]
+            
             StaticScreen.drawImage("ui-slot",x,y,slotSize.w,slotSize.h)
             if (item) {
-                let it = new ItemUI(this,item.id,item.qnt,x+slotSize.w/4,
-                    y+slotSize.h/4,
+                let it = new ItemUI(this,item.id,
+                    item.qnt,
+                     this.x+((item.slot%this.inventory.slotX)*slotSize.w)+slotSize.w/4,
+                    this.y+(Math.floor(item.slot/this.inventory.slotX))+slotSize.h/4,
                     slotSize.w/2,
                     slotSize.h/2)
 

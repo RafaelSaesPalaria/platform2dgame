@@ -20,7 +20,7 @@ export class Inventory {
             if (item && item!==null) {
                 item.qnt+=qnt
             } else {
-                this.inventory.push({id,qnt})
+                this.inventory.push({id,qnt,slot:this.inventory.length})
             }
         }
     }
