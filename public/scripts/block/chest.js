@@ -13,7 +13,7 @@ export class Chest extends Block {
     right_click() {
         this.open=!this.open
         if (this.open) {
-            this.ui = new InventoryUI(this.inventory,250,170,250,170)
+            this.ui = new InventoryUI(this.inventory,250,170,250,83)
             UIHandler.addUI(this.ui,"inventoryUI")
         } else {
             UIHandler.removeUI(this.ui)

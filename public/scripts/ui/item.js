@@ -28,16 +28,20 @@ export class ItemUI extends UI {
             this.y = Mouse.screenY
             if (!Mouse.isDown) {
                 if (checkCollision({x:this.x,y:this.y,h:this.h,w:this.w},{x:Mouse.screenX,y:Mouse.screenY,w:100,h:100})) {
-                    let ui = (UIHandler.checkClickOnUIs(Mouse.screenX,Mouse.screenY))
+                    let uis = (UIHandler.checkClickOnUIs(Mouse.screenX,Mouse.screenY))
+                    let ui = uis.filter(u => u.type === "inventoryUI")
+                    ui = ui[0].element
                     let slot = ui.slotOnCoords(Mouse.screenX,Mouse.screenY)
-                    this.reference = ui
-                        //this.reference.inventory
+                    
+                    //this.reference.inventory
                     this.reference.inventory.inventory.forEach(i => {
                         if (i.slot === this.slot) {
-                            i.slot = slot
-                        }
+                            i.slot = null
+                        }    
                     })
-                    this.isDragged = !this.isDragged
+                    ui.inventory.addItem(this.item_id,this.qnt,slot)
+                    ui.addItem(this.item_id,this.qnt,slot)
+                    UIHandler.removeUI(this)
                 }
             }
         }

@@ -23,11 +23,13 @@ export class UIHandler {
         return this.UIs.filter(ui => ui.type===type)[0].element
     }
     static checkClickOnUIs(x,y) {
+        let uis = []
         for (let ui in this.UIs) {
             if (checkCollision({x,y,w:1,h:1},this.UIs[ui].element)) {
-                return this.UIs[ui].element
+                uis.push(this.UIs[ui])
             }
         }
+        return uis
     }
 }
 

@@ -14,13 +14,28 @@ export class Inventory {
     validID(id) {
         return getObj(id) !== undefined
     }
-    addItem(id,qnt) {
+    addItem(id,qnt,slot) {
         if (this.validID(id) && this.validAmount(qnt)) {
-            let item = (this.inventory.find(i => i.id === id))
-            if (item && item!==null) {
-                item.qnt+=qnt
+            if (!slot) {
+                let item = (this.inventory.find(i => i.id === id))
+                if (item && item!==null) {
+                    item.qnt+=qnt
+                } else {
+                    this.inventory.push({id,qnt,slot:this.inventory.length})
+                }
             } else {
-                this.inventory.push({id,qnt,slot:this.inventory.length})
+                let operation = 0
+                for (let i = 0; i < this.inventory.length; i++) {
+                    if (this.inventory[i].slot === slot) {
+                        if (this.inventory[i].id === id) {
+                            this.inventory[i].qnt += qnt
+                            operation = 1
+                        }
+                    }
+                }
+                if (operation === 0) {
+                    this.inventory.push({id,qnt,slot})
+                }
             }
         }
     }
