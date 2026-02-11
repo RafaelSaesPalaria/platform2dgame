@@ -13,6 +13,17 @@ export class InventoryUI extends UI {
         this.draw()
     }
     addItem(id,qnt,slot) {
+        this.inventory.addItem(id,qnt,slot)
+        this.addItemToUI(id,qnt,slot)
+        console.log(this.inventory)
+    }
+    setItem(id,qnt,slot) {
+
+    }
+    removeItem(id,qnt,slot) {
+        this.inventory.removeItem()
+    }
+    addItemToUI(id,qnt,slot) {
         let slotSize = {w:this.w/this.inventory.slotX,h:this.h/this.inventory.slotY}
 
         let it = new ItemUI(this,id,qnt,slot,
@@ -46,7 +57,7 @@ export class InventoryUI extends UI {
                
                 
                 if (this.item_uis.length<this.inventory.inventory.length) {
-                    this.addItem(item.id,item.qnt,item.slot)
+                    this.addItemToUI(item.id,item.qnt,item.slot)
                     
                 }
                 /*StaticScreen.drawImage(

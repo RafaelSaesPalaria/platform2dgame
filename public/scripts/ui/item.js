@@ -34,12 +34,7 @@ export class ItemUI extends UI {
                     let slot = ui.slotOnCoords(Mouse.screenX,Mouse.screenY)
                     
                     //this.reference.inventory
-                    this.reference.inventory.inventory.forEach(i => {
-                        if (i.slot === this.slot) {
-                            i.slot = null
-                        }    
-                    })
-                    ui.inventory.addItem(this.item_id,this.qnt,slot)
+                    this.reference.inventory.removeItem(this.item_id,this.qnt)
                     ui.addItem(this.item_id,this.qnt,slot)
                     UIHandler.removeUI(this)
                 }
